@@ -1,0 +1,98 @@
+<div style="height:100%;margin-left:15px;">
+
+    <div class="top-panel">
+        <p-fieldset legend="Signal for">
+            <div class="last-signal-div center-content">
+                <p-checkbox name="groupname" value="val1" label="Last 20[s]" [(ngModel)]="selectedValues"></p-checkbox>
+                <p-checkbox name="groupname" value="val1" label="Last 10[s]" [(ngModel)]="selectedValues"></p-checkbox>
+                <p-checkbox name="groupname" value="val1" label="Last 5[s]" [(ngModel)]="selectedValues"></p-checkbox>
+            </div>
+        </p-fieldset>
+    </div>
+
+    <div class="left-panel">
+
+        <div class="p-grid rounds-delay-panel">
+            <div class="p-col-12 p-md-6">
+                <p-fieldset legend="Rounds" class="input-div no-border">
+                    <input class="number-input" type="number" min=0 max=50>
+                </p-fieldset>
+            </div>
+            <div class="p-col-12 p-md-6">
+                <p-fieldset legend="Start delay" class="input-div no-border">
+                    <input class="number-input" type="number" min=0 max=50>
+                </p-fieldset>
+            </div>
+        </div>
+
+
+        <div class="p-grid bases-panel">
+            <div class="p-col-12 p-md-6">
+                <p-fieldset legend="Bases" class="input-div no-border">
+                    <input class="number-input bases-input" placeholder="R1[s]">
+                    <input class="number-input bases-input" placeholder="R1[s]">
+                    <input class="number-input bases-input" placeholder="R1[s]">
+                </p-fieldset>
+            </div>
+            <div class="p-col-12 p-md-6">
+                <p-fieldset legend="Relax" class="input-div no-border">
+                    <input class="number-input bases-input" placeholder="R1&2[s]">
+                    <input class="number-input bases-input" placeholder="R1&2[s]">
+                    <input class="number-input bases-input" placeholder="R1&2[s]">
+                </p-fieldset>
+            </div>
+        </div>
+
+
+        <p-fieldset class="buttons-panel no-border">
+            <p-dropdown [options]="cities1" [(ngModel)]="selectedCity1" class="button-style"></p-dropdown>
+            <p-button label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
+                icon="pi pi-play">
+            </p-button>
+            <p-button label="Reset" styleClass="ui-button-secondary" class="button-style" type="button"
+                icon="pi pi-undo">
+            </p-button>
+            <p-button label="Save workout" styleClass="ui-button-secondary" class="button-style" type="button"
+                icon="pi pi-save"></p-button>
+        </p-fieldset>
+
+    </div>
+
+    <div class="right-panel">
+
+        <p-tabView class="rounds-tabs">
+            <p-tabPanel header="Round 1">
+                Content 1
+            </p-tabPanel>
+        </p-tabView>
+
+        <p-progressBar class="progress" [value]="50"></p-progressBar>
+
+        <div class="times">
+
+            <p-fieldset class="whole" legend="Whole">
+
+            </p-fieldset>
+
+            <p-fieldset class="time" legend="Time">
+
+            </p-fieldset>
+
+            <div class="round-base">
+
+                <p-fieldset legend="Round">
+
+                </p-fieldset>
+
+                <p-fieldset legend="Base">
+
+                </p-fieldset>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
