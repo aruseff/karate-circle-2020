@@ -19,12 +19,17 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { DivLabelDirective } from './directives/div-label/div-label.directive';
+import { InputLabelDirective } from './directives/input-label/input-label.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    MainPanelComponent
+    MainPanelComponent,
+    DivLabelDirective,
+    InputLabelDirective
   ],
   imports: [
     CommonModule,
@@ -43,7 +48,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     ButtonModule,
     DropdownModule,
     ProgressBarModule,
-    CheckboxModule
+    CheckboxModule,
+    ScrollPanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]
