@@ -15,24 +15,27 @@
 
             <div class="p-grid rounds-delay-panel">
                 <div class="p-col-6">
-                    <input inputLabel title="Rounds" type="number" min=0 max=50>
+                    <input inputLabel title="Rounds" type="number" min=0 max=50 [(ngModel)]="roundsInput"
+                        (input)="roundsInputChange()">
                 </div>
                 <div class="p-col-6">
-                    <input inputLabel title="Delay" type="number">
+                    <input inputLabel title="Delay[s]" type="number" [(ngModel)]="delayInput">
                 </div>
             </div>
 
             <div class="p-grid bases-panel">
                 <div class="p-col-6" style="padding:0">
                     <p-fieldset legend="Bases" class="no-border">
-                        <input *ngFor="let base of basesInput; let i=index" inputLabel type="number"
-                            [title]="'R' + (i+1)" [marginTop]="'3px'">
+                        <input *ngFor="let base of basesInput; let i=index; trackBy:trackByIndex;" inputLabel
+                            type="number" min=0 [title]="'R' + (i+1)" [marginTop]="'3px'" [(ngModel)]="basesInput[i]"
+                            (input)="basesInputChange(i)">
                     </p-fieldset>
                 </div>
                 <div class="p-col-6" style="padding:0">
                     <p-fieldset legend="Relaxes[s]" class="no-border">
-                        <input *ngFor="let relax of relaxesInput; let i=index" inputLabel type="number"
-                            [title]="'R' + (i+1) + '&' + (i+2)" [marginTop]="'3px'">
+                        <input *ngFor="let relax of relaxesInput; let i=index; trackBy:trackByIndex;" inputLabel
+                            type="number" min=0 [title]="'R' + (i+1) + '&' + (i+2)" [marginTop]="'3px'"
+                            [(ngModel)]="relaxesInput[i]">
                     </p-fieldset>
                 </div>
             </div>
@@ -55,13 +58,29 @@
         <div class="right-panel p-sm-7 p-md-8 p-lg-9">
 
             <p-tabView class="rounds-tabs">
-                <p-tabPanel *ngFor="let roundTab of roundsTabs; let i=index" [header]="'Round ' + (i+1)">
-                    <input *ngFor="let inputs of roundTab; let j=index" class="number-input bases-input"
-                        [placeholder]="'R' + (i+1) + '&' + (i+2) + '[s]'">
+                <p-tabPanel *ngFor="let roundTab of roundsTabs; let i=index; trackBy:trackByIndex;"
+                    [header]="'Round ' + (i+1)" [selected]="i == 0">
+
+                    <div class="p-grid" style="max-height: 260px;overflow-y: scroll;">
+                        <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;" class="p-col-4"
+                            style="padding: 0.5em 15px;margin-top:10px">
+                            <div style="width:50%;float:left;">
+                                <label style="display:block;text-align:center;">Worktime
+                                    {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
+                                <input style="display:block;" class="double-input-field" type="number" min=0>
+                            </div>
+                            <div style="width:50%;float:left;">
+                                <label style="display:block;text-align:center;">Relaxtime
+                                    {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
+                                <input style="display:block;" class="double-input-field" type="number" min=0>
+                            </div>
+                        </div>
+                    </div>
+
                 </p-tabPanel>
             </p-tabView>
 
-            <p-progressBar class="progress" [value]="50"></p-progressBar>
+            <p-progressBar class="progress" [value]="35"></p-progressBar>
 
 
             <div class="times p-grid" style="margin-top:10px;">

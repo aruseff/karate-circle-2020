@@ -164,3 +164,23 @@
         }
     }
 }
+
+.double-input {
+    width: 25%;
+}
+
+.double-input-field {
+    width: 100%;
+    padding: 2px 2px;
+    color: #99a3ba;
+    border: 1px solid #cdd9ed;
+    background: #ffffff;
+    transition: border 0.3s ease;
+    &::placeholder {
+        color: #cbd1dc;
+    }
+    &:focus {
+        outline: none;
+        border-color: var(--secondary-color-1);
+    }
+}

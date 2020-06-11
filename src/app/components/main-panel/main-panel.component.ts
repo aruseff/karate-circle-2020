@@ -25,9 +25,9 @@ export class MainPanelComponent implements OnInit {
   lastSignalSelected: boolean[] = [true, true, true];
 
   roundsInput: number = 3;
-  delayInput: number = 5;
+  delayInput: number = 10;
 
-  basesInput: any[] = [];
+  basesInput: number[] = [];
   relaxesInput: number[] = [];
   roundsTabs: any[] = [];
 
@@ -46,14 +46,21 @@ export class MainPanelComponent implements OnInit {
     this.updateInputs();
   }
 
-  basesInputChange(value: any, index: number) {
-    console.log(value);
-    this.roundsTabs[index] = new Array(value).fill(0);
+  basesInputChange(index: number) {
+    this.roundsTabs[index] = new Array(this.basesInput[index]).fill(0);
   }
 
   updateInputs() {
-    this.basesInput = new Array(this.roundsInput).fill("");
-    this.relaxesInput = new Array(this.roundsInput > 0 ? this.roundsInput-1 : 0).fill("");
+    this.basesInput = new Array(this.roundsInput).fill(1);
+    this.relaxesInput = new Array(this.roundsInput > 0 ? this.roundsInput-1 : 0).fill(0);
     this.roundsTabs = new Array(this.roundsInput).fill([]);
+
+    this.roundsTabs.forEach((element, index) => {
+      this.basesInputChange(index)
+    });
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
   }
 }
