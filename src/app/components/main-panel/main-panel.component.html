@@ -41,15 +41,18 @@
             </div>
 
             <div class="buttons-panel">
-                <p-dropdown [options]="cities1" [(ngModel)]="selectedCity1" class="button-style"></p-dropdown>
+                <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event.value)" class="button-style">
+                </p-dropdown>
                 <p-button label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-play">
+                    icon="pi pi-play" (click)="startWorkout()">
                 </p-button>
                 <p-button label="Reset" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-undo">
+                    icon="pi pi-undo" (click)="resetWorkout()">
                 </p-button>
-                <p-button label="Save workout" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-save"></p-button>
+                <div class="ui-inputgroup save-workout-button">
+                    <input type="text" pInputText placeholder="Workout name" [(ngModel)]="saveWorkoutInput">
+                    <p-button icon="pi pi-save" styleClass="ui-button-secondary" (click)="saveWorkout()"></p-button>
+                </div>
             </div>
 
         </div>
@@ -122,3 +125,5 @@
         </div>
     </div>
 </div>
+
+<p-toast></p-toast>

@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DivLabelDirective } from './directives/div-label/div-label.directive';
+import { InputLabelDirective } from './directives/input-label/input-label.directive';
 
 // PrimeNg Modules
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -20,8 +22,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { DivLabelDirective } from './directives/div-label/div-label.directive';
-import { InputLabelDirective } from './directives/input-label/input-label.directive';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -49,9 +52,11 @@ import { InputLabelDirective } from './directives/input-label/input-label.direct
     DropdownModule,
     ProgressBarModule,
     CheckboxModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    DialogModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
