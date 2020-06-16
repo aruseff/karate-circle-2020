@@ -21,5 +21,5 @@ export function checkIfFileExists(fileName: string) {
 
 export function saveFile(fileName: string, content: any) {
     let path = app.getAppPath() + '\\workouts' + '\\' + fileName + '.json';
-    electronFs.writeFileSync(path, JSON.stringify(content));
+    electronFs.writeFileSync(path, JSON.stringify(content, null, 2));
 }

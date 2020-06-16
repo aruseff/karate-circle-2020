@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { loadWorkoutsFromFilesystem, checkIfFileExists, saveFile } from 'src/app/util/files';
 import { MessageService } from 'primeng/api';
+import { WorkRelax } from 'src/app/models/work-relax.model';
+import { Workout } from 'src/app/models/workout.model';
+import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
+import { WorkoutFile } from 'src/app/models/workout-file.model';
 
 @Component({
   selector: 'app-main-panel',
@@ -10,84 +14,89 @@ import { MessageService } from 'primeng/api';
 })
 export class MainPanelComponent implements OnInit {
 
+  workout: Workout = {
+    roundsCount: 3,
+    basesCount: [
+    ],
+    lastSignalSelected: [true, true, true],
+    delay: 10,
+    relaxes: [
+    ],
+    rounds: [
+    ]
+  };
+
   lastSignalOptions: any[] = [
-    {
-      label: "Last 20[s]",
-      value: "last20"
-    },
-    {
-      label: "Last 10[s]",
-      value: "last10"
-    },
-    {
-      label: "Last 5[s]",
-      value: "last5"
-    }
-  ];
-  lastSignalSelected: boolean[] = [true, true, true];
+    { label: "Last 20[s]", value: "last20" },
+    { label: "Last 10[s]", value: "last10" },
+    { label: "Last 5[s]", value: "last5" }];
 
   loadedWorkouts: any[] = [{ label: 'Select workout', value: null }];
   selectedWorkout: any;
-
-  roundsInput: number = 3;
-  delayInput: number = 10;
-
-  basesInput: number[] = [];
-  relaxesInput: number[] = [];
-  roundsTabs: any[] = [];
 
   whole: number = 120;
   time: number = 120;
   round: number = 0;
   base: number = 0;
+  total: number = 0;
 
   saveWorkoutInput: string = '';
 
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.updateInputs();
+    this.refreshWorkoutModel();
     this.loadWorkouts();
   }
 
   loadWorkouts() {
     let workoutsFromFileSystem = loadWorkoutsFromFilesystem();
     workoutsFromFileSystem.forEach(file => {
-      var fileJson = JSON.parse(file);
-      this.loadedWorkouts.push({ label: fileJson.name, value: fileJson.workout });
+      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
+      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
     });
   }
 
-  selectWorkout(workout) {
+  selectWorkout(workout: Workout) {
     if (workout) {
-      this.lastSignalSelected = workout.lastSignalSelected;
-      this.roundsInput = workout.roundsCount;
-      this.delayInput = workout.delay ? workout.delay : 10;
-
-      this.basesInput = workout.basesCount
-      this.relaxesInput = workout.relaxes;
-      this.roundsTabs = new Array(this.roundsInput).fill([]);
-
-      this.roundsTabs.forEach((element, index) => {
-        this.basesInputChange(index);
-      });
+      this.workout = workout;
     }
   }
 
   roundsInputChange() {
-    this.updateInputs();
+    this.refreshWorkoutModel();
   }
 
   basesInputChange(index: number) {
-    this.roundsTabs[index] = new Array(this.basesInput[index]).fill(0);
+    let oldCount = this.workout.rounds[index].length;
+    let newCount = this.workout.basesCount[index];
+    if (oldCount < newCount) {
+      for (let i = 0; i < newCount - oldCount; i++) {
+        this.workout.rounds[index].push({ workTime: 5, relaxTime: 5 });
+      }
+    } else {
+      this.workout.rounds[index].length = newCount;
+    }
   }
 
-  updateInputs() {
-    this.basesInput = new Array(this.roundsInput).fill(1);
-    this.relaxesInput = new Array(this.roundsInput > 0 ? this.roundsInput - 1 : 0).fill(0);
-    this.roundsTabs = new Array(this.roundsInput).fill([]);
+  refreshWorkoutModel() {
+    let oldCount = this.workout.rounds.length;
+    let newCount = this.workout.roundsCount;
+    if (oldCount < newCount) {
+      for (let i = 0; i < newCount - oldCount; i++) {
+        this.workout.basesCount.push(1);
+        this.workout.rounds.push([]);
+      }
+      for (let i = 0; i < newCount - (oldCount == 0 ? 1 : oldCount); i++) {
+        this.workout.relaxes.push(10);
+      }
+    } else {
+      this.workout.basesCount.length = newCount;
+      this.workout.rounds.length = newCount;
+      this.workout.relaxes.length = newCount - 1 > 0 ? newCount - 1 : 0
+    }
 
-    this.roundsTabs.forEach((element, index) => {
+    this.workout.rounds.forEach((element, index) => {
       this.basesInputChange(index);
     });
   }
@@ -97,9 +106,7 @@ export class MainPanelComponent implements OnInit {
   }
 
   startWorkout() {
-    // let content = electronFs.readFileSync("C:\\Users\\arusev\\Downloads\\workout.json", 'utf8');
-    // console.log(content);
-
+    
   }
 
   resetWorkout() {
@@ -116,23 +123,11 @@ export class MainPanelComponent implements OnInit {
       return;
     }
 
-    let workoutFile = this.createWorkoutFile();
-    workoutFile.name = this.saveWorkoutInput.trim();
+    let workoutFile: WorkoutFile = {
+      name: this.saveWorkoutInput.trim(),
+      workout: this.workout
+    };
     saveFile(this.saveWorkoutInput.trim(), workoutFile);
     this.messageService.add({ severity: 'success', summary: 'Save workout', detail: 'Successfully saved' });
-
-  }
-
-  createWorkoutFile(): any {
-    let workout: any = {};
-    workout.lastSignalSelected = this.lastSignalSelected;
-    workout.roundsCount = this.roundsInput;
-    workout.delay = this.delayInput;
-    workout.basesCount = this.basesInput;
-    workout.relaxes = this.relaxesInput;
-    let workoutFile: any = {};
-    workoutFile.workout = workout;
-    return workoutFile;
   }
 }
-

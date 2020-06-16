@@ -3,7 +3,8 @@
     <div divLabel title="Signal for">
         <div>
             <label *ngFor="let option of lastSignalOptions; let i=index;" class="checkbox" style="margin-right:20px;">
-                <input type="checkbox" value="option.value" [(ngModel)]="lastSignalSelected[i]" class="checkbox" />
+                <input type="checkbox" value="option.value" [(ngModel)]="workout.lastSignalSelected[i]"
+                    class="checkbox" />
                 {{option.label}}
             </label>
         </div>
@@ -15,27 +16,27 @@
 
             <div class="p-grid rounds-delay-panel">
                 <div class="p-col-6">
-                    <input inputLabel title="Rounds" type="number" min=0 max=50 [(ngModel)]="roundsInput"
-                        (input)="roundsInputChange()">
+                    <input inputLabel title="Rounds" type="number" min=1 max=20 [(ngModel)]="workout.roundsCount"
+                        (input)="roundsInputChange()" onkeydown="return false">
                 </div>
                 <div class="p-col-6">
-                    <input inputLabel title="Delay[s]" type="number" [(ngModel)]="delayInput">
+                    <input inputLabel title="Delay[s]" type="number" min=1 [(ngModel)]="workout.delay">
                 </div>
             </div>
 
             <div class="p-grid bases-panel">
                 <div class="p-col-6" style="padding:0">
                     <p-fieldset legend="Bases" class="no-border">
-                        <input *ngFor="let base of basesInput; let i=index; trackBy:trackByIndex;" inputLabel
-                            type="number" min=0 [title]="'R' + (i+1)" [marginTop]="'3px'" [(ngModel)]="basesInput[i]"
+                        <input *ngFor="let base of workout.basesCount; let i=index; trackBy:trackByIndex;" inputLabel
+                            type="number" min=1 [title]="'R' + (i+1)" [marginTop]="'3px'" [(ngModel)]="workout.basesCount[i]"
                             (input)="basesInputChange(i)">
                     </p-fieldset>
                 </div>
                 <div class="p-col-6" style="padding:0">
                     <p-fieldset legend="Relaxes[s]" class="no-border">
-                        <input *ngFor="let relax of relaxesInput; let i=index; trackBy:trackByIndex;" inputLabel
-                            type="number" min=0 [title]="'R' + (i+1) + '&' + (i+2)" [marginTop]="'3px'"
-                            [(ngModel)]="relaxesInput[i]">
+                        <input *ngFor="let relax of workout.relaxes; let i=index; trackBy:trackByIndex;" inputLabel
+                            type="number" min=1 [title]="'R' + (i+1) + '&' + (i+2)" [marginTop]="'3px'"
+                            [(ngModel)]="workout.relaxes[i]">
                     </p-fieldset>
                 </div>
             </div>
@@ -44,10 +45,10 @@
                 <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event.value)" class="button-style">
                 </p-dropdown>
                 <p-button label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-play" (click)="startWorkout()">
+                    icon="pi pi-play" iconPos="right" (click)="startWorkout()">
                 </p-button>
                 <p-button label="Reset" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-undo" (click)="resetWorkout()">
+                    icon="pi pi-undo" iconPos="right" (click)="resetWorkout()">
                 </p-button>
                 <div class="ui-inputgroup save-workout-button">
                     <input type="text" pInputText placeholder="Workout name" [(ngModel)]="saveWorkoutInput">
@@ -61,7 +62,7 @@
         <div class="right-panel p-sm-7 p-md-8 p-lg-9">
 
             <p-tabView class="rounds-tabs">
-                <p-tabPanel *ngFor="let roundTab of roundsTabs; let i=index; trackBy:trackByIndex;"
+                <p-tabPanel *ngFor="let roundTab of workout.rounds; let i=index; trackBy:trackByIndex;"
                     [header]="'Round ' + (i+1)" [selected]="i == 0">
 
                     <div class="p-grid" style="max-height: 260px;overflow-y: scroll;">
@@ -70,12 +71,14 @@
                             <div style="width:50%;float:left;">
                                 <label style="display:block;text-align:center;">Worktime
                                     {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
-                                <input style="display:block;" class="double-input-field" type="number" min=0>
+                                <input style="display:block;" class="double-input-field" type="number" min=0
+                                    [(ngModel)]="workout.rounds[i][j].workTime">
                             </div>
                             <div style="width:50%;float:left;">
                                 <label style="display:block;text-align:center;">Relaxtime
                                     {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
-                                <input style="display:block;" class="double-input-field" type="number" min=0>
+                                <input style="display:block;" class="double-input-field" type="number" min=0
+                                    [(ngModel)]="workout.rounds[i][j].relaxTime">
                             </div>
                         </div>
                     </div>
