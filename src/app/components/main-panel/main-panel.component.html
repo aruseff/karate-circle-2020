@@ -1,4 +1,4 @@
-<div style="height:100%;margin-left:15px;margin-right:15px;padding-top:10px;">
+<div style="height:100%;margin-left:15px;margin-right:15px;padding-top:10px;background:var(--primary-color-1);">
 
     <div divLabel title="Signal for">
         <div>
@@ -28,8 +28,8 @@
                 <div class="p-col-6" style="padding:0">
                     <p-fieldset legend="Bases" class="no-border">
                         <input *ngFor="let base of workout.basesCount; let i=index; trackBy:trackByIndex;" inputLabel
-                            type="number" min=1 [title]="'R' + (i+1)" [marginTop]="'3px'" [(ngModel)]="workout.basesCount[i]"
-                            (input)="basesInputChange(i)">
+                            type="number" min=1 [title]="'R' + (i+1)" [marginTop]="'3px'"
+                            [(ngModel)]="workout.basesCount[i]" (input)="basesInputChange(i)">
                     </p-fieldset>
                 </div>
                 <div class="p-col-6" style="padding:0">
@@ -130,3 +130,9 @@
 </div>
 
 <p-toast></p-toast>
+<p-dialog header="Get Ready" [(visible)]="showGetReadyDialog" [style]="{width: '30vw', height: '30vw'}"
+    [draggable]="false" [modal]="false" [closable]="false">
+    <div class="center-content" style="width:100%;height:100%;font-size:15vw;font-weight:bold;">
+        {{timeLeft}}
+    </div>
+</p-dialog>

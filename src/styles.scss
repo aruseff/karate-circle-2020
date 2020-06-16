@@ -1,12 +1,11 @@
 :root {
-
-    --primary-color-1: #d4d4d4;
+    --primary-color-1: #eaeaea;
 
     --secondary-color-1: #48a86814;
     --secondary-color-2: #48a86834;
     --secondary-color-3: #48a868;
-    --progress-bar-color: #48a868bf
-  }
+    --progress-bar-color: #48a868bf;
+}
 
 * {
     padding: 0;
@@ -45,7 +44,7 @@ body {
     float: left;
     padding: 0 5px;
     margin: -20px 0 0 0px;
-    background: #fff;
+    background: var(--primary-color-1);
 }
 
 // inputLabel directive

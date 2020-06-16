@@ -34,13 +34,14 @@ export class MainPanelComponent implements OnInit {
   loadedWorkouts: any[] = [{ label: 'Select workout', value: null }];
   selectedWorkout: any;
 
-  whole: number = 120;
-  time: number = 120;
+  whole: number = 0;
+  time: number = 0;
   round: number = 0;
   base: number = 0;
   total: number = 0;
 
   saveWorkoutInput: string = '';
+  showGetReadyDialog: boolean = false;
 
   constructor(private messageService: MessageService) { }
 
@@ -106,11 +107,11 @@ export class MainPanelComponent implements OnInit {
   }
 
   startWorkout() {
-    
+    this.startTimer();
   }
 
   resetWorkout() {
-
+    this.pauseTimer();
   }
 
   saveWorkout() {
@@ -130,4 +131,24 @@ export class MainPanelComponent implements OnInit {
     saveFile(this.saveWorkoutInput.trim(), workoutFile);
     this.messageService.add({ severity: 'success', summary: 'Save workout', detail: 'Successfully saved' });
   }
+
+  timeLeft: number = 60;
+  interval: any;
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 60;
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+
+
 }

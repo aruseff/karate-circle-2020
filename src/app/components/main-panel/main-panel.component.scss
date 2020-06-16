@@ -73,6 +73,7 @@
             height: 90%;
             min-height: 150px;
             border: 1px solid rgb(185, 185, 185);
+            background: var(--primary-color-1);
         }
         .ui-tabview .ui-tabview-nav {
             white-space: nowrap;
@@ -160,6 +161,7 @@
     .ui-fieldset {
         border: none;
         font-size: 0.8rem;
+        background: var(--primary-color-1);
         .ui-fieldset-legend-text {
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -193,5 +195,14 @@
         background: var(--secondary-color-1);
         border: 1px solid var(--secondary-color-2);
         border-right: 0;
+    }
+}
+
+.ui-dialog {
+    .ui-dialog-titlebar {
+        text-align: center;
+    }
+    .ui-dialog-content {
+        height: 100%;
     }
 }
