@@ -7,6 +7,7 @@ import { WorkoutFile } from 'src/app/models/workout-file.model';
 import { TimerService } from 'src/app/services/timer.service';
 import { filter, tap, switchMap, repeat, skipUntil, skipWhile } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { SoundsService } from 'src/app/services/sounds.service';
 
 @Component({
   selector: 'app-main-panel',
@@ -48,13 +49,10 @@ export class MainPanelComponent implements OnInit {
   // Save
   saveWorkoutInput: string = '';
 
-  // Sounds
-  audio: any;
+  constructor(private messageService: MessageService,
+    private timer: TimerService,
+    private soundsService: SoundsService) {
 
-  constructor(private messageService: MessageService, private timer: TimerService) {
-    this.audio = new Audio();
-    this.audio.src = "../../../assets/audio/beep-09.wav";
-    this.audio.load();
   }
 
   ngOnInit(): void {
@@ -123,10 +121,11 @@ export class MainPanelComponent implements OnInit {
     this.timer.startTimer(this.workout.delay).subscribe(seconds => {
       this.getReadyTime = seconds;
       this.showGetReadyDialog = true;
+      if (seconds <= 4 && seconds > 0) {
+        this.soundsService.playShortSound();
+      }
       if (seconds <= 0) {
-
-        this.audio.play();
-
+        this.soundsService.playLongSound();
         this.showGetReadyDialog = false;
         let currentRound = 0;
         let currentBase = 0;
