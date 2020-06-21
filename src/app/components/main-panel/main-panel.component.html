@@ -131,8 +131,8 @@
 
 <p-toast></p-toast>
 <p-dialog header="Get Ready" [(visible)]="showGetReadyDialog" [style]="{width: '30vw', height: '30vw'}"
-    [draggable]="false" [modal]="false" [closable]="false">
+    [draggable]="false" [modal]="false" [closable]="true">
     <div class="center-content" style="width:100%;height:100%;font-size:15vw;font-weight:bold;">
-        {{timeLeft}}
+        {{getReadyTime}}
     </div>
 </p-dialog>

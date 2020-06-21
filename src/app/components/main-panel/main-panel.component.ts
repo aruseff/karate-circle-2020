@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { loadWorkoutsFromFilesystem, checkIfFileExists, saveFile } from 'src/app/util/files';
 import { MessageService } from 'primeng/api';
-import { WorkRelax } from 'src/app/models/work-relax.model';
 import { Workout } from 'src/app/models/workout.model';
 import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 import { WorkoutFile } from 'src/app/models/workout-file.model';
+import { TimerService } from 'src/app/services/timer.service';
+import { filter, tap, switchMap, repeat, skipUntil, skipWhile } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-main-panel',
@@ -39,11 +41,21 @@ export class MainPanelComponent implements OnInit {
   round: number = 0;
   base: number = 0;
   total: number = 0;
-
-  saveWorkoutInput: string = '';
+  getReadyTime = 0;
   showGetReadyDialog: boolean = false;
 
-  constructor(private messageService: MessageService) { }
+
+  // Save
+  saveWorkoutInput: string = '';
+
+  // Sounds
+  audio: any;
+
+  constructor(private messageService: MessageService, private timer: TimerService) {
+    this.audio = new Audio();
+    this.audio.src = "../../../assets/audio/beep-09.wav";
+    this.audio.load();
+  }
 
   ngOnInit(): void {
     this.refreshWorkoutModel();
@@ -107,11 +119,68 @@ export class MainPanelComponent implements OnInit {
   }
 
   startWorkout() {
-    this.startTimer();
+    let repeats = this.calculateTotalBases();
+    this.timer.startTimer(this.workout.delay).subscribe(seconds => {
+      this.getReadyTime = seconds;
+      this.showGetReadyDialog = true;
+      if (seconds <= 0) {
+
+        this.audio.play();
+
+        this.showGetReadyDialog = false;
+        let currentRound = 0;
+        let currentBase = 0;
+
+        of(1).pipe(
+
+          tap(() => {
+            this.round = currentRound + 1;
+            this.base = currentBase + 1;
+          }),
+          switchMap(() => {
+            return this.timer.startTimer(this.workout.rounds[currentRound][currentBase].workTime);
+          }),
+          tap(seconds => this.time = seconds),
+          filter(seconds => seconds <= 0),
+
+          switchMap(() => {
+            return this.timer.startTimer(this.workout.rounds[currentRound][currentBase].relaxTime);
+          }),
+          tap(seconds => this.time = seconds),
+          filter(seconds => seconds <= 0),
+
+          tap(() => {
+            if (this.workout.rounds[currentRound].length - 1 == currentBase) {
+              currentRound++;
+              currentBase = 0;
+            } else {
+              currentBase++;
+            }
+          }),
+
+          skipWhile(() => currentBase != 0 || currentRound == 0),
+          switchMap(() => {
+            return this.timer.startTimer(this.workout.relaxes[currentRound - 1]);
+          }),
+          tap(seconds => {
+            this.showGetReadyDialog = true;
+            this.getReadyTime = seconds;
+          }),
+          filter(seconds => seconds <= 0),
+          tap(() => this.showGetReadyDialog = false),
+
+          repeat(repeats)
+        ).subscribe();
+      }
+    });
   }
 
   resetWorkout() {
-    this.pauseTimer();
+    // this.stopTimer();
+  }
+
+  calculateTotalBases() {
+    return this.workout.basesCount.reduce((b1, b2) => b1 + b2);
   }
 
   saveWorkout() {
@@ -131,24 +200,4 @@ export class MainPanelComponent implements OnInit {
     saveFile(this.saveWorkoutInput.trim(), workoutFile);
     this.messageService.add({ severity: 'success', summary: 'Save workout', detail: 'Successfully saved' });
   }
-
-  timeLeft: number = 60;
-  interval: any;
-
-  startTimer() {
-    this.interval = setInterval(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 60;
-      }
-    }, 1000)
-  }
-
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
-
-
-
 }
