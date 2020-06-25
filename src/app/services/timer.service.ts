@@ -8,7 +8,6 @@ import { map, takeWhile } from 'rxjs/operators';
 export class TimerService {
 
     everySecond: Observable<number> = timer(500, 1000);
-    finished: Subject<void> = new Subject();
 
     startTimer(countdownStart: number) {
         return this.everySecond.pipe(
@@ -16,4 +15,5 @@ export class TimerService {
             takeWhile(remainingTime => remainingTime >= 0),
         );
     }
+
 }

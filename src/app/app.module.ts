@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DivLabelDirective } from './directives/div-label/div-label.directive';
 import { InputLabelDirective } from './directives/input-label/input-label.directive';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 // PrimeNg Modules
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -25,6 +26,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { BlockUIModule } from 'primeng/blockui';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { MessageService } from 'primeng/api';
     NavigationComponent,
     MainPanelComponent,
     DivLabelDirective,
-    InputLabelDirective
+    InputLabelDirective,
+    CountdownTimerComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,9 @@ import { MessageService } from 'primeng/api';
     CheckboxModule,
     ScrollPanelModule,
     DialogModule,
-    ToastModule
+    ToastModule,
+    BlockUIModule,
+    ToggleButtonModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

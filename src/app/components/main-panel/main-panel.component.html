@@ -17,7 +17,7 @@
             <div class="p-grid rounds-delay-panel">
                 <div class="p-col-6">
                     <input inputLabel title="Rounds" type="number" min=1 max=20 [(ngModel)]="workout.roundsCount"
-                        (input)="roundsInputChange()" onkeydown="return false">
+                        (input)="refreshWorkoutModel()" onkeydown="return false">
                 </div>
                 <div class="p-col-6">
                     <input inputLabel title="Delay[s]" type="number" min=1 [(ngModel)]="workout.delay">
@@ -44,9 +44,15 @@
             <div class="buttons-panel">
                 <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event.value)" class="button-style">
                 </p-dropdown>
-                <p-button label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-play" iconPos="right" (click)="startWorkout()">
+                
+                <p-button *ngIf="!workoutRunning" label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
+                    icon="pi pi-play" iconPos="right" (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()">
                 </p-button>
+
+                <p-button *ngIf="workoutRunning" label="Pause" styleClass="ui-button-secondary" class="button-style" type="button"
+                    icon="pi pi-pause" iconPos="right" (click)="pauseWorkout()">
+                </p-button>
+
                 <p-button label="Reset" styleClass="ui-button-secondary" class="button-style" type="button"
                     icon="pi pi-undo" iconPos="right" (click)="resetWorkout()">
                 </p-button>
@@ -130,9 +136,17 @@
 </div>
 
 <p-toast></p-toast>
-<p-dialog header="Get Ready" [(visible)]="showGetReadyDialog" [style]="{width: '30vw', height: '30vw'}"
-    [draggable]="false" [modal]="false" [closable]="true">
-    <div class="center-content" style="width:100%;height:100%;font-size:15vw;font-weight:bold;">
-        {{getReadyTime}}
+<p-dialog header="Get Ready" [(visible)]="showGetReadyDialog" [style]="{width: '23vw', height: '23vw'}"
+    [draggable]="false" [modal]="true" [closable]="true" (onHide)="prepareDialogOnHide()">
+    <div class="center-content" style="width:100%;height:100%;font-size:10vw;font-weight:bold;">
+        {{prepareTime}}
     </div>
 </p-dialog>
+
+
+<!-- 
+<p-blockUI class="get-ready-block" [blocked]="true">
+    <div style="position:absolute;left: 50%;top:35%;transform: translate(-50%, 0);">
+        <countdown-timer [wholeTime]='100' [seconds]="'100'"></countdown-timer>
+    </div>
+</p-blockUI> -->
