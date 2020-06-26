@@ -42,6 +42,10 @@
         body .ui-buttonset.ui-button-secondary > .ui-button.ui-state-default:enabled:hover {
             background-color: var(--secondary-color-2);
         }
+
+        .red-button {
+            background-color: #e240402a;
+        }
     }
 }
 
@@ -210,4 +214,12 @@
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
+}
+
+.progress-label {
+    position:absolute;
+    height:50%;
+    width:120px;
+    z-index:10000;
+    font-weight: bold;
 }

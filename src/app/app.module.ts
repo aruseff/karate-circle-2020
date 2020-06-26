@@ -28,6 +28,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { BlockUIModule } from 'primeng/blockui';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     MainPanelComponent,
     DivLabelDirective,
     InputLabelDirective,
-    CountdownTimerComponent
+    CountdownTimerComponent,
+    MinuteSecondsPipe
   ],
   imports: [
     CommonModule,

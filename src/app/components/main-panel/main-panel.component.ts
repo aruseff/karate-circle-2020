@@ -4,9 +4,7 @@ import { MessageService } from 'primeng/api';
 import { Workout } from 'src/app/models/workout.model';
 import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 import { WorkoutFile } from 'src/app/models/workout-file.model';
-import { TimerService } from 'src/app/services/timer.service';
-import { filter, tap, switchMap, repeat, skipWhile } from 'rxjs/operators';
-import { of, Subscription } from 'rxjs';
+import { Subscription, Observable, timer } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
 
 @Component({
@@ -37,39 +35,40 @@ export class MainPanelComponent implements OnInit {
   loadedWorkouts: any[] = [{ label: 'Select workout', value: null }];
   selectedWorkout: any;
 
-  workoutRunning: boolean = false;
+  // States
+  isWorkoutRunning: boolean = false;
   isWorkoutPaused: boolean = false;
+  isRelax: boolean = false;
 
-  // Timer
+  // Fields
   whole: number = 0;
-  time: number = 0;
-  round: number = 0;
-  base: number = 0;
-  total: number = 0;
-  prepareTime = 0;
-  showGetReadyDialog: boolean = false;
-  prepareSubscription: Subscription;
-  workoutSubscription: Subscription;
-
+  currentTime: number = 0;
   currentRound: number = 0;
   currentBase: number = 0;
+  totalTimeOfWorkout: number = 0;
+  prepareTime: number = 0;
+  progress: number = 0;
+  elapsedTime: number = 0;
+  remainingTime: number = 0;
+  showPrepareDialog: boolean = false;
+
+  // Timer observables
+  prepareCountdown: Observable<number> = timer(500, 1000);
+  workoutCountdown: Observable<number> = timer(1000, 1000);
+
+  // Subscriptions
+  prepareSubscription: Subscription;
+  workoutSubscription: Subscription;
 
   // Save
   saveWorkoutInput: string = '';
 
   constructor(private messageService: MessageService,
-    private timer: TimerService,
     private soundsService: SoundsService) { }
 
   ngOnInit(): void {
     this.refreshWorkoutModel();
     this.loadWorkouts();
-  }
-
-  selectWorkout(workout: Workout) {
-    if (workout) {
-      this.workout = workout;
-    }
   }
 
   basesInputChange(index: number) {
@@ -100,108 +99,151 @@ export class MainPanelComponent implements OnInit {
       this.workout.rounds.length = newCount;
       this.workout.relaxes.length = newCount - 1 > 0 ? newCount - 1 : 0
     }
-
     this.workout.rounds.forEach((element, index) => {
       this.basesInputChange(index);
     });
   }
 
+  calculateTotalTimeOfWorkout() {
+    this.totalTimeOfWorkout = 0;
+    this.workout.rounds.forEach(workRelax => {
+      workRelax.forEach(base => {
+        this.totalTimeOfWorkout += base.workTime;
+        this.totalTimeOfWorkout += base.relaxTime;
+      });
+    });
+    this.workout.relaxes.forEach(relax => {
+      this.totalTimeOfWorkout += relax;
+    });
+    return this.totalTimeOfWorkout;
+  }
+
+  // Starting the workout
   startWorkout() {
     this.isWorkoutPaused = false;
-    this.workoutRunning = true;
+    this.remainingTime = this.calculateTotalTimeOfWorkout();
+    this.prepareTime = this.workout.delay;
 
-    this.prepareSubscription = this.timer.startTimer(this.workout.delay).subscribe(seconds => {
-      
-      this.prepareTime = seconds;
-      this.showGetReadyDialog = true;
+    this.prepareSubscription = this.prepareCountdown.subscribe(() => {
 
-      if (seconds <= 4 && seconds > 0) {
+      this.showPrepareDialog = true;
+      this.prepareTime--;
+
+      if (this.prepareTime <= 4 && this.prepareTime > 0) {
         this.soundsService.playShortSound();
       }
 
-      if (seconds <= 0) {
+      if (this.prepareTime <= 0) {
         this.soundsService.playLongSound();
-        this.showGetReadyDialog = false;
-        this.currentRound = 0;
-        this.currentBase = 0;
-        let repeats = this.calculateTotalBases();
-        this.startWorkoutTimer(repeats, this.currentRound, this.currentBase);
+        this.showPrepareDialog = false;
+        this.startWorkoutTimer();
       }
     });
   }
 
   pauseWorkout() {
-    this.workoutRunning = false;
+    this.isWorkoutRunning = false;
     this.isWorkoutPaused = true;
     this.workoutSubscription.unsubscribe();
   }
 
   resumeWorkout() {
-    this.workoutRunning = true;
+    this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
-    // let repeats = this.calculateTotalBases();
-    this.startWorkoutTimer(5, this.currentRound, this.currentBase);
+    this.workoutSubscription = this.workoutCountdown.subscribe(() => {
+      this.processEachSecond();
+    });
   }
 
   resetWorkout() {
-    // this.stopTimer();
   }
 
-  startWorkoutTimer(repeats: number, currentRound: number, currentBase: number) {
-    this.workoutSubscription = of(1).pipe(
+  startWorkoutTimer() {
+    this.currentRound = 0;
+    this.currentBase = 0;
+    this.isRelax = false;
+    this.isWorkoutRunning = true;
+    this.isWorkoutPaused = false;
+    this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].workTime;
+    this.whole = this.currentTime;
+    this.workoutSubscription = this.workoutCountdown.subscribe(() => {
+      this.processEachSecond();
+    });
+  }
 
-      tap(() => {
-        this.round = currentRound + 1;
-        this.base = currentBase + 1;
-      }),
-      switchMap(() => {
-        // let left = 
-        return this.timer.startTimer(this.workout.rounds[currentRound][currentBase].workTime);
-      }),
-      tap(seconds => this.time = seconds),
-      filter(seconds => seconds <= 0),
+  processEachSecond() {
 
-      switchMap(() => {
-        return this.timer.startTimer(this.workout.rounds[currentRound][currentBase].relaxTime);
-      }),
-      tap(seconds => this.time = seconds),
-      filter(seconds => seconds <= 0),
+    this.calculateProgress();
+    this.currentTime--;
+    if (this.currentTime == 0) {
+      this.soundsService.playLongSound();
+    }
+    if (this.currentTime <= 0) {
+      if (this.isRelax) {
 
-      tap(() => {
-        if (this.workout.rounds[currentRound].length - 1 == currentBase) {
-          currentRound++;
-          currentBase = 0;
-        } else {
-          currentBase++;
+        // Check if workout finished
+        if (this.currentRound == this.workout.roundsCount - 1 && this.workout.rounds[this.currentRound].length - 1 == this.currentBase) {
+          this.workoutSubscription.unsubscribe();
+          this.isWorkoutRunning = false;
+          return;
         }
-      }),
 
-      skipWhile(() => currentBase != 0 || currentRound == 0),
-      switchMap(() => {
-        return this.timer.startTimer(this.workout.relaxes[currentRound - 1]);
-      }),
-      tap(seconds => {
-        this.showGetReadyDialog = true;
-        this.prepareTime = seconds;
-      }),
-      filter(seconds => seconds <= 0),
-      tap(() => this.showGetReadyDialog = false),
+        // Check for relax between rounds
+        if (this.workout.rounds[this.currentRound].length - 1 == this.currentBase) {
+          this.processPrepare(this.workout.relaxes[this.currentRound]);
+          this.currentRound++;
+          this.currentBase = 0;
+        } else {
+          this.currentBase++;
+        }
 
-      repeat(repeats)
-    ).subscribe();
+
+        this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].workTime;
+        this.whole = this.currentTime;
+
+      } else {
+        this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].relaxTime;
+      }
+      this.isRelax = !this.isRelax;
+    }
+  }
+
+  processPrepare(initialTime: number) {
+    this.workoutSubscription.unsubscribe();
+    this.prepareTime = initialTime;
+
+    this.prepareSubscription = this.prepareCountdown.subscribe(() => {
+
+      this.calculateProgress();
+      this.showPrepareDialog = true;
+      this.prepareTime--;
+
+      if (this.prepareTime <= 4 && this.prepareTime > 0) {
+        this.soundsService.playShortSound();
+      }
+
+      if (this.prepareTime <= 0) {
+        this.soundsService.playLongSound();
+        this.showPrepareDialog = false;
+        this.resumeWorkout();
+      }
+    });
+  }
+
+  calculateProgress() {
+    this.elapsedTime++;
+    this.remainingTime--;
+    this.progress = (this.elapsedTime / this.totalTimeOfWorkout) * 100;
   }
 
   prepareDialogOnHide() {
     this.prepareSubscription.unsubscribe();
   }
 
-  calculateTotalBases() {
-    // let basesCount = 0;
-    // for(let i=this.currentRound; i<this.workout.basesCount.length; i++) {
-    //   basesCount += this.workout.basesCount[i];
-    //   basesCount -= this.curr
-    // }
-    return this.workout.basesCount.reduce((b1, b2) => b1 + b2);
+  relaxDialogOnHide() {
+    this.prepareSubscription.unsubscribe();
+    this.isWorkoutPaused = true;
+    this.isWorkoutRunning = false;
   }
 
   saveWorkout() {

@@ -42,19 +42,22 @@
             </div>
 
             <div class="buttons-panel">
-                <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event.value)" class="button-style">
+                <p-dropdown [options]="loadedWorkouts" (onChange)="$event.value ? workout = $event.value : ''"
+                    class="button-style">
                 </p-dropdown>
-                
-                <p-button *ngIf="!workoutRunning" label="Start" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-play" iconPos="right" (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()">
+
+                <p-button *ngIf="!isWorkoutRunning" label="Start" styleClass="ui-button-secondary" class="button-style"
+                    type="button" icon="pi pi-play" iconPos="right"
+                    (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()">
                 </p-button>
 
-                <p-button *ngIf="workoutRunning" label="Pause" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-pause" iconPos="right" (click)="pauseWorkout()">
+                <p-button *ngIf="isWorkoutRunning" label="Pause" styleClass="ui-button-secondary"
+                    class="button-style red-button" type="button" icon="pi pi-pause" iconPos="right"
+                    (click)="pauseWorkout()">
                 </p-button>
 
                 <p-button label="Reset" styleClass="ui-button-secondary" class="button-style" type="button"
-                    icon="pi pi-undo" iconPos="right" (click)="resetWorkout()">
+                    icon="pi pi-undo" iconPos="right" [disabled]="isWorkoutRunning" (click)="resetWorkout()">
                 </p-button>
                 <div class="ui-inputgroup save-workout-button">
                     <input type="text" pInputText placeholder="Workout name" [(ngModel)]="saveWorkoutInput">
@@ -63,7 +66,6 @@
             </div>
 
         </div>
-
 
         <div class="right-panel p-sm-7 p-md-8 p-lg-9">
 
@@ -92,7 +94,22 @@
                 </p-tabPanel>
             </p-tabView>
 
-            <p-progressBar class="progress" [value]="35"></p-progressBar>
+            <span style="position:relative;">
+                <span class="center-content progress-label" style="left:20px;top:0;">
+                    Elapsed Time
+                </span>
+                <span class="center-content progress-label" style="left:20px;bottom:10px;">
+                    {{elapsedTime | minuteSeconds }}
+                </span>
+
+                <span class="center-content progress-label" style="right:20px;top:0;">
+                    Remaining Time
+                </span>
+                <span class="center-content progress-label" style="right:20px;bottom:10px;">
+                    {{remainingTime | minuteSeconds }}
+                </span>
+                <p-progressBar class="progress" [value]="progress"></p-progressBar>
+            </span>
 
 
             <div class="times p-grid" style="margin-top:10px;">
@@ -108,7 +125,7 @@
                 <div class="p-col-7">
                     <div divLabel class="time p-col-8" title="Time">
                         <span class="center-content">
-                            {{time}}
+                            {{currentTime}}
                         </span>
                     </div>
                 </div>
@@ -117,13 +134,13 @@
                     <div class="round-base p-col-3">
                         <div divLabel class="half-height" title="Round">
                             <span class="center-content">
-                                {{round}}
+                                {{currentRound+1}}
                             </span>
                         </div>
                         <div style="height:4%;"></div>
                         <div divLabel class="half-height" title="Base">
                             <span class="center-content">
-                                {{base}}
+                                {{currentBase+1}}
                             </span>
                         </div>
                     </div>
@@ -136,17 +153,11 @@
 </div>
 
 <p-toast></p-toast>
-<p-dialog header="Get Ready" [(visible)]="showGetReadyDialog" [style]="{width: '23vw', height: '23vw'}"
-    [draggable]="false" [modal]="true" [closable]="true" (onHide)="prepareDialogOnHide()">
+<p-dialog
+    [header]="isWorkoutRunning ? 'Relax between ' + (currentRound+1) + ' & ' + (currentRound+2) + ' rounds' : 'Get Ready'"
+    [(visible)]="showPrepareDialog" [style]="{width: '23vw', height: '23vw'}" [draggable]="false" [modal]="true"
+    [closable]="true" (onHide)="isWorkoutRunning ? relaxDialogOnHide() : prepareDialogOnHide()">
     <div class="center-content" style="width:100%;height:100%;font-size:10vw;font-weight:bold;">
         {{prepareTime}}
     </div>
 </p-dialog>
-
-
-<!-- 
-<p-blockUI class="get-ready-block" [blocked]="true">
-    <div style="position:absolute;left: 50%;top:35%;transform: translate(-50%, 0);">
-        <countdown-timer [wholeTime]='100' [seconds]="'100'"></countdown-timer>
-    </div>
-</p-blockUI> -->
