@@ -10,6 +10,12 @@ export class CountdownTimerComponent implements OnInit {
   @Input()
   wholeTime: number;
 
+  @Input()
+  status: string;
+
+  @Input()
+  isPaused: boolean = false;
+
   @Input("seconds")
   set seconds(seconds: number) {
     this._seconds = seconds;
@@ -20,6 +26,18 @@ export class CountdownTimerComponent implements OnInit {
 
   _seconds: number = this.wholeTime;
   circleDasharray: string = '284';
+  strokeColors: any = {
+    DELAY: "blue",
+    ROUND_WORKTIME: "red",
+    ROUND_RELAXTIME: "green",
+    RELAX_BETWEEN_ROUNDS: "blue",
+  };
+  statusLabels: any = {
+    DELAY: "PREPARE",
+    ROUND_WORKTIME: "WORK",
+    ROUND_RELAXTIME: "RELAX",
+    RELAX_BETWEEN_ROUNDS: "PREPARE",
+  };
 
   constructor() { }
 

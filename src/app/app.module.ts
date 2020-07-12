@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { DivLabelDirective } from './directives/div-label/div-label.directive';
 import { InputLabelDirective } from './directives/input-label/input-label.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
+import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
 
 // PrimeNg Modules
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -14,8 +15,6 @@ import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { MainPanelComponent } from './components/main-panel/main-panel.component';
 import { TabViewModule } from 'primeng/tabview';
 import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { ButtonModule } from 'primeng/button';
@@ -28,13 +27,13 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { BlockUIModule } from 'primeng/blockui';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent,
-    MainPanelComponent,
     DivLabelDirective,
     InputLabelDirective,
     CountdownTimerComponent,
@@ -62,7 +61,10 @@ import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
     DialogModule,
     ToastModule,
     BlockUIModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    InputSwitchModule,
+    RadioButtonModule,
+    FileUploadModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -4,6 +4,9 @@ export interface Workout {
     roundsCount: number;
     basesCount: number[];
     lastSignalSelected: boolean[];
+    workWarning: number,
+    relaxWarning: number,
+    lastRelax: boolean,
     delay: number;
     relaxes: number[];
     rounds: WorkRelax[][]

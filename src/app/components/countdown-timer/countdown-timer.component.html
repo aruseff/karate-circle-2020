@@ -7,8 +7,9 @@
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
-          "></path>
+          " [ngStyle]="{'stroke': strokeColors[status] }"></path>
         </g>
     </svg>
-    <span id="base-timer-label" class="base-timer-label">{{_seconds}}</span>
+    <span class="base-timer-label" style="font-size:25px;height:50%;font-weight:bold;" [ngStyle]="{'color': strokeColors[status] }">{{isPaused ? 'PAUSED' : statusLabels[status]}}</span>
+    <span class="base-timer-label" [ngClass]="isPaused ? ' blinking' : ''">{{_seconds}}</span>
 </div>

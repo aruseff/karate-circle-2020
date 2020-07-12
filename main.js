@@ -12,13 +12,19 @@ function createWindow() {
     win = new electron_1.BrowserWindow({
         x: 0,
         y: 0,
-        width: size.width,
-        height: size.height,
+        width: (size.width > 1280 ? 1280 : size.width),
+        height: (size.height > 960 ? 960 : size.height),
+        minHeight: 600,
+        minWidth: 800,
+        maximizable: false,
+        resizable: false,
         webPreferences: {
+            webSecurity: false,
             nodeIntegration: true,
             allowRunningInsecureContent: (serve) ? true : false,
         },
     });
+    // win.setMenu(null);
     if (serve) {
         require('devtron').install();
         win.webContents.openDevTools();
