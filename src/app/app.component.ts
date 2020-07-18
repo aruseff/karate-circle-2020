@@ -9,6 +9,7 @@ import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
 import { checkIfFileExists, saveFile, loadWorkoutsFromFilesystem } from './util/files';
 import { labels } from './util/labels';
+declare const Buffer;
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent {
   labels: any = labels;
 
   // Navigation
-  activeTab: number = 2;
+  activeTab: number = 0;
 
   // Workout config
   workout: Workout = {
@@ -40,7 +41,7 @@ export class AppComponent {
     ]
   };
 
-  loadedWorkouts: any[] = [{ label: 'Select workout', value: null }];
+  loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
   selectedWorkout: any;
 
   // Workout timer

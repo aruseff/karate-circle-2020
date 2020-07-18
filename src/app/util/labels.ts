@@ -17,5 +17,19 @@ export const labels = {
         "Последни 5[с]"
     ],
 
-    last_relax: "Последна почивка"
+    last_relax: "Последна почивка",
+    workout: "Тренировка",
+    work: "Работа",
+    relax: "Почивка",
+    rounds: "Рундове",
+    delay: "Отл. старт[с]",
+    bases: "Бази",
+    relaxes: "Почивки[с]",
+    round_prefix: "Рунд ",
+    seconds_suffix: "[с]",
+    total_time: "Общо време",
+    saved_workouts: "Запазени тренировки",
+    workout_name: "Име на тренировка",
+    select_workout: "Избери тренировка",
+    go_to_workout: "Напред към таймер"
 }

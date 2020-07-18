@@ -17,10 +17,10 @@ function createWindow(): BrowserWindow {
     y: 0,
     width: (size.width > 1280 ? 1280 : size.width),
     height: (size.height > 960 ? 960 : size.height),
-    minHeight: 600,
-    minWidth: 800,
-    maximizable: false,
-    resizable: false,
+    minHeight: 700,
+    minWidth: 900,
+    // maximizable: false,
+    // resizable: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true,
@@ -28,7 +28,7 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  // win.setMenu(null);
+  win.setMenu(null);
 
   if (serve) {
 

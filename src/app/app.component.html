@@ -41,12 +41,12 @@
                             </div>
                             <div class="p-col-6">
                                 <div style="width:80%;margin-bottom:15px;">
-                                    <input inputLabel title="Work" type="number" min=1 max=20
+                                    <input inputLabel [title]="labels.work" type="number" min=1 max=20
                                         [(ngModel)]="workout.workWarning"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
-                                    <input inputLabel title="Relax" type="number" min=1 max=20
+                                    <input inputLabel [title]="labels.relax" type="number" min=1 max=20
                                         [(ngModel)]="workout.relaxWarning"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
@@ -61,15 +61,15 @@
 
                     </p-card>
 
-                    <p-card subheader="Workout" class="rounds-delay-card">
+                    <p-card [subheader]="labels.workout" class="rounds-delay-card">
                         <div class="p-grid">
                             <div class="p-col-6">
-                                <input inputLabel title="Rounds" type="number" min=1 max=20
+                                <input inputLabel [title]="labels.rounds" type="number" min=1 max=20
                                     [(ngModel)]="workout.roundsCount" (input)="refreshWorkoutModel()"
                                     onkeydown="return false" [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </div>
                             <div class="p-col-6">
-                                <input inputLabel title="Delay[s]" type="number" min=1 [(ngModel)]="workout.delay"
+                                <input inputLabel [title]="labels.delay" type="number" min=1 [(ngModel)]="workout.delay"
                                     [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                     <p-card class="bases-card">
                         <div class="p-grid">
                             <div class="p-col-6" style="padding:0">
-                                <p-fieldset legend="Bases" class="no-border">
+                                <p-fieldset [legend]="labels.bases" class="no-border">
                                     <input *ngFor="let base of workout.basesCount; let i=index; trackBy:trackByIndex;"
                                         inputLabel type="number" min=1 max=50 [title]="'R' + (i+1)" [marginTop]="'3px'"
                                         [(ngModel)]="workout.basesCount[i]" (input)="basesInputChange(i)"
@@ -86,7 +86,7 @@
                                 </p-fieldset>
                             </div>
                             <div class="p-col-6" style="padding:0">
-                                <p-fieldset legend="Relaxes[s]" class="no-border">
+                                <p-fieldset [legend]="labels.relaxes" class="no-border">
                                     <input *ngFor="let relax of workout.relaxes; let i=index; trackBy:trackByIndex;"
                                         inputLabel type="number" min=1 [title]="'R' + (i+1) + '&' + (i+2)"
                                         [marginTop]="'3px'" [(ngModel)]="workout.relaxes[i]"
@@ -103,21 +103,21 @@
                     <p-card class="rounds-card">
                         <p-tabView>
                             <p-tabPanel *ngFor="let roundTab of workout.rounds; let i=index; trackBy:trackByIndex;"
-                                [header]="'Round ' + (i+1)" [selected]="i == 0">
+                                [header]="labels.round_prefix + (i+1)" [selected]="i == 0">
 
                                 <div class="p-grid" style="max-height:300px;overflow-y:scroll;">
                                     <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;"
                                         class="p-col-4" style="padding: 0.5em 15px;margin-top:10px">
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;">Work
-                                                {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
+                                            <label style="display:block;text-align:center;">
+                                                {{labels.work + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].workTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused">
                                         </div>
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;">Relax
-                                                {{j < 9 ? '0'+(j+1) : (j+1)}}[s]</label>
+                                            <label style="display:block;text-align:center;">
+                                                {{labels.relax + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].relaxTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused">
@@ -129,29 +129,29 @@
                         </p-tabView>
                     </p-card>
 
-                    <p-card subheader="Total time" class="total-time-card">
+                    <div class="total-time-buttons-div p-grid">
 
-                    </p-card>
+                        <p-card [subheader]="labels.total_time" class="total-time-card p-col-6 p-md-6 p-lg-8 p-xl-9"></p-card>
+                        <p-card [subheader]="labels.saved_workouts" class="buttons-card p-col-6 p-md-6 p-lg-4 p-xl-3">
 
-                    <div class="buttons-card">
-
-                        <div class="center-content save-workout-div">
                             <p-dropdown [options]="loadedWorkouts"
-                                (onChange)="$event.value ? workout = $event.value : ''" class="button-style"
+                                (onChange)="$event.value ? workout = $event.value : ''"
                                 [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </p-dropdown>
-                            <div class="ui-inputgroup save-workout-button">
-                                <input type="text" pInputText placeholder="Workout name" [(ngModel)]="saveWorkoutInput">
-                                <p-button icon="pi pi-save" styleClass="ui-button-secondary" (click)="saveWorkout()">
-                                </p-button>
+
+                            <div class="ui-inputgroup" style="margin-top:15px;">
+                                <input type="text" pInputText [placeholder]="labels.workout_name" [(ngModel)]="saveWorkoutInput"
+                                    style="width:100%;">
+                                <button pButton type="button" icon="pi pi-save" (click)="saveWorkout()">
+                                </button>
                             </div>
-                        </div>
 
-                        <button pButton type="button" label="Go to workout" class="ui-button-danger button-style"
-                            icon="pi pi-play" iconPos="right" style="float:right;margin-right:1px;height:45px;"
-                            (click)="navigate(1)"></button>
+                            <button pButton type="button" [label]="labels.go_to_workout" class="ui-button-danger"
+                                icon="pi pi-play" iconPos="right" (click)="navigate(1)"
+                                style="width:100%;position:absolute;bottom:20px;height:50px;"></button>
+
+                        </p-card>
                     </div>
-
                 </div>
 
             </div>
@@ -242,7 +242,7 @@
                         </ul>
                     </div>
 
-                    <div class="p-col-6" style="max-height:500px;overflow-y:scroll;">
+                    <div class="p-col-6" style="max-height:300px;overflow-y:scroll;">
                         <div *ngFor="let fileName of soundsFileNames; let i = index" style="width:100%;padding:3px 0;">
                             <p-radioButton name="{{signals[selectedSignalType].id}}" value="{{fileName}}"
                                 label="{{fileName}}" [(ngModel)]="signals[selectedSignalType].wav"
@@ -266,14 +266,6 @@
                     </div>
 
                 </div>
-            </p-card>
-
-            <p-card subheader="Choose external folders" class="folder-card">
-                <span class="ui-float-label" style="float:left;">
-                    <input id="float-input" type="text" size="30" pInputText>
-                    <label for="float-input">Workouts folder</label>
-                </span>
-                <button type="button" pButton label="Browse" style="margin-left:-2px;"></button>
             </p-card>
         </div>
     </div>
