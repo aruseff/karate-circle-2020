@@ -102,6 +102,7 @@ export class AppComponent {
         this.workout.rounds[index].length = newCount;
       }
     }
+    this.calculateTotalTimeOfWorkout();
   }
 
   refreshWorkoutModel() {
@@ -123,6 +124,7 @@ export class AppComponent {
     this.workout.rounds.forEach((element, index) => {
       this.basesInputChange(index);
     });
+    this.calculateTotalTimeOfWorkout();
   }
 
   calculateTotalTimeOfWorkout() {
