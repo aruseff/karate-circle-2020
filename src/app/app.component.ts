@@ -34,6 +34,8 @@ export class AppComponent {
     workWarning: 5,
     relaxWarning: 3,
     lastRelax: true,
+    useFirstRound: false,
+    useFirstBase: false,
     delay: 10,
     relaxes: [
     ],
@@ -130,10 +132,13 @@ export class AppComponent {
   calculateTotalTimeOfWorkout() {
     this.totalTimeOfWorkout = 0;
     this.workout.rounds.forEach(workRelax => {
+      if (this.workout.useFirstRound) {
+        workRelax = this.workout.rounds[0];
+      }
       workRelax.forEach((base, index) => {
-        this.totalTimeOfWorkout += base.workTime;
+        this.totalTimeOfWorkout += (this.workout.useFirstBase ? workRelax[0].workTime : base.workTime);
         if (index < workRelax.length - 1 || this.workout.lastRelax) {
-          this.totalTimeOfWorkout += base.relaxTime;
+          this.totalTimeOfWorkout += (this.workout.useFirstBase ? workRelax[0].relaxTime : base.relaxTime);
         }
       });
     });
@@ -142,6 +147,10 @@ export class AppComponent {
     });
     this.totalTimeOfWorkout += this.workout.delay;
     return this.totalTimeOfWorkout;
+  }
+
+  useFirstRoundChange() {
+    console.log(this.workout.useFirstRound);
   }
 
   // Starting the workout

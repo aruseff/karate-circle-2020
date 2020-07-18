@@ -67,23 +67,24 @@
 .signal-for-last-card {
     width: 100%;
     flex: 0 1 auto;
-    p-checkbox {
-        display: block;
-        margin-bottom: 10px;
-    }
-    .ui-chkbox-box {
-        transform: scale(0.75);
-    }
-    .ui-chkbox-box.ui-state-active {
-        border-color: var(--secondary-color-3) !important;
-        background-color: var(--secondary-color-3) !important;
-        color: #ffffff;
-    }
+}
 
-    .ui-chkbox-box.ui-state-focus {
-        border-color: var(--secondary-color-3) !important;
-        box-shadow: 0 0 0 0.2 var(--secondary-color-3) !important;
-    }
+p-checkbox {
+    display: block;
+    margin-bottom: 10px;
+}
+.ui-chkbox-box {
+    transform: scale(0.75);
+}
+.ui-chkbox-box.ui-state-active {
+    border-color: var(--secondary-color-3) !important;
+    background-color: var(--secondary-color-3) !important;
+    color: #ffffff;
+}
+
+.ui-chkbox-box.ui-state-focus {
+    border-color: var(--secondary-color-3) !important;
+    box-shadow: 0 0 0 0.2 var(--secondary-color-3) !important;
 }
 
 .rounds-delay-card {

@@ -23,6 +23,8 @@ export const labels = {
     relax: "Почивка",
     rounds: "Рундове",
     delay: "Отл. старт[с]",
+    use_first_round: "Използвай само първи рунд",
+    use_first_base: "Използвай само първа база",
     bases: "Бази",
     relaxes: "Почивки[с]",
     round_prefix: "Рунд ",

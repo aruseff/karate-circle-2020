@@ -7,6 +7,8 @@ export interface Workout {
     workWarning: number,
     relaxWarning: number,
     lastRelax: boolean,
+    useFirstRound: boolean,
+    useFirstBase: boolean,
     delay: number;
     relaxes: number[];
     rounds: WorkRelax[][]

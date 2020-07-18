@@ -52,8 +52,8 @@
                                 </div>
                                 <div>
                                     <p-checkbox binary="true" [label]="labels.last_relax"
-                                        [(ngModel)]="workout.lastRelax"
-                                        [disabled]="isWorkoutRunning || isWorkoutPaused">
+                                        [(ngModel)]="workout.lastRelax" [disabled]="isWorkoutRunning || isWorkoutPaused"
+                                        (onChange)="calculateTotalTimeOfWorkout()">
                                     </p-checkbox>
                                 </div>
                             </div>
@@ -70,9 +70,18 @@
                             </div>
                             <div class="p-col-6">
                                 <input inputLabel [title]="labels.delay" type="number" min=1 [(ngModel)]="workout.delay"
-                                    [disabled]="isWorkoutRunning || isWorkoutPaused">
+                                    [disabled]="isWorkoutRunning || isWorkoutPaused"
+                                    (change)="calculateTotalTimeOfWorkout()">
                             </div>
                         </div>
+
+                        <p-checkbox binary="true" [label]="labels.use_first_round" [(ngModel)]="workout.useFirstRound"
+                            [disabled]="isWorkoutRunning || isWorkoutPaused" (onChange)="calculateTotalTimeOfWorkout()">
+                        </p-checkbox>
+
+                        <p-checkbox binary="true" [label]="labels.use_first_base" [(ngModel)]="workout.useFirstBase"
+                            [disabled]="isWorkoutRunning || isWorkoutPaused" (onChange)="calculateTotalTimeOfWorkout()">
+                        </p-checkbox>
                     </p-card>
 
                     <p-card class="bases-card">
@@ -104,25 +113,28 @@
                     <p-card class="rounds-card">
                         <p-tabView>
                             <p-tabPanel *ngFor="let roundTab of workout.rounds; let i=index; trackBy:trackByIndex;"
-                                [header]="labels.round_prefix + (i+1)" [selected]="i == 0">
+                                [header]="labels.round_prefix + (i+1)" [selected]="i == 0"
+                                [disabled]="workout.useFirstRound && i != 0">
 
                                 <div class="p-grid" style="max-height:300px;overflow-y:scroll;">
                                     <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;"
                                         class="p-col-4" style="padding: 0.5em 15px;margin-top:10px">
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;">
+                                            <label style="display:block;text-align:center;"
+                                                [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
                                                 {{labels.work + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].workTime"
-                                                [disabled]="isWorkoutRunning || isWorkoutPaused"
+                                                [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
                                                 (change)="calculateTotalTimeOfWorkout()">
                                         </div>
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;">
+                                            <label style="display:block;text-align:center;"
+                                                [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
                                                 {{labels.relax + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].relaxTime"
-                                                [disabled]="isWorkoutRunning || isWorkoutPaused"
+                                                [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
                                                 (change)="calculateTotalTimeOfWorkout()">
                                         </div>
                                     </div>
