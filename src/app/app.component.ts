@@ -395,7 +395,12 @@ export class AppComponent {
 
   resetSoundsSettings() {
     this.populateSignalsArray();
-    this.messageService.add({ severity: 'warn', summary: 'Sounds settings', detail: 'Succesfully reses to defaults' });
+    this.messageService.add({ severity: 'warn', summary: 'Sounds settings', detail: 'Succesfully reset to defaults' });
+  }
+
+  deleteWorkout(index: number) {
+    this.messageService.add({ severity: 'warn', summary: labels.workout_settings, detail: labels.successful_delete });
+
   }
 
   // Needed by the dynamically ngModels for bases and rounds 

@@ -260,14 +260,10 @@
 
         <div id="sounds-settings" class="p-grid content-div" [ngStyle]="{'display': activeTab == 2 ? 'block' : 'none'}">
 
-            <!-- <div class="p-col-6" style="float:left;background:green;"></div>
-            <div class="p-col-6" style="float:left;background:yellow;"></div> -->
-
-
-            <p-card subheader="Signals" class="p-col-12 p-lg-6 setting-card">
+            <p-card subheader="Signals" class="p-col-12 p-xl-6 setting-card">
                 <div class="p-grid">
                     <div class="p-col-6">
-                        <ul class="signal-type-ul">
+                        <ul class="settings-ul">
                             <li *ngFor="let signalType of signals; let i = index"
                                 [ngClass]="i == selectedSignalType ? 'active' : ''" (click)="selectedSignalType = i;">
                                 {{signalType.label}}
@@ -290,51 +286,30 @@
                                 [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
                         </div>
                     </div>
-                    <div style="float:right;margin-top:20px;width:100%;">
+                    <div class="bottom-nav">
                         <button type="button" pButton label="Save" style="width:150px;float:right;"
                             (click)="saveSoundsSettings()" [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
                         <button type="button" pButton label="Reset default" class="ui-button-danger"
                             style="width:150px;margin-right:10px;float:right;" (click)="resetSoundsSettings()"
                             [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
                     </div>
-
                 </div>
             </p-card>
 
+            <p-card subheader="Signals" class="p-col-12 p-xl-6 setting-card">
+                <ul class="settings-ul">
+                    <li *ngFor="let workout of loadedWorkouts.slice(1); let i = index"
+                        [ngClass]="i == selectedWorkoutIndex ? 'active' : ''" (click)="selectedWorkoutIndex = i;">
+                        {{workout.label}}
+                    </li>
+                </ul>
 
-            <p-card subheader="Saved workouts" class="p-col-12 p-lg-6 setting-card">
-                <div class="p-grid">
-                    <div class="p-col-6">
-                        <ul class="signal-type-ul">
-                            <li *ngFor="let workout of loadedWorkouts.slice(1); let i = index"
-                                [ngClass]="i == selectedWorkoutIndex ? 'active' : ''"
-                                (click)="selectedWorkoutIndex = i;">
-                                {{workout.label}}
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="p-col-6" style="overflow-x:auto;min-height:300px;">
-                        <!-- <textarea pInputTextarea style="max-height:275px;height:280px;width:100%;"> -->
-
-                        <!-- <pre>{{loadedWorkouts[selectedWorkoutIndex+1].value | json}}</pre> -->
-                        <!-- </textarea> -->
-
-
-
-                    </div>
-                    <div style="float:right;margin-top:20px;width:100%;">
-                        <button type="button" pButton label="Save" style="width:150px;float:right;"
-                            (click)="saveSoundsSettings()" [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
-                        <button type="button" pButton label="Reset default" class="ui-button-danger"
-                            style="width:150px;margin-right:10px;float:right;" (click)="resetSoundsSettings()"
-                            [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
-                    </div>
-
+                <div class="bottom-nav">
+                    <button type="button" pButton [label]="labels.delete" class="ui-button-danger"
+                        style="width:150px;margin-right:10px;float:right;" (click)="deleteWorkout(selectedWorkoutIndex)"
+                        [disabled]="isWorkoutRunning || isWorkoutPaused" icon="pi pi-trash" iconPos="right"></button>
                 </div>
             </p-card>
-
-            <pre><code [highlight]="loadedWorkouts[selectedWorkoutIndex+1].value | json"></code></pre>
 
         </div>
     </div>

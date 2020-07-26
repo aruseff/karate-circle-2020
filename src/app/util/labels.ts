@@ -33,5 +33,8 @@ export const labels = {
     saved_workouts: "Запазени тренировки",
     workout_name: "Име на тренировка",
     select_workout: "Избери тренировка",
-    go_to_workout: "Напред към таймер"
+    go_to_workout: "Напред към таймер",
+    delete: "Изтрий",
+    successful_delete: "Успешно изтрита тренировка",
+    workout_settings: "Тренировка - настройки"
 }
