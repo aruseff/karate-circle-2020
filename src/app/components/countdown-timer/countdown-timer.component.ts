@@ -19,18 +19,16 @@ export class CountdownTimerComponent implements OnInit {
   @Input("seconds")
   set seconds(seconds: number) {
     this._seconds = seconds;
-    if (this._seconds != 0) {
-      this.setCircleDasharray();
-    }
+    this.setCircleDasharray();
   }
 
   _seconds: number = this.wholeTime;
   circleDasharray: string = '284';
   strokeColors: any = {
-    DELAY: "blue",
+    DELAY: "#007ad9",
     ROUND_WORKTIME: "red",
     ROUND_RELAXTIME: "green",
-    RELAX_BETWEEN_ROUNDS: "blue",
+    RELAX_BETWEEN_ROUNDS: "#007ad9",
   };
   statusLabels: any = {
     DELAY: "PREPARE",
@@ -46,9 +44,12 @@ export class CountdownTimerComponent implements OnInit {
   }
 
   setCircleDasharray() {
-    let rawTimeFraction = this._seconds / this.wholeTime;
-    rawTimeFraction = rawTimeFraction - (1 / this.wholeTime) * (1 - rawTimeFraction);
-    this.circleDasharray = (rawTimeFraction * 283).toFixed(0);
+    if (this.wholeTime == 0 || this._seconds == 0) {
+      this.circleDasharray = "284";
+    } else {
+      let rawTimeFraction = this._seconds / this.wholeTime;
+      rawTimeFraction = rawTimeFraction - (1 / this.wholeTime) * (1 - rawTimeFraction);
+      this.circleDasharray = (rawTimeFraction * 283).toFixed(0);
+    }
   }
-
 }

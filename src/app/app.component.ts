@@ -73,6 +73,7 @@ export class AppComponent {
   signals: any[] = [];
   selectedSignalType: number = 0;
   soundsFileNames: string[];
+  selectedWorkoutIndex: number = 0;
 
 
   constructor(private messageService: MessageService,
@@ -147,10 +148,6 @@ export class AppComponent {
     });
     this.totalTimeOfWorkout += this.workout.delay;
     return this.totalTimeOfWorkout;
-  }
-
-  useFirstRoundChange() {
-    console.log(this.workout.useFirstRound);
   }
 
   // Starting the workout
@@ -240,34 +237,34 @@ export class AppComponent {
       // Round worktime
       else if (this.currentStatus.toUpperCase() == 'ROUND_WORKTIME') {
 
-        // Check for last relax
-        if (!this.workout.lastRelax) {
-          if (this.workout.rounds[this.currentRound].length - 1 == this.currentBase) {
-            if (this.currentRound == this.workout.roundsCount - 1) {
-              this.soundsService.playSound("workout_end");
-              this.workoutSubscription.unsubscribe();
-              this.isWorkoutRunning = false;
-              return;
-            } else {
-              this.soundsService.playSound("round_end");
-              this.currentTime = this.workout.relaxes[this.currentRound];
-              this.wholeTime = this.currentTime;
-              this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
-            }
+        let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
+        if (this.workout.rounds[useRound].length - 1 == this.currentBase && !this.workout.lastRelax) {
+
+          if (this.currentRound == this.workout.roundsCount - 1) {// Check if last round :: Workout end
+            this.soundsService.playSound("workout_end");
+            this.workoutSubscription.unsubscribe();
+            this.isWorkoutRunning = false;
+            return;
+          } else { // Not last round :: Round end
+            this.soundsService.playSound("round_end");
+            this.currentTime = this.workout.relaxes[this.currentRound];
+            this.wholeTime = this.currentTime;
+            this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
           }
         } else {
           this.soundsService.playSound("stop_work");
-          this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].relaxTime;
+          let useBase = this.workout.useFirstBase ? 0 : this.currentBase;
+          this.currentTime = this.workout.rounds[useRound][useBase].relaxTime;
           this.wholeTime = this.currentTime;
           this.currentStatus = 'ROUND_RELAXTIME';
         }
-
       }
 
       // Round relaxtime
       else if (this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
         // Check if workout finished - last relax
-        if (this.currentRound == this.workout.roundsCount - 1 && this.workout.rounds[this.currentRound].length - 1 == this.currentBase) {
+        let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
+        if (this.currentRound == this.workout.roundsCount - 1 && this.workout.rounds[useRound].length - 1 == this.currentBase) {
           this.soundsService.playSound("workout_end");
           this.workoutSubscription.unsubscribe();
           this.isWorkoutRunning = false;
@@ -275,7 +272,7 @@ export class AppComponent {
         }
 
         // Relax between rounds
-        if (this.workout.rounds[this.currentRound].length - 1 == this.currentBase) {
+        if (this.workout.rounds[useRound].length - 1 == this.currentBase) {
           this.soundsService.playSound("round_end");
           this.currentTime = this.workout.relaxes[this.currentRound];
           this.wholeTime = this.currentTime;
@@ -284,7 +281,11 @@ export class AppComponent {
           // Next base
           this.soundsService.playSound("start_work");
           this.currentBase++;
-          this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].workTime;
+
+          let useBase = this.workout.useFirstBase ? 0 : this.currentBase;
+          let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
+          this.currentTime = this.workout.rounds[useRound][useBase].workTime;
+
           this.wholeTime = this.currentTime;
           this.currentStatus = 'ROUND_WORKTIME';
         }
@@ -294,11 +295,22 @@ export class AppComponent {
         this.soundsService.playSound("start_work");
         this.currentRound++;
         this.currentBase = 0;
-        this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].workTime;
+
+        let useBase = this.workout.useFirstBase ? 0 : this.currentBase;
+        let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
+        this.currentTime = this.workout.rounds[useRound][useBase].workTime;
+
         this.wholeTime = this.currentTime;
         this.currentStatus = 'ROUND_WORKTIME';
       }
     }
+  }
+
+  calculateProgress() {
+    if(this.totalTimeOfWorkout == 0) {
+      return 0;
+    }
+    return this.elapsedTime * 100 / this.totalTimeOfWorkout;
   }
 
   resetWorkout() {

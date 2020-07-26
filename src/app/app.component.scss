@@ -191,9 +191,16 @@ p-checkbox {
 }
 
 .progress {
-    flex: 0 1 auto;
+    height: 100%;
+    width: 100%;
+    position: relative;
     .ui-progressbar {
+        position: absolute;
         height: 75px;
+        top: 2vh;
+        transform: translateX(-100%) rotate(-90deg);
+        transform-origin: top right;
+        width: 95vh;
         border: 1px solid var(--secondary-color-2);
         margin-bottom: 2px;
         .ui-progressbar-value {
@@ -283,10 +290,8 @@ p-checkbox {
     font-size: 50px;
 }
 
-.signal-card {
+.setting-card {
     float: left;
-    margin-right: 1%;
-    width: 50%;
     .ui-card {
         height: 400px;
         width: 100%;

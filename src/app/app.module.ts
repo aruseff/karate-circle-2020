@@ -30,6 +30,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ToggleButtonModule,
     InputSwitchModule,
     RadioButtonModule,
-    FileUploadModule
+    FileUploadModule,
+    InputTextareaModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
