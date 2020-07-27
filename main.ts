@@ -19,6 +19,7 @@ function createWindow(): BrowserWindow {
     height: (size.height > 960 ? 960 : size.height),
     minHeight: 700,
     minWidth: 900,
+    icon: "src/logo-icon.ico",
     // maximizable: false,
     // resizable: false,
     webPreferences: {
@@ -29,7 +30,7 @@ function createWindow(): BrowserWindow {
   });
 
   win.setMenu(null);
-
+  
   if (serve) {
 
     require('devtron').install();

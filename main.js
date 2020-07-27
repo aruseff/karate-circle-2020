@@ -16,6 +16,7 @@ function createWindow() {
         height: (size.height > 960 ? 960 : size.height),
         minHeight: 700,
         minWidth: 900,
+        icon: "src/logo-icon.ico",
         // maximizable: false,
         // resizable: false,
         webPreferences: {
