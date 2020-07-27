@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewEncapsulation, HostListener } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Workout } from './models/workout.model';
 import { Observable, timer, Subscription } from 'rxjs';
@@ -67,6 +67,12 @@ export class AppComponent {
   // Timer observables
   workoutCountdown: Observable<number> = timer(1000, 1000);
   workoutSubscription: Subscription;
+
+  // Key Listeners
+  KEY_CODE = {
+    SPACE: 32,
+    ESC: 27
+  }
 
   // ------------------------------     Workout timer end     ------------------------------
 
@@ -179,14 +185,23 @@ export class AppComponent {
     };
     this.workoutsFileService.saveFile(this.saveWorkoutInput.trim(), workoutFile);
     this.messageService.add({ severity: 'success', summary: labels.save_workout, detail: labels.successful_save });
+    this.loadWorkouts();
   }
 
   loadWorkouts() {
+    this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
     let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
     workoutsFromFileSystem.forEach(file => {
       let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
       this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
     });
+  }
+
+  selectWorkout(event) {
+    if (event.value) {
+      this.workout = event.value;
+      console.log(event.value);
+    }
   }
   // ------------------------------ Workout configuration end ------------------------------
 
@@ -353,6 +368,22 @@ export class AppComponent {
     this.totalTimeOfWorkout = 0;
     this.elapsedTime = 0;
     this.remainingTime = 0;
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (this.isWorkoutRunning || this.isWorkoutPaused) {
+
+      if (event.keyCode == this.KEY_CODE.SPACE) {
+        if(this.isWorkoutPaused) {
+          this.resumeWorkout();
+        } else {
+          this.pauseWorkout();
+        }
+      } else if (event.keyCode == this.KEY_CODE.ESC && this.isWorkoutPaused) {
+        this.resetWorkout();
+      }
+    }
   }
   // ------------------------------     Workout timer end     ------------------------------
 

@@ -25,8 +25,8 @@
 
 
     <div class="main-container">
-        <div id="workout-config" class="content-div" [ngStyle]="{'display': activeTab == 0 ? 'block' : 'none'}">
 
+        <div id="workout-config" class="content-div" [ngStyle]="{'display': activeTab == 0 ? 'block' : 'none'}">
             <div class="p-grid" style="height:100vh;">
 
                 <div class="left-panel p-sm-5 p-md-5 p-lg-4">
@@ -155,7 +155,7 @@
                         <p-card [subheader]="labels.saved_workouts" class="buttons-card p-col-6 p-md-6 p-lg-4">
 
                             <p-dropdown [options]="loadedWorkouts"
-                                (onChange)="$event.value ? workout = $event.value : ''"
+                                (onChange)="selectWorkout($event);"
                                 [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </p-dropdown>
 
