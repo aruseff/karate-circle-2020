@@ -213,7 +213,7 @@
 
                 <div style="height:70vh;">
                     <div class="center-content" style="height:100%;">
-                        <countdown-timer [wholeTime]="wholeTime" [seconds]="currentTime" [status]="currentStatus"
+                        <countdown-timer [wholeTime]="currentWholeTime" [seconds]="currentTime" [status]="currentStatus"
                             [isPaused]="isWorkoutPaused">
                         </countdown-timer>
                     </div>
@@ -260,7 +260,7 @@
 
         <div id="sounds-settings" class="p-grid content-div" [ngStyle]="{'display': activeTab == 2 ? 'block' : 'none'}">
 
-            <p-card subheader="Signals" class="p-col-12 p-xl-6 setting-card">
+            <p-card subheader="Signals" class="p-col-12 p-md-8 setting-card">
                 <div class="p-grid">
                     <div class="p-col-6">
                         <ul class="settings-ul">
@@ -296,7 +296,7 @@
                 </div>
             </p-card>
 
-            <p-card subheader="Signals" class="p-col-12 p-xl-6 setting-card">
+            <p-card subheader="Signals" class="p-col-12 p-md-4 setting-card">
                 <ul class="settings-ul">
                     <li *ngFor="let workout of loadedWorkouts.slice(1); let i = index"
                         [ngClass]="i == selectedWorkoutIndex ? 'active' : ''" (click)="selectedWorkoutIndex = i;">

@@ -7,8 +7,8 @@ import { WorkoutFile } from './models/workout-file.model';
 import { workoutFileJsonToModel } from './util/model.mapper';
 import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
-import { checkIfFileExists, saveFile, loadWorkoutsFromFilesystem } from './util/files';
 import { labels } from './util/labels';
+import { WorkoutFileService } from './services/workout.file.service';
 declare const Buffer;
 
 @Component({
@@ -25,7 +25,7 @@ export class AppComponent {
   // Navigation
   activeTab: number = 0;
 
-  // Workout config
+  // ------------------------------ Workout configuration begin ------------------------------
   workout: Workout = {
     roundsCount: 3,
     basesCount: [
@@ -43,16 +43,20 @@ export class AppComponent {
     ]
   };
 
+  // Save/load workouts
   loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
   selectedWorkout: any;
+  saveWorkoutInput: string = '';
 
-  // Workout timer
+  // ------------------------------ Workout configuration end ------------------------------
+
+  // ------------------------------    Workout timer begin    ------------------------------
   isWorkoutRunning: boolean = false;
   isWorkoutPaused: boolean = false;
   currentStatus: string = 'DELAY';
 
   // Fields
-  wholeTime: number = 0;
+  currentWholeTime: number = 0;
   currentTime: number = 0;
   currentRound: number = 0;
   currentBase: number = 0;
@@ -62,38 +66,47 @@ export class AppComponent {
 
   // Timer observables
   workoutCountdown: Observable<number> = timer(1000, 1000);
-
-  // Subscriptions
   workoutSubscription: Subscription;
 
-  // Save
-  saveWorkoutInput: string = '';
+  // ------------------------------     Workout timer end     ------------------------------
 
-  // Settings
+  // ------------------------------  Workout settings begin   ------------------------------
   signals: any[] = [];
   selectedSignalType: number = 0;
   soundsFileNames: string[];
   selectedWorkoutIndex: number = 0;
+  // ------------------------------    Workout settings end   ------------------------------
 
 
-  constructor(private messageService: MessageService,
+  constructor(
+    private messageService: MessageService,
     private soundsService: SoundsService,
+    private workoutsFileService: WorkoutFileService,
     private soundsFileService: SoundsFileService,
-    private settingsService: SettingsService) {
-
-    this.populateSignalsArray();
-
-    this.soundsFileNames = this.soundsFileService.getSoundsFiles();
-  }
+    private settingsService: SettingsService
+  ) { }
 
   ngOnInit(): void {
+    this.populateSignalsArray();
+    this.soundsFileNames = this.soundsFileService.getSoundsFiles();
+
     this.refreshWorkoutModel();
     this.loadWorkouts();
   }
 
+  navigate(index: number) {
+    this.activeTab = index;
+  }
+
+  // Needed by the dynamically ngModels for bases and rounds 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  // ------------------------------ Workout configuration begin ------------------------------
   basesInputChange(index: number) {
     if (this.workout.basesCount[index] > 50) {
-      this.messageService.add({ severity: 'error', summary: 'Bases', detail: 'Please enter value between 1 and 50' });
+      this.messageService.add({ severity: 'error', summary: labels.bases, detail: labels.warning_between_1_and_50 });
     } else {
       let oldCount = this.workout.rounds[index].length;
       let newCount = this.workout.basesCount[index];
@@ -150,13 +163,40 @@ export class AppComponent {
     return this.totalTimeOfWorkout;
   }
 
-  // Starting the workout
+  saveWorkout() {
+    if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
+      this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
+      return;
+    }
+    if (this.workoutsFileService.checkIfFileExists(this.saveWorkoutInput.trim())) {
+      this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.file_already_exists });
+      return;
+    }
+
+    let workoutFile: WorkoutFile = {
+      name: this.saveWorkoutInput.trim(),
+      workout: this.workout
+    };
+    this.workoutsFileService.saveFile(this.saveWorkoutInput.trim(), workoutFile);
+    this.messageService.add({ severity: 'success', summary: labels.save_workout, detail: labels.successful_save });
+  }
+
+  loadWorkouts() {
+    let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
+    workoutsFromFileSystem.forEach(file => {
+      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
+      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
+    });
+  }
+  // ------------------------------ Workout configuration end ------------------------------
+
+  // ------------------------------    Workout timer begin    ------------------------------
   startWorkout() {
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
     this.remainingTime = this.calculateTotalTimeOfWorkout();
     this.currentTime = this.workout.delay;
-    this.wholeTime = this.currentTime;
+    this.currentWholeTime = this.currentTime;
     this.currentStatus = 'DELAY';
 
     this.workoutSubscription = this.workoutCountdown.subscribe(() => {
@@ -179,62 +219,51 @@ export class AppComponent {
     });
   }
 
+  checkForSignals(warningTime: number, countdownSignal: string, warningSignal: string) {
+    // Countdown signal RELAX
+    if (this.currentTime < warningTime && this.currentTime > 0) {
+      this.soundsService.playSound(countdownSignal);
+    }
+
+    // Last signals
+    if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
+      this.soundsService.playSound(warningSignal);
+    }
+    else if (this.workout.lastSignalSelected[1] && this.currentTime == 10) {
+      this.soundsService.playSound(warningSignal);
+    }
+    else if (this.workout.lastSignalSelected[2] && this.currentTime == 5) {
+      this.soundsService.playSound(warningSignal);
+    }
+  }
+
   processEachSecond() {
     this.currentTime--;
     this.elapsedTime++;
     this.remainingTime--;
 
-    if (this.currentStatus.toUpperCase() == 'DELAY' || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME'
+    if (this.currentStatus.toUpperCase() == 'DELAY'
+      || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME'
       || this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
-
-      // Countdown signal RELAX
-      if (this.currentTime < this.workout.relaxWarning && this.currentTime > 0) {
-        this.soundsService.playSound("relax_countdown");
-      }
-
-      // Last signals
-      if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
-        this.soundsService.playSound("relax_warning");
-      }
-      else if (this.workout.lastSignalSelected[1] && this.currentTime == 10) {
-        this.soundsService.playSound("relax_warning");
-      }
-      else if (this.workout.lastSignalSelected[2] && this.currentTime == 5) {
-        this.soundsService.playSound("relax_warning");
-      }
+      this.checkForSignals(this.workout.relaxWarning, "relax_warning", "relax_warning");
     }
     else {
-
-      // Countdown signal WORK
-      if (this.currentTime < this.workout.workWarning && this.currentTime > 0) {
-        this.soundsService.playSound("work_countdown");
-      }
-
-      // Last signals
-      if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
-        this.soundsService.playSound("work_warning");
-      }
-      else if (this.workout.lastSignalSelected[1] && this.currentTime == 10) {
-        this.soundsService.playSound("work_warning");
-      }
-      else if (this.workout.lastSignalSelected[2] && this.currentTime == 5) {
-        this.soundsService.playSound("work_warning");
-      }
+      this.checkForSignals(this.workout.workWarning, "work_countdown", "work_warning");
     }
 
     if (this.currentTime <= 0) {
 
-      // Delay
+      // Current status is DELAY
       if (this.currentStatus.toUpperCase() == 'DELAY') {
         this.soundsService.playSound("start_work");
         this.currentRound = 0;
         this.currentBase = 0;
         this.currentTime = this.workout.rounds[this.currentRound][this.currentBase].workTime;
-        this.wholeTime = this.currentTime;
+        this.currentWholeTime = this.currentTime;
         this.currentStatus = 'ROUND_WORKTIME';
       }
 
-      // Round worktime
+      // Current status is ROUND_WORKTIME
       else if (this.currentStatus.toUpperCase() == 'ROUND_WORKTIME') {
 
         let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
@@ -248,19 +277,19 @@ export class AppComponent {
           } else { // Not last round :: Round end
             this.soundsService.playSound("round_end");
             this.currentTime = this.workout.relaxes[this.currentRound];
-            this.wholeTime = this.currentTime;
+            this.currentWholeTime = this.currentTime;
             this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
           }
         } else {
           this.soundsService.playSound("stop_work");
           let useBase = this.workout.useFirstBase ? 0 : this.currentBase;
           this.currentTime = this.workout.rounds[useRound][useBase].relaxTime;
-          this.wholeTime = this.currentTime;
+          this.currentWholeTime = this.currentTime;
           this.currentStatus = 'ROUND_RELAXTIME';
         }
       }
 
-      // Round relaxtime
+      // Current status is ROUND_RELAXTIME
       else if (this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
         // Check if workout finished - last relax
         let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
@@ -275,7 +304,7 @@ export class AppComponent {
         if (this.workout.rounds[useRound].length - 1 == this.currentBase) {
           this.soundsService.playSound("round_end");
           this.currentTime = this.workout.relaxes[this.currentRound];
-          this.wholeTime = this.currentTime;
+          this.currentWholeTime = this.currentTime;
           this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
         } else {
           // Next base
@@ -286,11 +315,12 @@ export class AppComponent {
           let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
           this.currentTime = this.workout.rounds[useRound][useBase].workTime;
 
-          this.wholeTime = this.currentTime;
+          this.currentWholeTime = this.currentTime;
           this.currentStatus = 'ROUND_WORKTIME';
         }
       }
 
+      // Current status is RELAX_BETWEEN_ROUNDS
       else if (this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
         this.soundsService.playSound("start_work");
         this.currentRound++;
@@ -300,14 +330,14 @@ export class AppComponent {
         let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
         this.currentTime = this.workout.rounds[useRound][useBase].workTime;
 
-        this.wholeTime = this.currentTime;
+        this.currentWholeTime = this.currentTime;
         this.currentStatus = 'ROUND_WORKTIME';
       }
     }
   }
 
   calculateProgress() {
-    if(this.totalTimeOfWorkout == 0) {
+    if (this.totalTimeOfWorkout == 0) {
       return 0;
     }
     return this.elapsedTime * 100 / this.totalTimeOfWorkout;
@@ -316,7 +346,7 @@ export class AppComponent {
   resetWorkout() {
     this.isWorkoutRunning = false;
     this.isWorkoutPaused = false;
-    this.wholeTime = 0;
+    this.currentWholeTime = 0;
     this.currentTime = 0;
     this.currentRound = 0;
     this.currentBase = 0;
@@ -324,38 +354,10 @@ export class AppComponent {
     this.elapsedTime = 0;
     this.remainingTime = 0;
   }
+  // ------------------------------     Workout timer end     ------------------------------
 
-  saveWorkout() {
-    if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
-      this.messageService.add({ severity: 'error', summary: 'Save workout', detail: 'Please enter valid name' });
-      return;
-    }
-    if (checkIfFileExists(this.saveWorkoutInput.trim())) {
-      this.messageService.add({ severity: 'error', summary: 'Save workout', detail: 'File with such name already exists' });
-      return;
-    }
 
-    let workoutFile: WorkoutFile = {
-      name: this.saveWorkoutInput.trim(),
-      workout: this.workout
-    };
-    saveFile(this.saveWorkoutInput.trim(), workoutFile);
-    this.messageService.add({ severity: 'success', summary: 'Save workout', detail: 'Successfully saved' });
-  }
-
-  loadWorkouts() {
-    let workoutsFromFileSystem = loadWorkoutsFromFilesystem();
-    workoutsFromFileSystem.forEach(file => {
-      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
-      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
-    });
-  }
-
-  navigate(index: number) {
-    this.activeTab = index;
-  }
-
-  // Sounds tab
+  // ------------------------------  Workout settings begin   ------------------------------
   previewSound(index: number) {
     this.soundsFileService.play(index);
   }
@@ -390,21 +392,18 @@ export class AppComponent {
       this.settingsService.set(signalType.id, signalType.wav);
     });
     this.soundsService.refreshSounds();
-    this.messageService.add({ severity: 'info', summary: 'Sounds settings', detail: 'Succesfully saved' });
+    this.messageService.add({ severity: 'info', summary: labels.sounds_settings, detail: labels.successful_save });
   }
 
   resetSoundsSettings() {
     this.populateSignalsArray();
-    this.messageService.add({ severity: 'warn', summary: 'Sounds settings', detail: 'Succesfully reset to defaults' });
+    this.messageService.add({ severity: 'warn', summary: labels.sounds_settings, detail: labels.successful_reset });
   }
 
   deleteWorkout(index: number) {
+    // this. this.loadedWorkouts[index]
+    // TODO
     this.messageService.add({ severity: 'warn', summary: labels.workout_settings, detail: labels.successful_delete });
-
   }
-
-  // Needed by the dynamically ngModels for bases and rounds 
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
+  // ------------------------------    Workout settings end   ------------------------------
 }

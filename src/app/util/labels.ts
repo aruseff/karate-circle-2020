@@ -36,5 +36,12 @@ export const labels = {
     go_to_workout: "Напред към таймер",
     delete: "Изтрий",
     successful_delete: "Успешно изтрита тренировка",
-    workout_settings: "Тренировка - настройки"
+    workout_settings: "Тренировка - настройки",
+    warning_between_1_and_50: "Моля въведете стойност между 1 и 50",
+    save_workout: "Запазване на тренировка",
+    enter_valid_name: "Моля въведете име",
+    file_already_exists: "Тренировка с това име вече съществува",
+    successful_save: "Успешно запазване",
+    sounds_settings: "Настройка на звуци",
+    successful_reset: "Успешно нулиране"
 }
