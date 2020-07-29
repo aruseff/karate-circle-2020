@@ -25,9 +25,13 @@ export class WorkoutFileService {
         return electronFs.existsSync(path);
     }
     
-    saveFile(fileName: string, content: any) {
+    saveWorkout(fileName: string, content: any) {
         let path = app.getAppPath() + '/workouts' + '/' + fileName + '.json';
         electronFs.writeFileSync(path, JSON.stringify(content, null, 2));
     }
 
+    deleteWorkout(fileName: string) {
+        let path = app.getAppPath() + '/workouts' + '/' + fileName + '.json';
+        electronFs.unlinkSync(path);
+    }
 }

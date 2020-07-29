@@ -43,5 +43,17 @@ export const labels = {
     file_already_exists: "Тренировка с това име вече съществува",
     successful_save: "Успешно запазване",
     sounds_settings: "Настройка на звуци",
-    successful_reset: "Успешно нулиране"
+    successful_reset: "Успешно нулиране",
+    reset: "Нулирай",
+    resume: "Продължи",
+    start: "Старт",
+    pause: "Пауза",
+    round: "Рунд",
+    base: "База",
+    elapsed_time: "Изминало време",
+    remaining_time: "Оставащо време",
+    signals: "Сигнали",
+    save: "Запази",
+    prepare: "Подготовка"
+
 }

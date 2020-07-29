@@ -183,7 +183,7 @@ export class AppComponent {
       name: this.saveWorkoutInput.trim(),
       workout: this.workout
     };
-    this.workoutsFileService.saveFile(this.saveWorkoutInput.trim(), workoutFile);
+    this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
     this.messageService.add({ severity: 'success', summary: labels.save_workout, detail: labels.successful_save });
     this.loadWorkouts();
   }
@@ -375,7 +375,7 @@ export class AppComponent {
     if (this.isWorkoutRunning || this.isWorkoutPaused) {
 
       if (event.keyCode == this.KEY_CODE.SPACE) {
-        if(this.isWorkoutPaused) {
+        if (this.isWorkoutPaused) {
           this.resumeWorkout();
         } else {
           this.pauseWorkout();
@@ -432,9 +432,10 @@ export class AppComponent {
   }
 
   deleteWorkout(index: number) {
-    // this. this.loadedWorkouts[index]
-    // TODO
+    // Using index+1 because of the first default item
+    this.workoutsFileService.deleteWorkout(this.loadedWorkouts[index + 1].label);
     this.messageService.add({ severity: 'warn', summary: labels.workout_settings, detail: labels.successful_delete });
+    this.loadWorkouts();
   }
   // ------------------------------    Workout settings end   ------------------------------
 }

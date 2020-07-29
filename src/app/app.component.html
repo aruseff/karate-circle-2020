@@ -2,23 +2,26 @@
 
     <div class="nav-container">
         <div style="height:100%;width:100%;">
-            <div class="nav-element center-content" style="margin-bottom:20px;cursor:auto;">
+            <div class="nav-element center-content" style="margin-bottom:50px;cursor:auto;">
                 <img src="../assets/logo.png" height="70" width="70">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(0)"
                 [ngClass]="activeTab == 0 ? ' nav-element-acitve' : ''">
-                <i class="fa fa-gear"></i>
+                <img *ngIf="activeTab == 0" src="../assets//timer-config-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 0" src="../assets//timer-config-icon-white.png" height="33" width="33">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(1)"
                 [ngClass]="activeTab == 1 ? ' nav-element-acitve' : ''">
-                <i class="fa fa-clock-o"></i>
+                <img *ngIf="activeTab == 1" src="../assets/timer-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 1" src="../assets/timer-icon-white.png" height="33" width="33">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(2)"
                 [ngClass]="activeTab == 2 ? ' nav-element-acitve' : ''">
-                <i class="fa fa-volume-up"></i>
+                <img *ngIf="activeTab == 2" src="../assets/settings-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 2" src="../assets/settings-icon-white.png" height="33" width="33">
             </div>
         </div>
     </div>
@@ -154,8 +157,7 @@
                         </p-card>
                         <p-card [subheader]="labels.saved_workouts" class="buttons-card p-col-6 p-md-6 p-lg-4">
 
-                            <p-dropdown [options]="loadedWorkouts"
-                                (onChange)="selectWorkout($event);"
+                            <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event)"
                                 [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </p-dropdown>
 
@@ -168,7 +170,7 @@
                                 </button>
                             </div>
 
-                            <button pButton type="button" [label]="labels.go_to_workout" class="ui-button-danger"
+                            <button pButton type="button" [label]="labels.go_to_workout" class="ui-button-primary"
                                 icon="pi pi-play" iconPos="right" (click)="navigate(1)"
                                 style="width:100%;position:absolute;bottom:20px;height:50px;"></button>
 
@@ -186,7 +188,7 @@
                 <div class="p-grid" style="height:10vh;padding-top:10px;">
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
-                            <div style="color:var(--secondary-color-3)">Round</div>
+                            <div style="color:var(--secondary-color-3)">{{labels.round}}</div>
                             <div style="font-size:30px;">
                                 <div>
                                     <span class="top">{{currentRound+1}}</span>
@@ -198,7 +200,7 @@
                     </div>
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
-                            <div style="color:var(--secondary-color-3)">Base</div>
+                            <div style="color:var(--secondary-color-3)">{{labels.base}}</div>
                             <div style="font-size:30px;">
                                 <div>
                                     <span class="top">{{currentBase+1}}</span>
@@ -222,13 +224,13 @@
                 <div class="p-grid" style="height:10vh;">
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
-                            <div style="color:var(--secondary-color-3)">Elapsed Time</div>
+                            <div style="color:var(--secondary-color-3)">{{labels.elapsed_time}}</div>
                             <div style="font-size:30px;">{{elapsedTime | minuteSeconds}}</div>
                         </div>
                     </div>
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
-                            <div style="color:var(--secondary-color-3)">Remaining Time</div>
+                            <div style="color:var(--secondary-color-3)">{{labels.remaining_time}}</div>
                             <div style="font-size:30px;">{{remainingTime | minuteSeconds}}</div>
                         </div>
                     </div>
@@ -236,19 +238,18 @@
 
                 <div class="p-grid" style="height:10vh;">
                     <div class="p-col-6">
-
-                        <button pButton type="button" *ngIf="!isWorkoutRunning"
-                            [label]="isWorkoutPaused ? 'Resume' : 'Start'" class="ui-button-primary" icon="pi pi-play"
+                        <button pButton type="button" [label]="labels.reset" class="ui-button-danger" icon="pi pi-undo"
                             iconPos="right" style="height:90%;width:60%;float:right;margin-top:15px;"
-                            (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()"></button>
-                        <button pButton type="button" *ngIf="isWorkoutRunning" label="Pause" class="ui-button-primary"
-                            icon="pi pi-pause" iconPos="right" style="height:90%;width:60%;float:right;margin-top:15px;"
-                            (click)="pauseWorkout()"></button>
+                            [disabled]="isWorkoutRunning" (click)="resetWorkout()"></button>
                     </div>
                     <div class="p-col-6">
-                        <button pButton type="button" label="Reset" class="ui-button-danger" icon="pi pi-undo"
-                            iconPos="right" style="height:90%;width:60%;float:left;margin-top:15px;"
-                            [disabled]="isWorkoutRunning" (click)="resetWorkout()"></button>
+                        <button pButton type="button" *ngIf="!isWorkoutRunning"
+                            [label]="isWorkoutPaused ? labels.resume : labels.start" class="ui-button-primary"
+                            icon="pi pi-play" iconPos="right" style="height:90%;width:60%;float:left;margin-top:15px;"
+                            (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()"></button>
+                        <button pButton type="button" *ngIf="isWorkoutRunning" [label]="labels.pause"
+                            class="ui-button-primary" icon="pi pi-pause" iconPos="right"
+                            style="height:90%;width:60%;float:left;margin-top:15px;" (click)="pauseWorkout()"></button>
                     </div>
                 </div>
             </div>
@@ -260,7 +261,7 @@
 
         <div id="sounds-settings" class="p-grid content-div" [ngStyle]="{'display': activeTab == 2 ? 'block' : 'none'}">
 
-            <p-card subheader="Signals" class="p-col-12 p-md-8 setting-card">
+            <p-card [subheader]="labels.signals" class="p-col-12 p-md-8 setting-card">
                 <div class="p-grid">
                     <div class="p-col-6">
                         <ul class="settings-ul">
@@ -287,16 +288,17 @@
                         </div>
                     </div>
                     <div class="bottom-nav">
-                        <button type="button" pButton label="Save" style="width:150px;float:right;"
-                            (click)="saveSoundsSettings()" [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
-                        <button type="button" pButton label="Reset default" class="ui-button-danger"
+                        <button type="button" pButton [label]="labels.save" style="width:150px;float:right;"
+                            (click)="saveSoundsSettings()" [disabled]="isWorkoutRunning || isWorkoutPaused"
+                            icon="pi pi-save" iconPos="right"></button>
+                        <button type="button" pButton [label]="labels.reset" class="ui-button-danger"
                             style="width:150px;margin-right:10px;float:right;" (click)="resetSoundsSettings()"
-                            [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
+                            [disabled]="isWorkoutRunning || isWorkoutPaused" icon="pi pi-undo" iconPos="right"></button>
                     </div>
                 </div>
             </p-card>
 
-            <p-card subheader="Signals" class="p-col-12 p-md-4 setting-card">
+            <p-card [subheader]="labels.saved_workouts" class="p-col-12 p-md-4 setting-card">
                 <ul class="settings-ul">
                     <li *ngFor="let workout of loadedWorkouts.slice(1); let i = index"
                         [ngClass]="i == selectedWorkoutIndex ? 'active' : ''" (click)="selectedWorkoutIndex = i;">
@@ -306,7 +308,7 @@
 
                 <div class="bottom-nav">
                     <button type="button" pButton [label]="labels.delete" class="ui-button-danger"
-                        style="width:150px;margin-right:10px;float:right;" (click)="deleteWorkout(selectedWorkoutIndex)"
+                        style="width:150px; float:right;" (click)="deleteWorkout(selectedWorkoutIndex)"
                         [disabled]="isWorkoutRunning || isWorkoutPaused" icon="pi pi-trash" iconPos="right"></button>
                 </div>
             </p-card>

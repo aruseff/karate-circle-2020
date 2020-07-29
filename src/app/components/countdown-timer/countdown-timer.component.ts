@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { labels } from 'src/app/util/labels';
 
 @Component({
   selector: 'countdown-timer',
@@ -30,11 +31,12 @@ export class CountdownTimerComponent implements OnInit {
     ROUND_RELAXTIME: "green",
     RELAX_BETWEEN_ROUNDS: "#007ad9",
   };
+  
   statusLabels: any = {
-    DELAY: "PREPARE",
-    ROUND_WORKTIME: "WORK",
-    ROUND_RELAXTIME: "RELAX",
-    RELAX_BETWEEN_ROUNDS: "PREPARE",
+    DELAY: labels.prepare,
+    ROUND_WORKTIME: labels.work,
+    ROUND_RELAXTIME: labels.relax,
+    RELAX_BETWEEN_ROUNDS: labels.prepare,
   };
 
   constructor() { }
