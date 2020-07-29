@@ -169,6 +169,14 @@ p-checkbox {
     }
 }
 
+.rounds-label {
+    display: block;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 .total-time-buttons-div {
     flex: 1 1 0;
 }

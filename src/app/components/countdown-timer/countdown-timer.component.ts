@@ -37,6 +37,7 @@ export class CountdownTimerComponent implements OnInit {
     ROUND_WORKTIME: labels.work,
     ROUND_RELAXTIME: labels.relax,
     RELAX_BETWEEN_ROUNDS: labels.prepare,
+    PAUSED: labels.pause
   };
 
   constructor() { }

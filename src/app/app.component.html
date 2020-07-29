@@ -3,25 +3,25 @@
     <div class="nav-container">
         <div style="height:100%;width:100%;">
             <div class="nav-element center-content" style="margin-bottom:50px;cursor:auto;">
-                <img src="../assets/logo.png" height="70" width="70">
+                <img src="assets/logo.png" height="70" width="70">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(0)"
                 [ngClass]="activeTab == 0 ? ' nav-element-acitve' : ''">
-                <img *ngIf="activeTab == 0" src="../assets//timer-config-icon.png" height="38" width="38">
-                <img *ngIf="activeTab != 0" src="../assets//timer-config-icon-white.png" height="33" width="33">
+                <img *ngIf="activeTab == 0" src="assets/timer-config-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 0" src="assets//timer-config-icon-white.png" height="33" width="33">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(1)"
                 [ngClass]="activeTab == 1 ? ' nav-element-acitve' : ''">
-                <img *ngIf="activeTab == 1" src="../assets/timer-icon.png" height="38" width="38">
-                <img *ngIf="activeTab != 1" src="../assets/timer-icon-white.png" height="33" width="33">
+                <img *ngIf="activeTab == 1" src="assets/timer-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 1" src="assets/timer-icon-white.png" height="33" width="33">
             </div>
 
             <div class="nav-element center-content" (click)="navigate(2)"
                 [ngClass]="activeTab == 2 ? ' nav-element-acitve' : ''">
-                <img *ngIf="activeTab == 2" src="../assets/settings-icon.png" height="38" width="38">
-                <img *ngIf="activeTab != 2" src="../assets/settings-icon-white.png" height="33" width="33">
+                <img *ngIf="activeTab == 2" src="assets/settings-icon.png" height="38" width="38">
+                <img *ngIf="activeTab != 2" src="assets/settings-icon-white.png" height="33" width="33">
             </div>
         </div>
     </div>
@@ -44,13 +44,17 @@
                             </div>
                             <div class="p-col-6">
                                 <div style="width:80%;margin-bottom:15px;">
-                                    <input inputLabel [title]="labels.work" type="number" min=1 max=20
-                                        [(ngModel)]="workout.workWarning"
+                                    <input inputLabel [title]="labels.work + labels.seconds_suffix" type="number" min=0
+                                        max=20 [(ngModel)]="workout.workWarning"
+                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        (change)="!workout.workWarning ? workout.workWarning = 5 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
-                                    <input inputLabel [title]="labels.relax" type="number" min=1 max=20
-                                        [(ngModel)]="workout.relaxWarning"
+                                    <input inputLabel [title]="labels.relax + labels.seconds_suffix" type="number" min=0
+                                        max=20 [(ngModel)]="workout.relaxWarning"
+                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        (change)="!workout.relaxWarning ? workout.relaxWarning = 3 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div>
@@ -67,14 +71,15 @@
                     <p-card [subheader]="labels.workout" class="rounds-delay-card">
                         <div class="p-grid">
                             <div class="p-col-6">
-                                <input inputLabel [title]="labels.rounds" type="number" min=1 max=20
+                                <input inputLabel [title]="labels.rounds" type="number" min=1 max=50
                                     [(ngModel)]="workout.roundsCount" (input)="refreshWorkoutModel()"
-                                    onkeydown="return false" [disabled]="isWorkoutRunning || isWorkoutPaused">
+                                    onkeypress="return false" [disabled]="isWorkoutRunning || isWorkoutPaused">
                             </div>
                             <div class="p-col-6">
                                 <input inputLabel [title]="labels.delay" type="number" min=1 [(ngModel)]="workout.delay"
                                     [disabled]="isWorkoutRunning || isWorkoutPaused"
-                                    (change)="calculateTotalTimeOfWorkout()">
+                                    onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                    (change)="onDelayChange()">
                             </div>
                         </div>
 
@@ -94,6 +99,8 @@
                                     <input *ngFor="let base of workout.basesCount; let i=index; trackBy:trackByIndex;"
                                         inputLabel type="number" min=1 max=50 [title]="'R' + (i+1)" [marginTop]="'3px'"
                                         [(ngModel)]="workout.basesCount[i]" (input)="basesInputChange(i)"
+                                        (change)="!workout.basesCount[i] ? workout.basesCount[i] = 1 : '';basesInputChange(i)"
+                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </p-fieldset>
                             </div>
@@ -103,7 +110,8 @@
                                         inputLabel type="number" min=1 [title]="'R' + (i+1) + '&' + (i+2)"
                                         [marginTop]="'3px'" [(ngModel)]="workout.relaxes[i]"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused"
-                                        (change)="calculateTotalTimeOfWorkout()">
+                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        (change)="!workout.relaxes[i] ? workout.relaxes[i] = 10 : '';calculateTotalTimeOfWorkout()">
                                 </p-fieldset>
                             </div>
                         </div>
@@ -123,22 +131,24 @@
                                     <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;"
                                         class="p-col-4" style="padding: 0.5em 15px;margin-top:10px">
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;"
+                                            <label class="rounds-label"
                                                 [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
                                                 {{labels.work + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].workTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                (change)="calculateTotalTimeOfWorkout()">
+                                                onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                                (change)="!workout.rounds[i][j].workTime ? workout.rounds[i][j].workTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                         <div style="width:50%;float:left;">
-                                            <label style="display:block;text-align:center;"
+                                            <label class="rounds-label"
                                                 [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
                                                 {{labels.relax + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].relaxTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                (change)="calculateTotalTimeOfWorkout()">
+                                                onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                                (change)="!workout.rounds[i][j].relaxTime ? workout.rounds[i][j].relaxTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +216,7 @@
                                     <span class="top">{{currentBase+1}}</span>
                                     <span class="line">&#47;</span>
                                     <span
-                                        class="bottom">{{workout.useFirstRound ? workout.basesCount[0] : workout.basesCount[currentRound]}}</span>
+                                        class="bottom">{{workout.useFirstRound ? workout.rounds[0].length : workout.rounds[currentRound].length}}</span>
                                 </div>
                             </div>
                         </div>

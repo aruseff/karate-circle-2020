@@ -203,10 +203,18 @@ export class AppComponent {
       console.log(event.value);
     }
   }
+
+  onDelayChange() {
+    if(!this.workout.delay) {
+      this.workout.delay = 10;
+    }
+    this.calculateTotalTimeOfWorkout();
+  }
   // ------------------------------ Workout configuration end ------------------------------
 
   // ------------------------------    Workout timer begin    ------------------------------
   startWorkout() {
+    this.resetWorkout();
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
     this.remainingTime = this.calculateTotalTimeOfWorkout();
