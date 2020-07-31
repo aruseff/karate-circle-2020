@@ -1,8 +1,14 @@
 {
-  "productName": "karate-circle2020",
+  "productName": "karate-circle-2020",
   "directories": {
     "output": "release/"
   },
+  "extraResources": [
+    {
+      "from": "sounds/",
+      "to": "sounds/"
+    }
+  ],
   "files": [
     "**/*",
     "!**/*.ts",

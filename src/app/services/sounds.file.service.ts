@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { labels } from '../util/labels';
 var remote = window.require('electron').remote;
 var electronFs = remote.require('fs');
 var app = remote.app;
+var process = window.require('process');
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +13,15 @@ export class SoundsFileService {
 
     audios: any = [];
     soundsFileNames: string[] = [];
+    soundsFolder: string;
+
+    constructor(private messageService: MessageService) {
+        if (process.env.PORTABLE_EXECUTABLE_DIR) {
+            this.soundsFolder = process.env.PORTABLE_EXECUTABLE_DIR;
+        } else {
+            this.soundsFolder = app.getAppPath() + '/sounds/';
+        }
+    }
 
     getSoundsFiles() {
         this.refreshSounds();
@@ -19,17 +31,20 @@ export class SoundsFileService {
     refreshSounds() {
         this.soundsFileNames = [];
         this.audios = [];
-        let soundsFolder = app.getAppPath() + '/sounds';
-        var files = electronFs.readdirSync(soundsFolder);
-        files.forEach(fileName => {
+        try {
+            var files = electronFs.readdirSync(this.soundsFolder);
+            files.forEach(fileName => {
 
-            let currentAudio = new Audio();
-            currentAudio.src = "file:///" + soundsFolder.replace('\\', '/') + '/' + fileName;
-            currentAudio.load();
+                let currentAudio = new Audio();
+                currentAudio.src = "file:///" + this.soundsFolder.replace('\\', '/') + '/' + fileName;
+                currentAudio.load();
 
-            this.soundsFileNames.push(fileName);
-            this.audios.push(currentAudio);
-        });
+                this.soundsFileNames.push(fileName);
+                this.audios.push(currentAudio);
+            });
+        } catch (err) {
+            // error in reading sounds folder
+        }
     }
 
     play(index: number) {
@@ -39,7 +54,12 @@ export class SoundsFileService {
     }
 
     saveSoundFile(content: any, filename: string) {
-        let path = app.getAppPath() + '/sounds/' + filename;
-        electronFs.writeFileSync(path, content);
+        let path = this.soundsFolder + filename;
+        try {
+            electronFs.writeFileSync(path, content);
+            this.messageService.add({ severity: 'success', summary: labels.sounds_settings, detail: labels.successful_save });
+        } catch (err) {
+            this.messageService.add({ severity: 'error', summary: labels.sounds_settings, detail: labels.error_save });
+        }
     }
 }

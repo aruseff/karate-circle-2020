@@ -41,7 +41,6 @@ export const labels = {
     save_workout: "Запазване на тренировка",
     enter_valid_name: "Моля въведете име",
     file_already_exists: "Тренировка с това име вече съществува",
-    successful_save: "Успешно запазване",
     sounds_settings: "Настройка на звуци",
     successful_reset: "Успешно нулиране",
     reset: "Нулирай",
@@ -54,6 +53,10 @@ export const labels = {
     remaining_time: "Оставащо време",
     signals: "Сигнали",
     save: "Запази",
-    prepare: "Подготовка"
+    prepare: "Подготовка",
+    system_error: "Системна грешка",
+    sounds: "Звуци",
 
+    successful_save: "Успешно запазване",
+    error_save: "Грешка при запазване"
 }

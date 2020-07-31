@@ -93,11 +93,12 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
+
     this.populateSignalsArray();
     this.soundsFileNames = this.soundsFileService.getSoundsFiles();
+    this.loadWorkouts();
 
     this.refreshWorkoutModel();
-    this.loadWorkouts();
   }
 
   navigate(index: number) {
@@ -200,12 +201,11 @@ export class AppComponent {
   selectWorkout(event) {
     if (event.value) {
       this.workout = event.value;
-      console.log(event.value);
     }
   }
 
   onDelayChange() {
-    if(!this.workout.delay) {
+    if (!this.workout.delay) {
       this.workout.delay = 10;
     }
     this.calculateTotalTimeOfWorkout();
@@ -412,7 +412,6 @@ export class AppComponent {
   }
 
   uploadWavFile(files: any) {
-    console.log(files.target.files);
     for (let i = 0; i < files.target.files.length; i++) {
       let fileReader = new FileReader();
       let file = files.target.files[i];
