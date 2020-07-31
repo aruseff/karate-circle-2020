@@ -7,6 +7,10 @@
     {
       "from": "sounds/",
       "to": "sounds/"
+    },
+    {
+      "from": "workouts/",
+      "to": "workouts/"
     }
   ],
   "files": [

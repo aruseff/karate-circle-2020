@@ -19,8 +19,9 @@ export class SoundsFileService {
         if (process.env.PORTABLE_EXECUTABLE_DIR) {
             this.soundsFolder = process.env.PORTABLE_EXECUTABLE_DIR;
         } else {
-            this.soundsFolder = app.getAppPath() + '/sounds/';
+            this.soundsFolder = app.getAppPath();
         }
+        this.soundsFolder += '/sounds/';
     }
 
     getSoundsFiles() {
@@ -59,7 +60,8 @@ export class SoundsFileService {
             electronFs.writeFileSync(path, content);
             this.messageService.add({ severity: 'success', summary: labels.sounds_settings, detail: labels.successful_save });
         } catch (err) {
-            this.messageService.add({ severity: 'error', summary: labels.sounds_settings, detail: labels.error_save });
+            this.messageService.add({ severity: 'error', summary: labels.sounds_settings, detail: labels.generic_error });
         }
     }
+
 }

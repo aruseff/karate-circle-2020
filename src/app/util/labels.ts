@@ -35,14 +35,10 @@ export const labels = {
     select_workout: "Избери тренировка",
     go_to_workout: "Напред към таймер",
     delete: "Изтрий",
-    successful_delete: "Успешно изтрита тренировка",
-    workout_settings: "Тренировка - настройки",
     warning_between_1_and_50: "Моля въведете стойност между 1 и 50",
     save_workout: "Запазване на тренировка",
     enter_valid_name: "Моля въведете име",
     file_already_exists: "Тренировка с това име вече съществува",
-    sounds_settings: "Настройка на звуци",
-    successful_reset: "Успешно нулиране",
     reset: "Нулирай",
     resume: "Продължи",
     start: "Старт",
@@ -55,8 +51,13 @@ export const labels = {
     save: "Запази",
     prepare: "Подготовка",
     system_error: "Системна грешка",
-    sounds: "Звуци",
+
+    sounds_settings: "Настройка на звуци",
+    workout_settings: "Тренировка - настройки",
 
     successful_save: "Успешно запазване",
-    error_save: "Грешка при запазване"
+    successful_reset: "Успешно нулиране",
+    successful_delete: "Успешно изтриване",
+
+    generic_error: "Възникна грешка. Моля опитай отново."
 }
