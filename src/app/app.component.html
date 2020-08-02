@@ -47,14 +47,14 @@
                                 <div style="width:80%;margin-bottom:15px;">
                                     <input inputLabel [title]="labels.work + labels.seconds_suffix" type="number" min=0
                                         max=20 [(ngModel)]="workout.workWarning"
-                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.workWarning ? workout.workWarning = 5 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
                                     <input inputLabel [title]="labels.relax + labels.seconds_suffix" type="number" min=0
                                         max=20 [(ngModel)]="workout.relaxWarning"
-                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.relaxWarning ? workout.relaxWarning = 3 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
@@ -74,12 +74,13 @@
                             <div class="p-col-6">
                                 <input inputLabel [title]="labels.rounds" type="number" min=1 max=50
                                     [(ngModel)]="workout.roundsCount" (input)="refreshWorkoutModel()"
-                                    onkeypress="return false" [disabled]="isWorkoutRunning || isWorkoutPaused">
+                                    onkeypress="return false" [disabled]="isWorkoutRunning || isWorkoutPaused"
+                                    (change)="!workout.roundsCount ? workout.roundsCount = 1 : '';refreshWorkoutModel()">
                             </div>
                             <div class="p-col-6">
                                 <input inputLabel [title]="labels.delay" type="number" min=1 [(ngModel)]="workout.delay"
                                     [disabled]="isWorkoutRunning || isWorkoutPaused"
-                                    onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                     (change)="onDelayChange()">
                             </div>
                         </div>
@@ -100,8 +101,8 @@
                                     <input *ngFor="let base of workout.basesCount; let i=index; trackBy:trackByIndex;"
                                         inputLabel type="number" min=1 max=50 [title]="'R' + (i+1)" [marginTop]="'3px'"
                                         [(ngModel)]="workout.basesCount[i]" (input)="basesInputChange(i)"
-                                        (change)="!workout.basesCount[i] ? workout.basesCount[i] = 1 : '';basesInputChange(i)"
-                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
+                                        (change)="(!workout.basesCount[i] || workout.basesCount[i] == 0)? workout.basesCount[i] = 1 : '';basesInputChange(i)"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </p-fieldset>
                             </div>
@@ -111,8 +112,8 @@
                                         inputLabel type="number" min=1 [title]="'R' + (i+1) + '&' + (i+2)"
                                         [marginTop]="'3px'" [(ngModel)]="workout.relaxes[i]"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused"
-                                        onkeypress="return event.charCode > 48 && event.charCode <= 57"
-                                        (change)="!workout.relaxes[i] ? workout.relaxes[i] = 10 : '';calculateTotalTimeOfWorkout()">
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                        (change)="(!workout.relaxes[i] || workout.relaxes[i] == 0) ? workout.relaxes[i] = 10 : '';calculateTotalTimeOfWorkout()">
                                 </p-fieldset>
                             </div>
                         </div>
@@ -138,8 +139,8 @@
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].workTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                onkeypress="return event.charCode > 48 && event.charCode <= 57"
-                                                (change)="!workout.rounds[i][j].workTime ? workout.rounds[i][j].workTime = 5 : '';calculateTotalTimeOfWorkout()">
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                (change)="(!workout.rounds[i][j].workTime || workout.rounds[i][j].workTime == 0) ? workout.rounds[i][j].workTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                         <div style="width:50%;float:left;">
                                             <label class="rounds-label"
@@ -148,8 +149,8 @@
                                             <input style="display:block;" class="double-input-field" type="number" min=0
                                                 [(ngModel)]="workout.rounds[i][j].relaxTime"
                                                 [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                onkeypress="return event.charCode > 48 && event.charCode <= 57"
-                                                (change)="!workout.rounds[i][j].relaxTime ? workout.rounds[i][j].relaxTime = 5 : '';calculateTotalTimeOfWorkout()">
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                (change)="(!workout.rounds[i][j].relaxTime || workout.rounds[i][j].relaxTime == 0) ? workout.rounds[i][j].relaxTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                     </div>
                                 </div>

@@ -205,7 +205,7 @@ export class AppComponent {
   }
 
   onDelayChange() {
-    if (!this.workout.delay) {
+    if (!this.workout.delay || this.workout.delay == 0) {
       this.workout.delay = 10;
     }
     this.calculateTotalTimeOfWorkout();
@@ -268,7 +268,7 @@ export class AppComponent {
     if (this.currentStatus.toUpperCase() == 'DELAY'
       || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME'
       || this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
-      this.checkForSignals(this.workout.relaxWarning, "relax_warning", "relax_warning");
+      this.checkForSignals(this.workout.relaxWarning, "relax_countdown", "relax_warning");
     }
     else {
       this.checkForSignals(this.workout.workWarning, "work_countdown", "work_warning");
