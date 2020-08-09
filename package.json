@@ -17,6 +17,7 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && electron-builder build --linux",
     "electron:windows": "npm run build:prod && electron-builder build --windows",
+    "electron:windows:32": "npm run build:prod --ia32 && electron-builder build --windows --ia32",
     "electron:mac": "npm run build:prod && electron-builder build --mac",
     "test": "ng test --watch=false",
     "test:watch": "ng test",

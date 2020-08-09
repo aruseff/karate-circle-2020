@@ -45,14 +45,14 @@
                             </div>
                             <div class="p-col-6">
                                 <div style="width:80%;margin-bottom:15px;">
-                                    <input inputLabel [title]="labels.work + labels.seconds_suffix" type="number" min=0
+                                    <input inputLabel [title]="labels.work" type="number" min=0
                                         max=20 [(ngModel)]="workout.workWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.workWarning ? workout.workWarning = 5 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
-                                    <input inputLabel [title]="labels.relax + labels.seconds_suffix" type="number" min=0
+                                    <input inputLabel [title]="labels.relax" type="number" min=0
                                         max=20 [(ngModel)]="workout.relaxWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.relaxWarning ? workout.relaxWarning = 3 : ''"
