@@ -31,6 +31,8 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputSwitchModule,
     RadioButtonModule,
     FileUploadModule,
-    InputTextareaModule
+    InputTextareaModule,
+    TooltipModule,
+    OverlayPanelModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -24,6 +24,18 @@
                 <img *ngIf="activeTab == 2" src="assets/settings-icon.png" height="38" width="38">
                 <img *ngIf="activeTab != 2" src="assets/settings-icon-white.png" height="33" width="33">
             </div>
+
+            <div class="version">
+                <i class="pi pi-info-circle" (mouseover)="info.toggle($event)" (mouseout)="info.toggle($event)"></i>
+            </div>
+
+            <p-overlayPanel #info>
+                <ng-template pTemplate>
+                    {{labels.version}}: {{versionInfo.version}}<br>
+                    {{labels.date}}: {{versionInfo.date}}<br>
+                    {{labels.os}}: {{versionInfo.os}}<br>
+                </ng-template>
+            </p-overlayPanel>
         </div>
     </div>
 
@@ -45,15 +57,15 @@
                             </div>
                             <div class="p-col-6">
                                 <div style="width:80%;margin-bottom:15px;">
-                                    <input inputLabel [title]="labels.work" type="number" min=0
-                                        max=20 [(ngModel)]="workout.workWarning"
+                                    <input inputLabel [title]="labels.work" type="number" min=0 max=20
+                                        [(ngModel)]="workout.workWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.workWarning ? workout.workWarning = 5 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
-                                    <input inputLabel [title]="labels.relax" type="number" min=0
-                                        max=20 [(ngModel)]="workout.relaxWarning"
+                                    <input inputLabel [title]="labels.relax" type="number" min=0 max=20
+                                        [(ngModel)]="workout.relaxWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                                         (change)="!workout.relaxWarning ? workout.relaxWarning = 3 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">

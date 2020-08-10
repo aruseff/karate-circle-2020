@@ -59,5 +59,9 @@ export const labels = {
     successful_reset: "Успешно нулиране",
     successful_delete: "Успешно изтриване",
 
-    generic_error: "Възникна грешка. Моля опитай отново."
+    generic_error: "Възникна грешка. Моля опитай отново.",
+    
+    version: "Версия",
+    date: "Дата",
+    os: "ОС"
 }

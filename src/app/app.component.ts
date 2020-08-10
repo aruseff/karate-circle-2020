@@ -21,6 +21,11 @@ export class AppComponent {
 
   doc: any = document;
   labels: any = labels;
+  versionInfo: any = {
+    version: "1.0.0",
+    date: "11/08/2020",
+    os: "Windows 64-bit (Portable)"
+  }
 
   // Navigation
   activeTab: number = 0;
