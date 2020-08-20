@@ -23,8 +23,8 @@ export class AppComponent {
   labels: any = labels;
   versionInfo: any = {
     version: "1.0.0",
-    date: "11/08/2020",
-    os: "Windows 64-bit (Portable)"
+    date: "18/08/2020",
+    os: "Windows 32-bit (Portable)"
   }
 
   // Navigation
@@ -206,6 +206,7 @@ export class AppComponent {
   selectWorkout(event) {
     if (event.value) {
       this.workout = event.value;
+      this.calculateTotalTimeOfWorkout();
     }
   }
 
