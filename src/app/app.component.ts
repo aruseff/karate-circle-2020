@@ -22,9 +22,9 @@ export class AppComponent {
   doc: any = document;
   labels: any = labels;
   versionInfo: any = {
-    version: "1.0.0",
-    date: "18/08/2020",
-    os: "Windows 32-bit (Portable)"
+    version: "1.0.1",
+    date: "28/08/2020",
+    os: "Windows 64-bit (Portable)"
   }
 
   // Navigation
@@ -249,13 +249,11 @@ export class AppComponent {
   }
 
   checkForSignals(warningTime: number, countdownSignal: string, warningSignal: string) {
-    // Countdown signal RELAX
+    // Countdown signal
     if (this.currentTime < warningTime && this.currentTime > 0) {
       this.soundsService.playSound(countdownSignal);
-    }
-
-    // Last signals
-    if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
+    // Last (20, 10, 5) signals
+    } else if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
       this.soundsService.playSound(warningSignal);
     }
     else if (this.workout.lastSignalSelected[1] && this.currentTime == 10) {

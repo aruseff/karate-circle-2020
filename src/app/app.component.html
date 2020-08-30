@@ -60,14 +60,14 @@
                                     <input inputLabel [title]="labels.work" type="number" min=0 max=20
                                         [(ngModel)]="workout.workWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                        (change)="!workout.workWarning ? workout.workWarning = 5 : ''"
+                                        (change)="(workout.workWarning!=0 && !workout.workWarning) ? workout.workWarning = 5 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div style="width:80%;">
                                     <input inputLabel [title]="labels.relax" type="number" min=0 max=20
                                         [(ngModel)]="workout.relaxWarning"
                                         onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                        (change)="!workout.relaxWarning ? workout.relaxWarning = 3 : ''"
+                                        (change)="(workout.relaxWarning!=0 && !workout.relaxWarning) ? workout.relaxWarning = 3 : ''"
                                         [disabled]="isWorkoutRunning || isWorkoutPaused">
                                 </div>
                                 <div>
@@ -249,13 +249,13 @@
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
                             <div style="color:var(--secondary-color-3)">{{labels.elapsed_time}}</div>
-                            <div style="font-size:30px;">{{elapsedTime | minuteSeconds}}</div>
+                            <div style="font-size:3.8vw;">{{elapsedTime | minuteSeconds}}</div>
                         </div>
                     </div>
                     <div class="center-content p-col-6">
                         <div style="width:100%;text-align:center;">
                             <div style="color:var(--secondary-color-3)">{{labels.remaining_time}}</div>
-                            <div style="font-size:30px;">{{remainingTime | minuteSeconds}}</div>
+                            <div style="font-size:3.8vw;">{{remainingTime | minuteSeconds}}</div>
                         </div>
                     </div>
                 </div>
