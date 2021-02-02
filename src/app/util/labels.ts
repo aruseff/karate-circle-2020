@@ -8,6 +8,8 @@ export const labels = {
     workout_end: "Workout end",
     work_warning: "Work warning",
     relax_warning: "Relax warning",
+    between_rounds_warning: "Between rounds warning",
+    between_rounds_countdown: "Between rounds countdown",
 
     signal_for: "Предупреждение за",
 

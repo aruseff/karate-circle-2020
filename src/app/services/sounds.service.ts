@@ -19,7 +19,9 @@ export class SoundsService {
         roundEndSignal: {},
         workoutEndSignal: {},
         workWarningSignal: {},
-        relaxWarningSignal: {}
+        relaxWarningSignal: {},
+        betweenRoundsWarning: {},
+        betweenRoundsCountdown: {}
     }
 
     constructor(private settingsService: SettingsService) {
@@ -37,11 +39,14 @@ export class SoundsService {
         this.loadSound(soundsFolder, 'workout_end');
         this.loadSound(soundsFolder, 'work_warning');
         this.loadSound(soundsFolder, 'relax_warning');
+        this.loadSound(soundsFolder, 'between_rounds_warning');
+        this.loadSound(soundsFolder, 'between_rounds_countdown');
     }
 
     loadSound(soundsFolder: string, soundName: string) {
         this.sounds[soundName] = new Howl({
-            src: [soundsFolder + this.settingsService.get(soundName)]
+            src: [soundsFolder + this.settingsService.get(soundName)],
+            preload: true
         });
     }
 

@@ -99,7 +99,6 @@ export class AppComponent {
   ) { }
 
   ngOnInit(): void {
-
     this.populateSignalsArray();
     this.soundsFileNames = this.soundsFileService.getSoundsFiles();
     this.loadWorkouts();
@@ -272,16 +271,16 @@ export class AppComponent {
     this.elapsedTime++;
     this.remainingTime--;
 
-    if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS' && this.currentTime == 5) {
-      this.soundsService.playSound("relax_warning");
-    }
-
-    if (this.currentStatus.toUpperCase() == 'DELAY'
-      || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME'
-      || this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
+    if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
+      if(this.currentTime == 5 || this.currentTime == 10 || this.currentTime == 20) {
+        this.soundsService.playSound("between_rounds_warning");
+      } else {
+        this.checkForSignals(this.workout.relaxWarning, "between_rounds_countdown", "between_rounds_warning");
+      }
+    } else if (this.currentStatus.toUpperCase() == 'DELAY'
+      || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
       this.checkForSignals(this.workout.relaxWarning, "relax_countdown", "relax_warning");
-    }
-    else {
+    } else {
       this.checkForSignals(this.workout.workWarning, "work_countdown", "work_warning");
     }
 

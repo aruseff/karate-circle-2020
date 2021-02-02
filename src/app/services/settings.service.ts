@@ -17,7 +17,9 @@ export class SettingsService {
         round_end: "CircleEnd.wav",
         workout_end: "End.wav",
         work_warning: "VoiceWarning1.wav",
-        relax_warning: "VoiceWarning2.wav"
+        relax_warning: "VoiceWarning2.wav",
+        between_rounds_warning: "2.wav",
+        between_rounds_countdown: "1.wav"
     };
     settings: any;
 
@@ -42,7 +44,15 @@ export class SettingsService {
 
     parseDataFile(filePath: string, defaults: any) {
         try {
-            return JSON.parse(fs.readFileSync(filePath));
+            let settings = JSON.parse(fs.readFileSync(filePath));
+            // Adding this new sound types and probably it's missing in the already created settings
+            if(!settings.between_rounds_warning) {
+                settings.between_rounds_warning = "2.wav";
+            }
+            if(!settings.between_rounds_countdown) {
+                settings.between_rounds_countdown = "1.wav";
+            }
+            return settings;
         } catch (error) {
             return defaults;
         }
