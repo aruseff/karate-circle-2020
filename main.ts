@@ -27,7 +27,7 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  win.setMenu(null);
+  // win.setMenu(null);
   
   if (serve) {
 

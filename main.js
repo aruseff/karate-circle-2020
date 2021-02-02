@@ -23,7 +23,7 @@ function createWindow() {
             allowRunningInsecureContent: (serve) ? true : false,
         },
     });
-    win.setMenu(null);
+    // win.setMenu(null);
     if (serve) {
         require('devtron').install();
         win.webContents.openDevTools();
