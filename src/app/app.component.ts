@@ -36,6 +36,7 @@ export class AppComponent {
     basesCount: [
     ],
     lastSignalSelected: [true, true, true],
+    lastSignalSeconds: [20, 10, 5],
     workWarning: 5,
     relaxWarning: 3,
     lastRelax: true,
@@ -252,14 +253,14 @@ export class AppComponent {
     // Countdown signal
     if (this.currentTime < warningTime && this.currentTime > 0) {
       this.soundsService.playSound(countdownSignal);
-    // Last (20, 10, 5) signals
-    } else if (this.workout.lastSignalSelected[0] && this.currentTime == 20) {
+      // Last (20, 10, 5) - configurable signals
+    } else if (this.workout.lastSignalSelected[0] && this.currentTime == this.workout.lastSignalSeconds[0]) {
       this.soundsService.playSound(warningSignal);
     }
-    else if (this.workout.lastSignalSelected[1] && this.currentTime == 10) {
+    else if (this.workout.lastSignalSelected[1] && this.currentTime == this.workout.lastSignalSeconds[1]) {
       this.soundsService.playSound(warningSignal);
     }
-    else if (this.workout.lastSignalSelected[2] && this.currentTime == 5) {
+    else if (this.workout.lastSignalSelected[2] && this.currentTime == this.workout.lastSignalSeconds[2]) {
       this.soundsService.playSound(warningSignal);
     }
   }

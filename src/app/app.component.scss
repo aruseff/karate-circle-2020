@@ -88,6 +88,7 @@ p-checkbox {
 .ui-chkbox-box {
     transform: scale(0.75);
 }
+
 .ui-chkbox-box.ui-state-active {
     border-color: var(--secondary-color-3) !important;
     background-color: var(--secondary-color-3) !important;
@@ -97,6 +98,20 @@ p-checkbox {
 .ui-chkbox-box.ui-state-focus {
     border-color: var(--secondary-color-3) !important;
     box-shadow: 0 0 0 0.2 var(--secondary-color-3) !important;
+}
+
+.last-signal-checkbox {
+    width: 60%;
+    float: left;
+    .ui-chkbox-label {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @media only screen and (max-width: 1190px) {
+            max-width: 62%;
+        }
+    }   
 }
 
 .rounds-delay-card {
@@ -274,7 +289,7 @@ p-checkbox {
 .double-input-field {
     width: 100%;
     padding: 2px 2px;
-    color: #99a3ba;
+    color: #000000;
     border: 1px solid #cdd9ed;
     background: #ffffff;
     transition: border 0.3s ease;

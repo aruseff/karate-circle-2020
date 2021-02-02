@@ -50,10 +50,19 @@
                     <p-card [subheader]="labels.signal_for" class="signal-for-last-card">
                         <div class="p-grid">
                             <div class="p-col-6">
-                                <p-checkbox *ngFor="let option of labels.last_signal_options; let i=index;"
-                                    binary="true" [label]="option" [(ngModel)]="workout.lastSignalSelected[i]"
-                                    [disabled]="isWorkoutRunning || isWorkoutPaused">
-                                </p-checkbox>
+                                <div *ngFor="let option of labels.last_signal_options; let i=index;">
+
+                                    <p-checkbox binary="true" [label]="option"
+                                        [(ngModel)]="workout.lastSignalSelected[i]"
+                                        [disabled]="isWorkoutRunning || isWorkoutPaused" class="last-signal-checkbox">
+                                    </p-checkbox>
+
+                                    <div style="width:40%;float:left;">
+                                        <input type="number" style="width:70%;" [(ngModel)]="workout.lastSignalSeconds[i]">
+                                        <span style="font-size:0.77rem;">{{labels.seconds_suffix}}</span>
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="p-col-6">
                                 <div style="width:80%;margin-bottom:15px;">
@@ -147,22 +156,24 @@
                                         <div style="width:50%;float:left;">
                                             <label class="rounds-label"
                                                 [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
-                                                {{labels.work + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
-                                            <input style="display:block;" class="double-input-field" type="number" min=0
-                                                [(ngModel)]="workout.rounds[i][j].workTime"
-                                                [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                                (change)="(!workout.rounds[i][j].workTime || workout.rounds[i][j].workTime == 0) ? workout.rounds[i][j].workTime = 5 : '';calculateTotalTimeOfWorkout()">
+                                                {{labels.work + ' ' + (j < 9 ? '0' +(j+1) : (j+1)) +
+                                                    labels.seconds_suffix}}</label>
+                                                    <input style="display:block;" class="double-input-field"
+                                                        type="number" min=0 [(ngModel)]="workout.rounds[i][j].workTime"
+                                                        [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
+                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                        (change)="(!workout.rounds[i][j].workTime || workout.rounds[i][j].workTime == 0) ? workout.rounds[i][j].workTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                         <div style="width:50%;float:left;">
                                             <label class="rounds-label"
                                                 [ngStyle]="{'color': (workout.useFirstBase && j != 0) ? 'lightgray' : 'black'}">
-                                                {{labels.relax + ' ' + (j < 9 ? '0'+(j+1) : (j+1)) + labels.seconds_suffix}}</label>
-                                            <input style="display:block;" class="double-input-field" type="number" min=0
-                                                [(ngModel)]="workout.rounds[i][j].relaxTime"
-                                                [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
-                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                                                (change)="(!workout.rounds[i][j].relaxTime || workout.rounds[i][j].relaxTime == 0) ? workout.rounds[i][j].relaxTime = 5 : '';calculateTotalTimeOfWorkout()">
+                                                {{labels.relax + ' ' + (j < 9 ? '0' +(j+1) : (j+1)) +
+                                                    labels.seconds_suffix}}</label>
+                                                    <input style="display:block;" class="double-input-field"
+                                                        type="number" min=0 [(ngModel)]="workout.rounds[i][j].relaxTime"
+                                                        [disabled]="isWorkoutRunning || isWorkoutPaused || (workout.useFirstBase && j != 0)"
+                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                                        (change)="(!workout.rounds[i][j].relaxTime || workout.rounds[i][j].relaxTime == 0) ? workout.rounds[i][j].relaxTime = 5 : '';calculateTotalTimeOfWorkout()">
                                         </div>
                                     </div>
                                 </div>
@@ -229,8 +240,8 @@
                                 <div>
                                     <span class="top">{{currentBase+1}}</span>
                                     <span class="line">&#47;</span>
-                                    <span
-                                        class="bottom">{{workout.useFirstRound ? workout.rounds[0].length : workout.rounds[currentRound].length}}</span>
+                                    <span class="bottom">{{workout.useFirstRound ? workout.rounds[0].length :
+                                        workout.rounds[currentRound].length}}</span>
                                 </div>
                             </div>
                         </div>
