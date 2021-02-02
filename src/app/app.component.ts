@@ -206,6 +206,9 @@ export class AppComponent {
 
   selectWorkout(event) {
     if (event.value) {
+      if (!event.value.lastSignalSeconds) {
+        event.value.lastSignalSeconds = [20, 10, 5];
+      }
       this.workout = event.value;
       this.calculateTotalTimeOfWorkout();
     }
