@@ -234,7 +234,6 @@ export class AppComponent {
 
     this.workoutSubscription = this.workoutCountdown.subscribe(() => {
       this.processEachSecond();
-
     });
   }
 
@@ -272,6 +271,10 @@ export class AppComponent {
     this.currentTime--;
     this.elapsedTime++;
     this.remainingTime--;
+
+    if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS' && this.currentTime == 5) {
+      this.soundsService.playSound("relax_warning");
+    }
 
     if (this.currentStatus.toUpperCase() == 'DELAY'
       || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME'
