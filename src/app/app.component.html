@@ -58,7 +58,10 @@
                                     </p-checkbox>
 
                                     <div style="width:40%;float:left;">
-                                        <input type="number" style="width:70%;" [(ngModel)]="workout.lastSignalSeconds[i]">
+                                        <input type="number" style="width:70%;" [(ngModel)]="workout.lastSignalSeconds[i]"
+                                        min=1
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                        [disabled]="isWorkoutRunning || isWorkoutPaused">
                                         <span style="font-size:0.77rem;">{{labels.seconds_suffix}}</span>
                                     </div>
 
