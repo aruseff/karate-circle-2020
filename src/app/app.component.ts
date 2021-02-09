@@ -266,19 +266,27 @@ export class AppComponent {
     }
   }
 
+  // Used only for DELAY and RELAX_BETWEEN_ROUNDS
+  checkForDelaySignals(countdownSignal: string, warningSignal: string) {
+    // Countdown signal
+    if (this.currentTime < 4 && this.currentTime > 0) {
+      this.soundsService.playSound(countdownSignal);
+      // Last 20, 10
+    } else if (this.currentTime == 10 || this.currentTime == 20) {
+      this.soundsService.playSound(warningSignal);
+    }
+  }
+
   processEachSecond() {
     this.currentTime--;
     this.elapsedTime++;
     this.remainingTime--;
 
-    if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
-      if(this.currentTime == 5 || this.currentTime == 10 || this.currentTime == 20) {
-        this.soundsService.playSound("between_rounds_warning");
-      } else {
-        this.checkForSignals(this.workout.relaxWarning, "between_rounds_countdown", "between_rounds_warning");
-      }
-    } else if (this.currentStatus.toUpperCase() == 'DELAY'
-      || this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
+    if (this.currentStatus.toUpperCase() == 'DELAY') {
+      this.checkForDelaySignals("relax_countdown", "relax_warning");
+    } else if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
+      this.checkForDelaySignals("between_rounds_countdown", "between_rounds_warning");
+    } else if (this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
       this.checkForSignals(this.workout.relaxWarning, "relax_countdown", "relax_warning");
     } else {
       this.checkForSignals(this.workout.workWarning, "work_countdown", "work_warning");
