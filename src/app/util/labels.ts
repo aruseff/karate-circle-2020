@@ -63,6 +63,10 @@ export const labels = {
 
     generic_error: "Възникна грешка. Моля опитай отново.",
     
+    device_sleep: "Заспиване на устройство",
+    turned_on: "Включено",
+    turned_off: "Изключено",
+
     version: "Версия",
     date: "Дата",
     os: "ОС"

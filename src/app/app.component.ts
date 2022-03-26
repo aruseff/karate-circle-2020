@@ -81,8 +81,9 @@ export class AppComponent {
 
   // Key Listeners
   KEY_CODE = {
-    SPACE: 32,
-    ESC: 27
+    ENTER: 'Enter',
+    SPACE: 'Space',
+    ESC: 'Escape'
   }
 
   // ------------------------------     Workout timer end     ------------------------------
@@ -228,7 +229,7 @@ export class AppComponent {
 
   // ------------------------------    Workout timer begin    ------------------------------
   startWorkout() {
-    this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
+    this.startScreenSleepPrevent();
     this.resetWorkout();
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
@@ -250,7 +251,7 @@ export class AppComponent {
   }
 
   resumeWorkout() {
-    this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
+    this.startScreenSleepPrevent();
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
     this.workoutSubscription = this.workoutCountdown.subscribe(() => {
@@ -407,23 +408,35 @@ export class AppComponent {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if (this.isWorkoutRunning || this.isWorkoutPaused) {
-
-      if (event.keyCode == this.KEY_CODE.SPACE) {
-        if (this.isWorkoutPaused) {
-          this.resumeWorkout();
-        } else {
-          this.pauseWorkout();
-        }
-      } else if (event.keyCode == this.KEY_CODE.ESC && this.isWorkoutPaused) {
-        this.resetWorkout();
+    if (event.code == this.KEY_CODE.SPACE && (this.isWorkoutRunning || this.isWorkoutPaused)) {
+      if (this.isWorkoutPaused) {
+        this.resumeWorkout();
+      } else {
+        this.pauseWorkout();
       }
     }
+
+    if(event.code == this.KEY_CODE.ESC && (!this.isWorkoutRunning || this.isWorkoutPaused)) {
+      this.resetWorkout();
+    }
+
+    if(event.code == this.KEY_CODE.ENTER && !this.isWorkoutRunning && !this.isWorkoutPaused) {
+      this.activeTab = 1;
+      this.startWorkout();
+    }
+  }
+
+  startScreenSleepPrevent() {
+    this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
+    this.messageService.add({ severity: 'info', summary: labels.device_sleep, detail: labels.turned_off });
+    console.log(powerSaveBlocker.isStarted(this.powerSaverId));
   }
 
   stopScreenSleepPrevent() {
     if (this.powerSaverId != null && this.powerSaverId != undefined) {
       powerSaveBlocker.stop(this.powerSaverId);
+      this.messageService.add({ severity: 'info', summary: labels.device_sleep, detail: labels.turned_on });
+      console.log(powerSaveBlocker.isStarted(this.powerSaverId));
     }
   }
   // ------------------------------     Workout timer end     ------------------------------
