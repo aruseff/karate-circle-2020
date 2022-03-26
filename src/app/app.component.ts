@@ -429,14 +429,12 @@ export class AppComponent {
   startScreenSleepPrevent() {
     this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
     this.messageService.add({ severity: 'info', summary: labels.device_sleep, detail: labels.turned_off });
-    console.log(powerSaveBlocker.isStarted(this.powerSaverId));
   }
 
   stopScreenSleepPrevent() {
     if (this.powerSaverId != null && this.powerSaverId != undefined) {
       powerSaveBlocker.stop(this.powerSaverId);
       this.messageService.add({ severity: 'info', summary: labels.device_sleep, detail: labels.turned_on });
-      console.log(powerSaveBlocker.isStarted(this.powerSaverId));
     }
   }
   // ------------------------------     Workout timer end     ------------------------------
