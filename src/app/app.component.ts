@@ -23,7 +23,7 @@ export class AppComponent {
   doc: any = document;
   labels: any = labels;
   versionInfo: any = {
-    version: "2.1.0",
+    version: "2.0.0",
     date: "26/03/2022",
     os: "Windows 32-bit (Portable)"
   }
