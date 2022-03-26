@@ -9,6 +9,7 @@ import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
 import { labels } from './util/labels';
 import { WorkoutFileService } from './services/workout.file.service';
+const powerSaveBlocker = window.require('electron').remote.powerSaveBlocker;
 declare const Buffer;
 
 @Component({
@@ -22,8 +23,8 @@ export class AppComponent {
   doc: any = document;
   labels: any = labels;
   versionInfo: any = {
-    version: "1.1.0",
-    date: "02/02/2021",
+    version: "2.1.0",
+    date: "26/03/2022",
     os: "Windows 32-bit (Portable)"
   }
 
@@ -57,6 +58,10 @@ export class AppComponent {
   // ------------------------------ Workout configuration end ------------------------------
 
   // ------------------------------    Workout timer begin    ------------------------------
+  // Power saver fields
+  powerSaverType: string = "prevent-display-sleep";
+  powerSaverId: number = null;
+
   isWorkoutRunning: boolean = false;
   isWorkoutPaused: boolean = false;
   currentStatus: string = 'DELAY';
@@ -223,6 +228,7 @@ export class AppComponent {
 
   // ------------------------------    Workout timer begin    ------------------------------
   startWorkout() {
+    this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
     this.resetWorkout();
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
@@ -237,12 +243,14 @@ export class AppComponent {
   }
 
   pauseWorkout() {
+    this.stopScreenSleepPrevent();
     this.isWorkoutRunning = false;
     this.isWorkoutPaused = true;
     this.workoutSubscription.unsubscribe();
   }
 
   resumeWorkout() {
+    this.powerSaverId = powerSaveBlocker.start(this.powerSaverType);
     this.isWorkoutRunning = true;
     this.isWorkoutPaused = false;
     this.workoutSubscription = this.workoutCountdown.subscribe(() => {
@@ -284,7 +292,7 @@ export class AppComponent {
 
     if (this.currentStatus.toUpperCase() == 'DELAY') {
       this.checkForDelaySignals("relax_countdown", "relax_warning");
-    } else if(this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
+    } else if (this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
       this.checkForDelaySignals("between_rounds_countdown", "between_rounds_warning");
     } else if (this.currentStatus.toUpperCase() == 'ROUND_RELAXTIME') {
       this.checkForSignals(this.workout.relaxWarning, "relax_countdown", "relax_warning");
@@ -336,6 +344,7 @@ export class AppComponent {
         let useRound = this.workout.useFirstRound ? 0 : this.currentRound;
         if (this.currentRound == this.workout.roundsCount - 1 && this.workout.rounds[useRound].length - 1 == this.currentBase) {
           this.soundsService.playSound("workout_end");
+          this.stopScreenSleepPrevent();
           this.workoutSubscription.unsubscribe();
           this.isWorkoutRunning = false;
           return;
@@ -409,6 +418,12 @@ export class AppComponent {
       } else if (event.keyCode == this.KEY_CODE.ESC && this.isWorkoutPaused) {
         this.resetWorkout();
       }
+    }
+  }
+
+  stopScreenSleepPrevent() {
+    if (this.powerSaverId != null && this.powerSaverId != undefined) {
+      powerSaveBlocker.stop(this.powerSaverId);
     }
   }
   // ------------------------------     Workout timer end     ------------------------------
