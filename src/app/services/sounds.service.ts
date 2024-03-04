@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SettingsService } from './settings.service';
-import * as remote from '@electron/remote';
 
+var remote = window.require('@electron/remote');
 var app = remote.app;
 
 import { Howl } from 'howler'

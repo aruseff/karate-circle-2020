@@ -36,12 +36,12 @@ function createWindow(): BrowserWindow {
   // win.setMenu(null);
   if (serve) {
 
-    require('devtron').install();
+    // require('devtron').install();
     win.webContents.openDevTools();
 
-    require('electron-reload')(__dirname, {
-      electron: require(`${__dirname}/node_modules/electron`)
-    });
+    // require('electron-reload')(__dirname, {
+    //   electron: require(`${__dirname}/node_modules/electron`)
+    // });
     win.loadURL('http://localhost:4200');
 
   } else {

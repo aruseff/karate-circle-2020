@@ -9,9 +9,7 @@ import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
 import { labels } from './util/labels';
 import { WorkoutFileService } from './services/workout.file.service';
-import * as remote from '@electron/remote';
-
-const powerSaveBlocker = remote.powerSaveBlocker;
+const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
 declare const Buffer;
 
 @Component({
@@ -97,13 +95,12 @@ export class AppComponent {
   selectedWorkoutIndex: number = 0;
   // ------------------------------    Workout settings end   ------------------------------
 
-
   constructor(
     private messageService: MessageService,
+    private settingsService: SettingsService,
     private soundsService: SoundsService,
     private workoutsFileService: WorkoutFileService,
-    private soundsFileService: SoundsFileService,
-    private settingsService: SettingsService
+    private soundsFileService: SoundsFileService
   ) { }
 
   ngOnInit(): void {
