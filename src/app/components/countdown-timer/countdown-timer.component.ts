@@ -9,7 +9,7 @@ import { labels } from 'src/app/util/labels';
 export class CountdownTimerComponent implements OnInit {
 
   @Input()
-  wholeTime: number;
+  wholeTime: number = 0;
 
   @Input()
   status: string;
@@ -31,7 +31,7 @@ export class CountdownTimerComponent implements OnInit {
     ROUND_RELAXTIME: "green",
     RELAX_BETWEEN_ROUNDS: "#007ad9",
   };
-  
+
   statusLabels: any = {
     DELAY: labels.prepare,
     ROUND_WORKTIME: labels.work,

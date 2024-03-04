@@ -16,7 +16,6 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
-import { CodeHighlighterModule } from 'primeng/codehighlighter';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -55,7 +54,6 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     InputNumberModule,
     InputTextModule,
     TabViewModule,
-    CodeHighlighterModule,
     ButtonModule,
     DropdownModule,
     ProgressBarModule,

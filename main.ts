@@ -1,6 +1,10 @@
 import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import * as remoteMain from '@electron/remote/main/index.js';
+
+remoteMain.initialize();
+const __dirname = path.resolve();
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -23,12 +27,13 @@ function createWindow(): BrowserWindow {
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true,
+      contextIsolation: false,
       allowRunningInsecureContent: (serve) ? true : false,
     },
   });
+  remoteMain.enable(win.webContents);
 
   // win.setMenu(null);
-  
   if (serve) {
 
     require('devtron').install();
@@ -59,8 +64,6 @@ function createWindow(): BrowserWindow {
 }
 
 try {
-
-  app.allowRendererProcessReuse = true;
 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.

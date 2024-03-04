@@ -9,7 +9,9 @@ import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
 import { labels } from './util/labels';
 import { WorkoutFileService } from './services/workout.file.service';
-const powerSaveBlocker = window.require('electron').remote.powerSaveBlocker;
+import * as remote from '@electron/remote';
+
+const powerSaveBlocker = remote.powerSaveBlocker;
 declare const Buffer;
 
 @Component({
@@ -59,7 +61,7 @@ export class AppComponent {
 
   // ------------------------------    Workout timer begin    ------------------------------
   // Power saver fields
-  powerSaverType: string = "prevent-display-sleep";
+  powerSaverType: any = "prevent-display-sleep";
   powerSaverId: number = null;
 
   isWorkoutRunning: boolean = false;
@@ -416,11 +418,11 @@ export class AppComponent {
       }
     }
 
-    if(event.code == this.KEY_CODE.ESC && (!this.isWorkoutRunning || this.isWorkoutPaused)) {
+    if (event.code == this.KEY_CODE.ESC && (!this.isWorkoutRunning || this.isWorkoutPaused)) {
       this.resetWorkout();
     }
 
-    if(event.code == this.KEY_CODE.ENTER && !this.isWorkoutRunning && !this.isWorkoutPaused) {
+    if (event.code == this.KEY_CODE.ENTER && !this.isWorkoutRunning && !this.isWorkoutPaused) {
       this.activeTab = 1;
       this.startWorkout();
     }
