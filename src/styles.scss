@@ -1,114 +1,127 @@
 :root {
-    --primary-color-1: #e7ebee;
+  --primary-color-1: #e7ebee;
 
-    --secondary-color-1: #007ad914;
-    --secondary-color-2: #007ad934;
-    --secondary-color-3: #007ad9;
+  --secondary-color-1: #007ad914;
+  --secondary-color-2: #007ad934;
+  --secondary-color-3: #007ad9;
 
-    --progress-bar-color: #007ad9;
+  --progress-bar-color: #007ad9;
 }
 
-* {
-    padding: 0;
-    margin: 0;
-}
+// * {
+//     padding: 0;
+//     margin: 0;
+// }
 
 html,
 body {
-    min-height: 100% !important;
-    height: 100%;
+  min-height: 100% !important;
+  height: 100%;
 }
 
 .center-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 ::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: #f1f1f1;
+  border-radius: 10px;
+  background: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #888;
+  border-radius: 10px;
+  background: #888;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
 
 // divLabel directive
 .titlebox {
-    float: left;
-    padding: 0 5px;
-    margin: -20px 0 0 0px;
-    background: var(--primary-color-1);
+  float: left;
+  padding: 0 5px;
+  margin: -20px 0 0 0px;
+  background: var(--primary-color-1);
 }
 
 // inputLabel directive
 .form-field {
-    width: 100%;
-    padding: 3px 3px;
-    border-radius: 6px;
-    color: #000000;
-    border: 1px solid #cdd9ed;
-    background: #ffffff;
-    transition: border 0.3s ease;
-    &::placeholder {
-        color: #cbd1dc;
-    }
-    &:focus {
-        outline: none;
-        border-color: var(--secondary-color-1);
-    }
+  width: 100%;
+  padding: 3px 3px;
+  border-radius: 6px;
+  color: #000000;
+  border: 1px solid #cdd9ed;
+  background: #ffffff;
+  transition: border 0.3s ease;
+
+  &::placeholder {
+    color: #cbd1dc;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--secondary-color-1);
+  }
 }
 
 .form-group {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  &>span,
+  .form-field {
+    white-space: nowrap;
+    display: block;
+
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+
+    &:first-child {
+      border-radius: 6px 0 0 6px;
+    }
+
+    &:last-child {
+      border-radius: 0 6px 6px 0;
+    }
+
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+  }
+
+  .form-field {
     position: relative;
-    display: flex;
-    width: 100%;
-    & > span,
-    .form-field {
-        white-space: nowrap;
-        display: block;
-        &:not(:first-child):not(:last-child) {
-            border-radius: 0;
-        }
-        &:first-child {
-            border-radius: 6px 0 0 6px;
-        }
-        &:last-child {
-            border-radius: 0 6px 6px 0;
-        }
-        &:not(:first-child) {
-            margin-left: -1px;
-        }
+    z-index: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &>span {
+    text-align: center;
+    padding: 3px 5px;
+    font-size: 0.8rem;
+    color: #000000;
+    background: var(--secondary-color-2);
+    border: 1px solid #cdd9ed;
+    transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+  }
+
+  &:focus-within {
+    &>span {
+      color: #ffffff;
+      background: var(--secondary-color-3);
+      border-color: var(--secondary-color-3);
     }
-    .form-field {
-        position: relative;
-        z-index: 1;
-        flex: 1 1 auto;
-        width: 1%;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    & > span {
-        text-align: center;
-        padding: 3px 5px;
-        font-size: 0.8rem;
-        color: #000000;
-        background: var(--secondary-color-2);
-        border: 1px solid #cdd9ed;
-        transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
-    }
-    &:focus-within {
-        & > span {
-            color: #ffffff;
-            background: var(--secondary-color-3);
-            border-color: var(--secondary-color-3);
-        }
-    }
+  }
 }
