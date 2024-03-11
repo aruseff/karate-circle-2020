@@ -8,15 +8,12 @@
   --progress-bar-color: #007ad9;
 }
 
-// * {
-//     padding: 0;
-//     margin: 0;
-// }
-
 html,
 body {
   min-height: 100% !important;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .center-content {
@@ -54,7 +51,7 @@ body {
 // inputLabel directive
 .form-field {
   width: 100%;
-  padding: 3px 3px;
+  padding: 3px 3px 3px 5px;
   border-radius: 6px;
   color: #000000;
   border: 1px solid #cdd9ed;
@@ -110,7 +107,7 @@ body {
   &>span {
     text-align: center;
     padding: 3px 5px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #000000;
     background: var(--secondary-color-2);
     border: 1px solid #cdd9ed;

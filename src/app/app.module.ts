@@ -8,30 +8,10 @@ import { DivLabelDirective } from './directives/div-label/div-label.directive';
 import { InputLabelDirective } from './directives/input-label/input-label.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
-
-// PrimeNg Modules
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { CardModule } from 'primeng/card';
-import { FieldsetModule } from 'primeng/fieldset';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { TabViewModule } from 'primeng/tabview';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { BlockUIModule } from 'primeng/blockui';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TooltipModule } from 'primeng/tooltip';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { PrimengModule } from './primeng.module';
+import { WorkoutConfigurationComponent } from './components/workout-configuration/workout-configuration.component';
 
 @NgModule({
   declarations: [
@@ -39,36 +19,16 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     DivLabelDirective,
     InputLabelDirective,
     CountdownTimerComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    NavigationComponent,
+    WorkoutConfigurationComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-
-    // PrimeNg Modules
-    SelectButtonModule,
-    CardModule,
-    FieldsetModule,
-    InputNumberModule,
-    InputTextModule,
-    TabViewModule,
-    ButtonModule,
-    DropdownModule,
-    ProgressBarModule,
-    CheckboxModule,
-    ScrollPanelModule,
-    DialogModule,
-    ToastModule,
-    BlockUIModule,
-    ToggleButtonModule,
-    InputSwitchModule,
-    RadioButtonModule,
-    FileUploadModule,
-    InputTextareaModule,
-    TooltipModule,
-    OverlayPanelModule
+    PrimengModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

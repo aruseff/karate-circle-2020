@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Workout } from './models/workout.model';
 import { Observable, timer, Subscription } from 'rxjs';
@@ -15,20 +15,12 @@ declare const Buffer;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
   doc: any = document;
   labels: any = labels;
-  versionInfo: any = {
-    version: "2.0.0",
-    date: "26/03/2022",
-    os: "Windows 32-bit (Portable)"
-  }
-
-  // Navigation
   activeTab: number = 0;
 
   // ------------------------------ Workout configuration begin ------------------------------
