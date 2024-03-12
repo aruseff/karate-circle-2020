@@ -1,7 +1,7 @@
-.nav-container {
-  width: 82px;
+.navigation {
   height: 100%;
-  background: #353e45;
+  width: 100%;
+  background: var(--nav-background);
   float: left;
 
   .nav-element {
@@ -10,22 +10,22 @@
     line-height: 82px;
     cursor: pointer;
 
+    &.active {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      background: var(--primary-color-1);
+
+      i {
+        font-size: 38px;
+        color: var(--secondary-color-3);
+      }
+    }
+
     img {
       &:hover {
         transform: scale(1.2);
         transition: ease 0.2s;
       }
-    }
-  }
-
-  .nav-element-active {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    background: #e7ebee;
-
-    i {
-      font-size: 38px;
-      color: var(--secondary-color-3);
     }
   }
 

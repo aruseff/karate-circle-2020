@@ -32,5 +32,4 @@ export class NavigationComponent {
     this.activeTab = index;
     this.navigationChange.emit(index);
   }
-
 }

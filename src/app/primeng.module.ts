@@ -22,6 +22,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @NgModule({
   declarations: [],
@@ -30,8 +31,12 @@ import { TooltipModule } from 'primeng/tooltip';
     OverlayPanelModule,
     InputGroupModule,
     InputGroupAddonModule,
+    CardModule,
+    CheckboxModule,
+    KeyFilterModule,
+
+
     // SelectButtonModule,
-    // CardModule,
     // FieldsetModule,
     // InputNumberModule,
     // InputTextModule,
@@ -39,7 +44,6 @@ import { TooltipModule } from 'primeng/tooltip';
     // ButtonModule,
     // DropdownModule,
     // ProgressBarModule,
-    // CheckboxModule,
     // ScrollPanelModule,
     // DialogModule,
     // BlockUIModule,

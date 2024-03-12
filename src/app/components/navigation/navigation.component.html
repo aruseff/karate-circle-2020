@@ -1,25 +1,27 @@
-<div class="nav-container">
-  <div style="height:100%;width:100%;">
-    <div class="nav-element center-content" style="margin-bottom:50px;cursor:auto;">
-      <img src="assets/logo.png" height="70" width="70">
-    </div>
+<div class="navigation">
 
-    <div *ngFor="let item of navItems; let i = index" class="nav-element center-content" (click)="navigate(i)"
-      [ngClass]="activeTab == i ? ' nav-element-active' : ''">
-      <img *ngIf="activeTab == i" src="assets/{{item.icon}}-icon.png" height="38" width="38">
-      <img *ngIf="activeTab != i" src="assets/{{item.icon}}-icon-white.png" height="33" width="33">
-    </div>
-
-    <div class="version">
-      <i class="pi pi-info-circle" (mouseover)="info.toggle($event)" (mouseout)="info.toggle($event)"></i>
-    </div>
-
-    <p-overlayPanel #info>
-      <ng-template pTemplate>
-        {{labels.version}}: {{versionInfo.version}}<br>
-        {{labels.date}}: {{versionInfo.date}}<br>
-        {{labels.os}}: {{versionInfo.os}}<br>
-      </ng-template>
-    </p-overlayPanel>
+  <!-- Logo -->
+  <div class="nav-element center-content" style="margin-bottom:50px;cursor:auto;">
+    <img src="assets/logo.png" height="70" width="70">
   </div>
+
+  <!-- Menus -->
+  <div *ngFor="let item of navItems; let i = index" class="nav-element center-content" (click)="navigate(i)"
+    [ngClass]="{'active': activeTab == i}">
+    <img src="assets/{{item.icon}}-icon{{activeTab != i ? '-white' : ''}}.png" height="38" width="38">
+  </div>
+
+  <!-- Version -->
+  <div class="version">
+    <i class="pi pi-info-circle" (mouseover)="info.toggle($event)" (mouseout)="info.toggle($event)"></i>
+  </div>
+
 </div>
+
+<p-overlayPanel #info>
+  <ng-template pTemplate>
+    {{labels.version}}: {{versionInfo.version}}<br>
+    {{labels.date}}: {{versionInfo.date}}<br>
+    {{labels.os}}: {{versionInfo.os}}<br>
+  </ng-template>
+</p-overlayPanel>

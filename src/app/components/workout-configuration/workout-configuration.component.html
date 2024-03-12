@@ -1,1 +1,49 @@
-<p>workout-configuration works!</p>
+<div class="content-div grid">
+
+  <div class="left-panel sm:col-5 md:col-5 lg:col-4">
+
+    <p-card [subheader]="labels.signal_for" class="last-signal-card">
+      <div class="grid m0">
+
+        <div class="col-6 pl0">
+          <p-inputGroup *ngFor="let option of labels.last_signal_options; let i=index;" class="line">
+            <p-inputGroupAddon class="prefix-addon addon">
+              <p-checkbox [(ngModel)]="wo.lastSignalSelected[i]" [binary]="true"></p-checkbox>
+              <span class="prefix-label">{{option}}</span>
+            </p-inputGroupAddon>
+            <input pInputText pKeyFilter="int" class="p-inputtext-sm" [(ngModel)]="wo.lastSignalSeconds[i]" [min]="1"
+              [disabled]="workoutService.isWorkoutRunning || workoutService.isWorkoutPaused" />
+            <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
+          </p-inputGroup>
+        </div>
+
+        <div class="col-6 pr0">
+          <p-inputGroup class="line">
+            <p-inputGroupAddon class="prefix-addon addon">{{labels.work}}</p-inputGroupAddon>
+            <input pInputText pKeyFilter="int" class="p-inputtext-sm" [min]="0" [max]="20" [(ngModel)]="wo.workWarning"
+              (change)="!wo.workWarning ? wo.workWarning = 5 : ''"
+              [disabled]="workoutService.isWorkoutRunning || workoutService.isWorkoutPaused">
+            <p-inputGroupAddon class="addon" style="min-width:20px;">{{labels.seconds_suffix}}</p-inputGroupAddon>
+          </p-inputGroup>
+
+          <p-inputGroup class="line">
+            <p-inputGroupAddon class="prefix-addon addon">{{labels.relax}}</p-inputGroupAddon>
+            <input pInputText pKeyFilter="int" class="p-inputtext-sm" [min]="0" [max]="20" [(ngModel)]="wo.relaxWarning"
+              (change)="!wo.relaxWarning ? wo.relaxWarning = 3 : ''"
+              [disabled]="workoutService.isWorkoutRunning || workoutService.isWorkoutPaused">
+            <p-inputGroupAddon class="addon" style="min-width:20px;">{{labels.seconds_suffix}}</p-inputGroupAddon>
+          </p-inputGroup>
+
+          <div class="last-relax">
+            <p-checkbox style="width:100%" [binary]="true" [label]="labels.last_relax" [(ngModel)]="wo.lastRelax"
+              [disabled]="workoutService.isWorkoutRunning || workoutService.isWorkoutPaused"
+              (onChange)="calculateTotalTimeOfWorkout()">
+            </p-checkbox>
+          </div>
+        </div>
+
+      </div>
+    </p-card>
+
+  </div>
+</div>

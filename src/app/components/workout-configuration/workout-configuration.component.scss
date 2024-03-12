@@ -1,0 +1,88 @@
+.left-panel {
+  min-width: 210px;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  float: left;
+  align-items: center;
+}
+
+.last-signal-card {
+  width: 100%;
+  padding-bottom: 0px;
+
+  .last-signal-checkbox {
+    display: flex;
+    flex: 0 1 auto;
+  }
+
+  .last-signal-input {
+    display: flex;
+    flex: 1;
+
+    input {
+      width: 90%;
+      margin-left: 10%;
+    }
+  }
+}
+
+.addon {
+  padding: 3px;
+  height: 28px;
+}
+
+.suffix-addon {
+  min-width: 20px;
+}
+
+.prefix-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+::ng-deep {
+  .line {
+    margin-bottom: 5px;
+
+    div {
+      display: flex;
+    }
+
+    .prefix-addon {
+      min-width: 53%;
+
+      &>div {
+        flex: 1 1 100%;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 75px;
+      }
+    }
+  }
+
+  .p-checkbox-box {
+    transform: scale(0.75);
+  }
+
+  .p-inputtext-sm {
+    line-height: 15px;
+    padding: 3px;
+    width: 60px;
+    flex: 1 1 auto;
+  }
+
+  .last-relax {
+    height: 28px;
+    display: flex;
+
+    .p-checkbox-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+  }
+}

@@ -1,8 +1,10 @@
 <p-toast></p-toast>
 <div class="app-container">
+  <app-navigation class="navigation-container" (navigationChange)="navigate($event)"></app-navigation>
 
-  <app-navigation (navigationChange)="navigate($event)"></app-navigation>
 
-
-  <app-workout-configuration></app-workout-configuration>
+  <div class="main-container">
+    <app-workout-configuration class="full-screen"
+      [ngStyle]="{'display': activeTab == 0 ? 'block' : 'none'}"></app-workout-configuration>
+  </div>
 </div>
