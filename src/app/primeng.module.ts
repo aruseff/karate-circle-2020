@@ -38,7 +38,6 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 
     // SelectButtonModule,
     // FieldsetModule,
-    // InputNumberModule,
     // InputTextModule,
     // TabViewModule,
     // ButtonModule,

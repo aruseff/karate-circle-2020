@@ -12,6 +12,8 @@ import { MessageService } from 'primeng/api';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PrimengModule } from './primeng.module';
 import { WorkoutConfigurationComponent } from './components/workout-configuration/workout-configuration.component';
+import { DefaultValueDirective } from './directives/default-value.directive';
+import { MaxValueDirective } from './directives/max-value.directive';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { WorkoutConfigurationComponent } from './components/workout-configuratio
     MinuteSecondsPipe,
     NavigationComponent,
     WorkoutConfigurationComponent,
+    DefaultValueDirective,
+    MaxValueDirective,
   ],
   imports: [
     CommonModule,

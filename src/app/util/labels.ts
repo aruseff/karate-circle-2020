@@ -24,7 +24,7 @@ export const labels = {
     work: "Работа",
     relax: "Почивка",
     rounds: "Рундове",
-    delay: "Отл. старт[с]",
+    delay: "Отл. старт",
     use_first_round: "Използвай само първи рунд",
     use_first_base: "Използвай само първа база",
     bases: "Бази",
@@ -62,7 +62,7 @@ export const labels = {
     successful_delete: "Успешно изтриване",
 
     generic_error: "Възникна грешка. Моля опитай отново.",
-    
+
     device_sleep: "Заспиване на устройство",
     turned_on: "Включено",
     turned_off: "Изключено",

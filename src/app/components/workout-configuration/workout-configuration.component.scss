@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.last-signal-card {
+.settings-card {
   width: 100%;
   padding-bottom: 0px;
 
@@ -52,7 +52,7 @@
     }
 
     .prefix-addon {
-      min-width: 53%;
+      min-width: 56%;
 
       &>div {
         flex: 1 1 100%;
@@ -63,6 +63,10 @@
     }
   }
 
+  p-checkbox {
+    width: 100%;
+  }
+
   .p-checkbox-box {
     transform: scale(0.75);
   }
@@ -71,18 +75,20 @@
     line-height: 15px;
     padding: 3px;
     width: 60px;
+    min-width: 41px;
     flex: 1 1 auto;
   }
 
   .last-relax {
     height: 28px;
     display: flex;
+  }
 
-    .p-checkbox-label {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-    }
+  .p-checkbox-label {
+    margin-left: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
 }

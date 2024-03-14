@@ -91,45 +91,7 @@ export class AppComponent {
   }
 
   // ------------------------------ Workout configuration begin ------------------------------
-  // basesInputChange(index: number) {
-  //   if (this.workout.basesCount[index] > 50) {
-  //     this.messageService.add({ severity: 'error', summary: labels.bases, detail: labels.warning_between_1_and_50 });
-  //   } else {
-  //     let oldCount = this.workout.rounds[index].length;
-  //     let newCount = this.workout.basesCount[index];
-  //     if (oldCount < newCount) {
-  //       for (let i = 0; i < newCount - oldCount; i++) {
-  //         this.workout.rounds[index].push({ workTime: 5, relaxTime: 5 });
-  //       }
-  //     } else {
-  //       this.workout.rounds[index].length = newCount;
-  //     }
-  //   }
-  //   this.calculateTotalTimeOfWorkout();
-  // }
-
-  // refreshWorkoutModel() {
-  //   let oldCount = this.workout.rounds.length;
-  //   let newCount = this.workout.roundsCount;
-  //   if (oldCount < newCount) {
-  //     for (let i = 0; i < newCount - oldCount; i++) {
-  //       this.workout.basesCount.push(1);
-  //       this.workout.rounds.push([]);
-  //     }
-  //     for (let i = 0; i < newCount - (oldCount == 0 ? 1 : oldCount); i++) {
-  //       this.workout.relaxes.push(10);
-  //     }
-  //   } else {
-  //     this.workout.basesCount.length = newCount;
-  //     this.workout.rounds.length = newCount;
-  //     this.workout.relaxes.length = newCount - 1 > 0 ? newCount - 1 : 0
-  //   }
-  //   this.workout.rounds.forEach((element, index) => {
-  //     this.basesInputChange(index);
-  //   });
-  //   this.calculateTotalTimeOfWorkout();
-  // }
-
+  
   // saveWorkout() {
   //   if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
   //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
