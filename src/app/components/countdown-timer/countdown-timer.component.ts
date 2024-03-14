@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { labels } from 'src/app/util/labels';
+import { labels } from 'src/app/config/labels';
 
 @Component({
   selector: 'countdown-timer',

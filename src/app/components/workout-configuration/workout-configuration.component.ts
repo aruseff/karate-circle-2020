@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { DEFAULT_WORKOUT } from 'src/app/config/default-workout';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
-import { labels } from 'src/app/util/labels';
+import { labels } from 'src/app/config/labels';
 
 @Component({
   selector: 'app-workout-configuration',
