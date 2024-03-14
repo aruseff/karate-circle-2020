@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { labels } from '../../util/labels';
+import { labels } from '../../config/labels';
 
 @Component({
   selector: 'app-navigation',

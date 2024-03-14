@@ -7,7 +7,7 @@ import { WorkoutFile } from './models/workout-file.model';
 import { workoutFileJsonToModel } from './util/model.mapper';
 import { SoundsFileService } from './services/sounds.file.service';
 import { SettingsService } from './services/settings.service';
-import { labels } from './util/labels';
+import { labels } from './config/labels';
 import { WorkoutFileService } from './services/workout.file.service';
 const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
 declare const Buffer;

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { labels } from '../util/labels';
+import { labels } from '../config/labels';
 var remote = window.require('@electron/remote');
 var electronFs = remote.require('fs');
 var app = remote.app;
@@ -16,12 +16,17 @@ export class SoundsFileService {
     soundsFolder: string;
 
     constructor(private messageService: MessageService) {
-        if (process.env.PORTABLE_EXECUTABLE_DIR) {
-            this.soundsFolder = process.env.PORTABLE_EXECUTABLE_DIR;
-        } else {
-            this.soundsFolder = app.getAppPath();
-        }
-        this.soundsFolder += '/sounds/';
+
+
+
+// console.log( app.getAppPath());
+//         if (process.env.PORTABLE_EXECUTABLE_DIR) {
+//             this.soundsFolder = process.env.PORTABLE_EXECUTABLE_DIR;
+//         } else {
+//             this.soundsFolder = app.getAppPath();
+//         }
+//         this.soundsFolder += '/sounds/';
+    
     }
 
     getSoundsFiles() {
@@ -33,6 +38,7 @@ export class SoundsFileService {
         this.soundsFileNames = [];
         this.audios = [];
         try {
+        
             var files = electronFs.readdirSync(this.soundsFolder);
             files.forEach(fileName => {
 

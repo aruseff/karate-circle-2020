@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { labels } from '../util/labels';
+import { labels } from '../config/labels';
 var remote = window.require('@electron/remote');
 var fs = remote.require('fs');
 var app = remote.app;

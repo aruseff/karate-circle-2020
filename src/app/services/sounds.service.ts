@@ -25,7 +25,9 @@ export class SoundsService {
     }
 
     constructor(private settingsService: SettingsService) {
-        this.refreshSounds();
+
+
+        // this.refreshSounds();
     }
 
     refreshSounds() {
