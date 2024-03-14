@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { DEFAULT_WORKOUT } from 'src/app/config/default-workout';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
@@ -15,8 +14,7 @@ export class WorkoutConfigurationComponent {
   labels: any = labels;
   defaultWorkout = DEFAULT_WORKOUT;
 
-  constructor(public workoutService: WorkoutService,
-    private messageService: MessageService) {
+  constructor(public workoutService: WorkoutService) {
   }
 
   calculateTotalTimeOfWorkout() {
@@ -26,9 +24,9 @@ export class WorkoutConfigurationComponent {
         workRelax = this.wo.rounds[0];
       }
       workRelax.forEach((base, index) => {
-        this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0].workTime : base.workTime);
+        this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0] : base).workTime;
         if (index < workRelax.length - 1 || this.wo.lastRelax) {
-          this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0].relaxTime : base.relaxTime);
+          this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0] : base).relaxTime;
         }
       });
     });
@@ -40,47 +38,45 @@ export class WorkoutConfigurationComponent {
   }
 
   basesInputChange(index: number) {
-    // if (this.woForm.basesCount[index] > 50) {
-    //   this.messageService.add({ severity: 'error', summary: labels.bases, detail: labels.warning_between_1_and_50 });
-    // } else {
-    //   let oldCount = this.woForm.rounds[index].length;
-    //   let newCount = this.woForm.basesCount[index];
-    //   if (oldCount < newCount) {
-    //     for (let i = 0; i < newCount - oldCount; i++) {
-    //       this.woForm.rounds[index].push({ workTime: 5, relaxTime: 5 });
-    //     }
-    //   } else {
-    //     this.woForm.rounds[index].length = newCount;
-    //   }
-    // }
-    // this.calculateTotalTimeOfWorkout();
+    let oldCount = this.wo.rounds[index].length;
+    let newCount = this.wo.basesCount[index];
+    if (oldCount < newCount) {
+      for (let i = 0; i < newCount - oldCount; i++) {
+        this.wo.rounds[index].push({ workTime: 5, relaxTime: 5 });
+      }
+    } else {
+      this.wo.rounds[index].length = newCount;
+    }
+    this.calculateTotalTimeOfWorkout();
   }
 
-
   refreshWorkoutModel() {
-    // let oldCount = this.woForm.rounds.length;
-    // let newCount = this.woForm.roundsCount;
-    // if (oldCount < newCount) {
-    //   for (let i = 0; i < newCount - oldCount; i++) {
-    //     this.woForm.basesCount.push(1);
-    //     this.woForm.rounds.push([]);
-    //   }
-    //   for (let i = 0; i < newCount - (oldCount == 0 ? 1 : oldCount); i++) {
-    //     this.woForm.relaxes.push(10);
-    //   }
-    // } else {
-    //   this.woForm.basesCount.length = newCount;
-    //   this.woForm.rounds.length = newCount;
-    //   this.woForm.relaxes.length = newCount - 1 > 0 ? newCount - 1 : 0
-    // }
-    // this.woForm.rounds.forEach((element, index) => {
-    //   this.basesInputChange(index);
-    // });
-    // this.calculateTotalTimeOfWorkout();
+    let oldCount = this.wo.rounds.length;
+    let newCount = this.wo.roundsCount;
+    if (oldCount < newCount) {
+      for (let i = 0; i < newCount - oldCount; i++) {
+        this.wo.basesCount.push(1);
+        this.wo.rounds.push([]);
+      }
+      for (let i = 0; i < newCount - (oldCount == 0 ? 1 : oldCount); i++) {
+        this.wo.relaxes.push(10);
+      }
+    } else {
+      this.wo.basesCount.length = newCount;
+      this.wo.rounds.length = newCount;
+      this.wo.relaxes.length = newCount - 1 > 0 ? newCount - 1 : 0
+    }
+    this.wo.rounds.forEach((element, index) => {
+      this.basesInputChange(index);
+    });
+    this.calculateTotalTimeOfWorkout();
   }
 
   get wo(): Workout {
     return this.workoutService.workout;
   }
 
+  trackByIndex = (index: number, obj: any): any => {
+    return index;
+  }
 }

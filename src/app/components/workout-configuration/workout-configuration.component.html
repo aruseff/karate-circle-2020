@@ -2,7 +2,7 @@
 
   <div class="left-panel sm:col-5 md:col-5 lg:col-4">
 
-    <p-card [subheader]="labels.signal_for" class="settings-card">
+    <p-card [subheader]="labels.signal_for" class="settings-card signals-card">
       <div class="grid m0">
         <div class="col-6 pl0">
           <p-inputGroup *ngFor="let option of labels.last_signal_options; let i=index;" class="line">
@@ -45,7 +45,7 @@
       </div>
     </p-card>
 
-    <p-card [subheader]="labels.workout" class="settings-card mt8">
+    <p-card [subheader]="labels.workout" class="settings-card mt8 workout-card">
       <div class="grid m0">
         <div class="col-6">
           <p-inputGroup class="line">
@@ -53,7 +53,7 @@
               <span class="prefix-label">{{labels.rounds}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [max]="50"
-              [(ngModel)]="wo.roundsCount" [defaultValue]="defaultWorkout.roundsCount" [maxValue]="50">
+              [(ngModel)]="wo.roundsCount" [defaultValue]="defaultWorkout.roundsCount" (input)="refreshWorkoutModel()">
           </p-inputGroup>
         </div>
         <div class="col-6">
@@ -73,6 +73,31 @@
 
       <p-checkbox [(ngModel)]="wo.useFirstBase" [label]="labels.use_first_base" [binary]="true"
         (onChange)="calculateTotalTimeOfWorkout()" class="mt8"></p-checkbox>
+    </p-card>
+
+    <p-card class="settings-card mt8 bases-card" [header]="labels.bases" [subheader]="labels.relaxes">
+      <div class="grid m0">
+        <div class="col-6">
+          <p-inputGroup class="line" *ngFor="let base of wo.basesCount; let i=index; trackBy:trackByIndex;">
+            <p-inputGroupAddon class="prefix-addon addon">
+              <span class="prefix-label">{{'R' + (i+1)}}</span>
+            </p-inputGroupAddon>
+            <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [max]="50"
+              [(ngModel)]="wo.basesCount[i]" [defaultValue]="1" (input)="basesInputChange(i)"
+              (change)="calculateTotalTimeOfWorkout()">
+          </p-inputGroup>
+        </div>
+        <div class="col-6">
+          <p-inputGroup class="line" *ngFor="let relax of wo.relaxes; let i=index; trackBy:trackByIndex;">
+            <p-inputGroupAddon class="prefix-addon addon">
+              <span class="prefix-label">{{'R' + (i+1) + '&' + (i+2)}}</span>
+            </p-inputGroupAddon>
+            <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1"
+              [(ngModel)]="wo.relaxes[i]" [defaultValue]="10" (input)="basesInputChange(i)"
+              (change)="calculateTotalTimeOfWorkout()">
+          </p-inputGroup>
+        </div>
+      </div>
     </p-card>
 
   </div>

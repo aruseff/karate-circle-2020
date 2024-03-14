@@ -85,11 +85,6 @@ export class AppComponent {
     this.activeTab = index;
   }
 
-  // Needed by the dynamically ngModels for bases and rounds 
-  trackByIndex(index: number, obj: any): any {
-    return index;
-  }
-
   // ------------------------------ Workout configuration begin ------------------------------
   
   // saveWorkout() {

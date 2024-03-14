@@ -27,6 +27,19 @@
   }
 }
 
+.signals-card {
+  flex: 0 0 200px;
+}
+
+.workout-card {
+  flex: 0 0 180px;
+}
+
+.bases-card {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .addon {
   padding: 3px;
   height: 28px;
@@ -44,6 +57,10 @@
 }
 
 ::ng-deep {
+  .p-card {
+    height: 100%;
+  }
+
   .line {
     margin-bottom: 5px;
 
@@ -90,5 +107,32 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
+  }
+
+  .bases-card {
+    .p-card-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #848484;
+      font-size: 1rem;
+      width: 50%;
+      float: left;
+    }
+
+    .p-card-subtitle {
+      width: 50%;
+      float: left;
+    }
+
+    .grid {
+      overflow: auto;
+      height: 100%;
+    }
+
+    .p-card-content,
+    .p-card-body,
+    .p-card {
+      height: 100%;
+    }
   }
 }
