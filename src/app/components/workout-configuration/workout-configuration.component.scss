@@ -7,24 +7,14 @@
   align-items: center;
 }
 
+.right-panel {
+  display: flex;
+  flex-flow: column;
+}
+
 .settings-card {
   width: 100%;
   padding-bottom: 0px;
-
-  .last-signal-checkbox {
-    display: flex;
-    flex: 0 1 auto;
-  }
-
-  .last-signal-input {
-    display: flex;
-    flex: 1;
-
-    input {
-      width: 90%;
-      margin-left: 10%;
-    }
-  }
 }
 
 .signals-card {
@@ -38,6 +28,11 @@
 .bases-card {
   flex: 1 1 auto;
   min-height: 0;
+}
+
+.rounds-card {
+  flex: 0 1 50%;
+  max-height: 50%;
 }
 
 .addon {
@@ -56,11 +51,37 @@
   width: 100%;
 }
 
-::ng-deep {
-  .p-card {
-    height: 100%;
-  }
+.last-signal-checkbox {
+  display: flex;
+  flex: 0 1 auto;
+}
 
+.last-signal-input {
+  display: flex;
+  flex: 1;
+
+  input {
+    width: 90%;
+    margin-left: 10%;
+  }
+}
+
+.rounds-label {
+  display: block;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.round-pair {
+  margin: 18px 0;
+}
+
+::ng-deep {
   .line {
     margin-bottom: 5px;
 
@@ -128,10 +149,37 @@
       overflow: auto;
       height: 100%;
     }
+  }
 
-    .p-card-content,
-    .p-card-body,
-    .p-card {
+  .p-card-content,
+  .p-card-body,
+  .p-card {
+    height: 100%;
+  }
+
+  .rounds-card {
+    .p-card-content {
+      padding: 0;
+    }
+
+    .p-tabview {
+      height: 99%;
+      padding: 0;
+    }
+
+    .p-tabview-panels {
+      max-height: 90%;
+      min-height: 150px;
+      border: none !important;
+      overflow: auto;
+    }
+
+    .p-tabview-panel {
+      height: 100%;
+    }
+
+    .grid {
+      overflow: auto;
       height: 100%;
     }
   }

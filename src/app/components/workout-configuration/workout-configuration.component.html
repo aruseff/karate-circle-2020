@@ -1,7 +1,6 @@
 <div class="content-div grid">
 
   <div class="left-panel sm:col-5 md:col-5 lg:col-4">
-
     <p-card [subheader]="labels.signal_for" class="settings-card signals-card">
       <div class="grid m0">
         <div class="col-6 pl0">
@@ -99,6 +98,35 @@
         </div>
       </div>
     </p-card>
+  </div>
 
+  <div class="right-panel sm:col-7 md:col-7 lg:col-8">
+    <p-card class="settings-card rounds-card">
+      <p-tabView>
+        <p-tabPanel *ngFor="let roundTab of wo.rounds; let i=index; trackBy:trackByIndex;"
+          [header]="labels.round_prefix + (i+1)" [selected]="i==0" [disabled]="i>0 && wo.useFirstRound">
+          <div class="grid">
+            <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;" class="col-4 round-pair">
+              <div style="width:50%;float:left;">
+                <label class="rounds-label">{{labels.work + ' ' + (j+1 | number : '2.0-0') +
+                  labels.seconds_suffix}}</label>
+                <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
+                  [(ngModel)]="wo.rounds[i][j].workTime" [disabled]="j>0 && wo.useFirstBase"
+                  (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+              </div>
+              <div style="width:50%;float:left;">
+                <label class="rounds-label">{{labels.relax + ' ' + (j+1 | number : '2.0-0') +
+                  labels.seconds_suffix}}</label>
+                <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
+                  [(ngModel)]="wo.rounds[i][j].relaxTime" [disabled]="j>0 && wo.useFirstBase"
+                  (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </p-card>
+
+  
   </div>
 </div>
