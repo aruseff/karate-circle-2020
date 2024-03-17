@@ -14,7 +14,15 @@ export class WorkoutConfigurationComponent {
   labels: any = labels;
   defaultWorkout = DEFAULT_WORKOUT;
 
+  loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
+  selectedWorkout: any;
+  saveWorkoutInput: string = '';
+
   constructor(public workoutService: WorkoutService) {
+  }
+
+  ngOnInit() {
+    this.refreshWorkoutModel();
   }
 
   calculateTotalTimeOfWorkout() {
@@ -72,8 +80,48 @@ export class WorkoutConfigurationComponent {
     this.calculateTotalTimeOfWorkout();
   }
 
+  selectWorkout(event) {
+    if (event.value) {
+      this.wo = event.value;
+      this.calculateTotalTimeOfWorkout();
+    }
+  }
+
+
+  saveWorkout() {
+    //   if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
+    //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
+    //     return;
+    //   }
+    //   if (this.workoutsFileService.checkIfFileExists(this.saveWorkoutInput.trim())) {
+    //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.file_already_exists });
+    //     return;
+    //   }
+
+    //   let workoutFile: WorkoutFile = {
+    //     name: this.saveWorkoutInput.trim(),
+    //     workout: this.workout
+    //   };
+    //   this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
+    //   this.loadWorkouts();
+    //   this.saveWorkoutInput = '';
+  }
+
+  // loadWorkouts() {
+  //   this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
+  //   let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
+  //   workoutsFromFileSystem.forEach(file => {
+  //     let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
+  //     this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
+  //   });
+  // }
+
   get wo(): Workout {
     return this.workoutService.workout;
+  }
+
+  set wo(workout: Workout) {
+    this.workoutService.workout = workout;
   }
 
   trackByIndex = (index: number, obj: any): any => {

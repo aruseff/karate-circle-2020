@@ -23,11 +23,6 @@ export class AppComponent {
   labels: any = labels;
   activeTab: number = 0;
 
-  // Save/load workouts
-  loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
-  selectedWorkout: any;
-  saveWorkoutInput: string = '';
-
   // ------------------------------ Workout configuration end ------------------------------
 
   // ------------------------------    Workout timer begin    ------------------------------
@@ -77,8 +72,6 @@ export class AppComponent {
     // this.populateSignalsArray();
     // this.soundsFileNames = this.soundsFileService.getSoundsFiles();
     // this.loadWorkouts();
-
-    // this.refreshWorkoutModel();
   }
 
   navigate(index: number) {
@@ -87,43 +80,7 @@ export class AppComponent {
 
   // ------------------------------ Workout configuration begin ------------------------------
   
-  // saveWorkout() {
-  //   if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
-  //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
-  //     return;
-  //   }
-  //   if (this.workoutsFileService.checkIfFileExists(this.saveWorkoutInput.trim())) {
-  //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.file_already_exists });
-  //     return;
-  //   }
 
-  //   let workoutFile: WorkoutFile = {
-  //     name: this.saveWorkoutInput.trim(),
-  //     workout: this.workout
-  //   };
-  //   this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
-  //   this.loadWorkouts();
-  //   this.saveWorkoutInput = '';
-  // }
-
-  // loadWorkouts() {
-  //   this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
-  //   let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
-  //   workoutsFromFileSystem.forEach(file => {
-  //     let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
-  //     this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
-  //   });
-  // }
-
-  // selectWorkout(event) {
-  //   if (event.value) {
-  //     if (!event.value.lastSignalSeconds) {
-  //       event.value.lastSignalSeconds = [20, 10, 5];
-  //     }
-  //     this.workout = event.value;
-  //     this.calculateTotalTimeOfWorkout();
-  //   }
-  // }
 
   // onDelayChange() {
   //   if (!this.workout.delay || this.workout.delay == 0) {

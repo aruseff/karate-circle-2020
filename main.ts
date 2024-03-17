@@ -21,7 +21,7 @@ function createWindow(): BrowserWindow {
     y: 0,
     width: (size.width > 1280 ? 1280 : size.width),
     height: (size.height > 960 ? 960 : size.height),
-    minHeight: 700,
+    minHeight: 780,
     minWidth: 900,
     icon: "src/logo-icon.ico",
     webPreferences: {

@@ -61,7 +61,8 @@
               <span class="prefix-label">{{labels.delay}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [(ngModel)]="wo.delay"
-              [defaultValue]="defaultWorkout.delay" (change)="calculateTotalTimeOfWorkout()">
+              [defaultValue]="defaultWorkout.delay" (defaultValueChange)="calculateTotalTimeOfWorkout()"
+              (change)="calculateTotalTimeOfWorkout()">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
         </div>
@@ -82,8 +83,7 @@
               <span class="prefix-label">{{'R' + (i+1)}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [max]="50"
-              [(ngModel)]="wo.basesCount[i]" [defaultValue]="1" (input)="basesInputChange(i)"
-              (change)="calculateTotalTimeOfWorkout()">
+              [(ngModel)]="wo.basesCount[i]" [defaultValue]="1" (input)="basesInputChange(i)">
           </p-inputGroup>
         </div>
         <div class="col-6">
@@ -92,7 +92,7 @@
               <span class="prefix-label">{{'R' + (i+1) + '&' + (i+2)}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1"
-              [(ngModel)]="wo.relaxes[i]" [defaultValue]="10" (input)="basesInputChange(i)"
+              [(ngModel)]="wo.relaxes[i]" [defaultValue]="10" (defaultValueChange)="calculateTotalTimeOfWorkout()"
               (change)="calculateTotalTimeOfWorkout()">
           </p-inputGroup>
         </div>
@@ -107,19 +107,19 @@
           [header]="labels.round_prefix + (i+1)" [selected]="i==0" [disabled]="i>0 && wo.useFirstRound">
           <div class="grid">
             <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;" class="col-4 round-pair">
-              <div style="width:50%;float:left;">
+              <div class="work-input">
                 <label class="rounds-label">{{labels.work + ' ' + (j+1 | number : '2.0-0') +
                   labels.seconds_suffix}}</label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
-                  [(ngModel)]="wo.rounds[i][j].workTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+                  (defaultValueChange)="calculateTotalTimeOfWorkout()" [(ngModel)]="wo.rounds[i][j].workTime"
+                  [disabled]="j>0 && wo.useFirstBase" (change)="calculateTotalTimeOfWorkout()" style="width:100%">
               </div>
-              <div style="width:50%;float:left;">
+              <div class="relax-input">
                 <label class="rounds-label">{{labels.relax + ' ' + (j+1 | number : '2.0-0') +
                   labels.seconds_suffix}}</label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
-                  [(ngModel)]="wo.rounds[i][j].relaxTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+                  (defaultValueChange)="calculateTotalTimeOfWorkout()" [(ngModel)]="wo.rounds[i][j].relaxTime"
+                  [disabled]="j>0 && wo.useFirstBase" (change)="calculateTotalTimeOfWorkout()" style="width:100%">
               </div>
             </div>
           </div>
@@ -127,6 +127,26 @@
       </p-tabView>
     </p-card>
 
-  
+    <div class="total-time-container grid">
+      <p-card [subheader]="labels.total_time" class="total-time-card col-6 md:col-6 lg:col-8">
+        <div class="time-container center-content">
+          {{workoutService.totalTimeOfWorkout | minuteSeconds}}
+        </div>
+      </p-card>
+
+      <p-card [subheader]="labels.saved_workouts" class="saved-workout-card col-6 md:col-6 lg:col-4">
+        <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event)">
+        </p-dropdown>
+
+        <p-inputGroup class="save-workout">
+          <input type="text" pInputText [placeholder]="labels.workout_name" [(ngModel)]="saveWorkoutInput" />
+          <button type="button" pButton icon="pi pi-save" (click)="saveWorkout()"></button>
+        </p-inputGroup>
+
+        <button pButton type="button" [label]="labels.go_to_workout" icon="pi pi-play" iconPos="right"
+          style="width:100%;margin-top:auto;"></button>
+      </p-card>
+    </div>
+
   </div>
 </div>

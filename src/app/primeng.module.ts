@@ -37,11 +37,12 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 
     TabViewModule,
 
+
+    DropdownModule,
     // SelectButtonModule,
 
-    // InputTextModule,
-    // ButtonModule,
-    // DropdownModule,
+    InputTextModule,
+    ButtonModule,
     // ProgressBarModule,
     // ScrollPanelModule,
     // DialogModule,
