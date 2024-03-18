@@ -34,16 +34,12 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     CardModule,
     CheckboxModule,
     KeyFilterModule,
-
     TabViewModule,
-
-
     DropdownModule,
-    // SelectButtonModule,
-
     InputTextModule,
     ButtonModule,
-    // ProgressBarModule,
+    ProgressBarModule,
+    // SelectButtonModule,
     // ScrollPanelModule,
     // DialogModule,
     // BlockUIModule,

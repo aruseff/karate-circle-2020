@@ -37,7 +37,7 @@
 
           <div class="last-relax">
             <p-checkbox [binary]="true" [label]="labels.last_relax" [(ngModel)]="wo.lastRelax"
-              (onChange)="calculateTotalTimeOfWorkout()">
+              (onChange)="workoutService.calculateTotalTimeOfWorkout()">
             </p-checkbox>
           </div>
         </div>
@@ -61,18 +61,18 @@
               <span class="prefix-label">{{labels.delay}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [(ngModel)]="wo.delay"
-              [defaultValue]="defaultWorkout.delay" (defaultValueChange)="calculateTotalTimeOfWorkout()"
-              (change)="calculateTotalTimeOfWorkout()">
+              [defaultValue]="defaultWorkout.delay" (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
+              (change)="workoutService.calculateTotalTimeOfWorkout()">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
         </div>
       </div>
 
       <p-checkbox [(ngModel)]="wo.useFirstRound" [label]="labels.use_first_round" [binary]="true"
-        (onChange)="calculateTotalTimeOfWorkout()"></p-checkbox>
+        (onChange)="workoutService.calculateTotalTimeOfWorkout()"></p-checkbox>
 
       <p-checkbox [(ngModel)]="wo.useFirstBase" [label]="labels.use_first_base" [binary]="true"
-        (onChange)="calculateTotalTimeOfWorkout()" class="mt8"></p-checkbox>
+        (onChange)="workoutService.calculateTotalTimeOfWorkout()" class="mt8"></p-checkbox>
     </p-card>
 
     <p-card class="settings-card mt8 bases-card" [header]="labels.bases" [subheader]="labels.relaxes">
@@ -92,8 +92,9 @@
               <span class="prefix-label">{{'R' + (i+1) + '&' + (i+2)}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1"
-              [(ngModel)]="wo.relaxes[i]" [defaultValue]="10" (defaultValueChange)="calculateTotalTimeOfWorkout()"
-              (change)="calculateTotalTimeOfWorkout()">
+              [(ngModel)]="wo.relaxes[i]" [defaultValue]="10"
+              (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
+              (change)="workoutService.calculateTotalTimeOfWorkout()">
           </p-inputGroup>
         </div>
       </div>
@@ -111,15 +112,17 @@
                 <label class="rounds-label">{{labels.work + ' ' + (j+1 | number : '2.0-0') +
                   labels.seconds_suffix}}</label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
-                  (defaultValueChange)="calculateTotalTimeOfWorkout()" [(ngModel)]="wo.rounds[i][j].workTime"
-                  [disabled]="j>0 && wo.useFirstBase" (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+                  (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
+                  [(ngModel)]="wo.rounds[i][j].workTime" [disabled]="j>0 && wo.useFirstBase"
+                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%">
               </div>
               <div class="relax-input">
                 <label class="rounds-label">{{labels.relax + ' ' + (j+1 | number : '2.0-0') +
                   labels.seconds_suffix}}</label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
-                  (defaultValueChange)="calculateTotalTimeOfWorkout()" [(ngModel)]="wo.rounds[i][j].relaxTime"
-                  [disabled]="j>0 && wo.useFirstBase" (change)="calculateTotalTimeOfWorkout()" style="width:100%">
+                  (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
+                  [(ngModel)]="wo.rounds[i][j].relaxTime" [disabled]="j>0 && wo.useFirstBase"
+                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%">
               </div>
             </div>
           </div>

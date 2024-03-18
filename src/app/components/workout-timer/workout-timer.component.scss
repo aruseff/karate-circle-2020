@@ -1,0 +1,82 @@
+.timer-container {
+  flex: 1 1 90%;
+  height: 100%;
+}
+
+.time-container {
+  width: 100%;
+  text-align: center;
+
+  .title {
+    color: var(--secondary-color-3);
+  }
+
+  .content {
+    font-size: 30px;
+  }
+}
+
+.top {
+  font-size: 70px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.bottom {
+  color: #000000;
+  color: var(--secondary-color-3);
+  font-size: 50px;
+}
+
+.line {
+  font-size: 50px;
+}
+
+.progress-container {
+  flex: 1 1 10%;
+  height: 100%;
+  padding: 15px;
+}
+
+::ng-deep {
+  .action-button {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: flex-end;
+
+    &.left {
+      justify-content: flex-end;
+    }
+
+    &.right {
+      justify-content: flex-start;
+    }
+
+    .p-button {
+      height: 80%;
+      width: 65%;
+    }
+  }
+
+  .progress {
+    .p-progressbar {
+      position: absolute;
+      height: 90px;
+      width: 96vh;
+      top: 2vh;
+      transform: translate(-100%) rotate(-90deg);
+      transform-origin: top right;
+      border: 1px solid var(--secondary-color-2);
+      background: #fff;
+    }
+
+    .p-progressbar-value {
+      background: var(--progress-bar-color);
+    }
+
+    .p-progressbar-label {
+      display: none !important;
+    }
+  }
+}

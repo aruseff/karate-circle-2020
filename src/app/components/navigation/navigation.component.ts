@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { labels } from '../../config/labels';
 
 @Component({
@@ -8,6 +8,7 @@ import { labels } from '../../config/labels';
 })
 export class NavigationComponent {
 
+  @Input() activeTab: number = 0;
   @Output() navigationChange: EventEmitter<any> = new EventEmitter<any>();
 
   labels: any = labels;
@@ -26,7 +27,6 @@ export class NavigationComponent {
     icon: 'settings'
   }];
 
-  activeTab: number = 0;
 
   navigate(index: number) {
     this.activeTab = index;

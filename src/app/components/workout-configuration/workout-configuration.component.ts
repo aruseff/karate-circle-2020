@@ -25,26 +25,6 @@ export class WorkoutConfigurationComponent {
     this.refreshWorkoutModel();
   }
 
-  calculateTotalTimeOfWorkout() {
-    this.workoutService.totalTimeOfWorkout = 0;
-    this.wo.rounds.forEach(workRelax => {
-      if (this.wo.useFirstRound) {
-        workRelax = this.wo.rounds[0];
-      }
-      workRelax.forEach((base, index) => {
-        this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0] : base).workTime;
-        if (index < workRelax.length - 1 || this.wo.lastRelax) {
-          this.workoutService.totalTimeOfWorkout += (this.wo.useFirstBase ? workRelax[0] : base).relaxTime;
-        }
-      });
-    });
-    this.wo.relaxes.forEach(relax => {
-      this.workoutService.totalTimeOfWorkout += relax;
-    });
-    this.workoutService.totalTimeOfWorkout += this.wo.delay;
-    return this.workoutService.totalTimeOfWorkout;
-  }
-
   basesInputChange(index: number) {
     let oldCount = this.wo.rounds[index].length;
     let newCount = this.wo.basesCount[index];
@@ -55,7 +35,7 @@ export class WorkoutConfigurationComponent {
     } else {
       this.wo.rounds[index].length = newCount;
     }
-    this.calculateTotalTimeOfWorkout();
+    this.workoutService.calculateTotalTimeOfWorkout();
   }
 
   refreshWorkoutModel() {
@@ -77,13 +57,13 @@ export class WorkoutConfigurationComponent {
     this.wo.rounds.forEach((element, index) => {
       this.basesInputChange(index);
     });
-    this.calculateTotalTimeOfWorkout();
+    this.workoutService.calculateTotalTimeOfWorkout();
   }
 
   selectWorkout(event) {
     if (event.value) {
       this.wo = event.value;
-      this.calculateTotalTimeOfWorkout();
+      this.workoutService.calculateTotalTimeOfWorkout();
     }
   }
 

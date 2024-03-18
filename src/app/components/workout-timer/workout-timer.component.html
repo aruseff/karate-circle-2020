@@ -1,0 +1,73 @@
+<div class="content-div" style="display:flex;">
+
+  <div class="timer-container">
+    <div class="grid" style="height:10vh;padding-top:10px;">
+      <div class="center-content col-6">
+        <div class="time-container">
+          <div class="title">{{labels.round}}</div>
+          <div class="content">
+            <div>
+              <span class="top">{{currentRound+1}}</span>
+              <span class="line">&#47;</span>
+              <span class="bottom">{{wo.roundsCount}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="center-content col-6">
+        <div class="time-container">
+          <div class="title">{{labels.base}}</div>
+          <div class="content">
+            <div>
+              <span class="top">{{currentBase+1}}</span>
+              <span class="line">&#47;</span>
+              <span class="bottom">{{wo.useFirstRound ? wo.rounds[0].length : wo.rounds[currentRound].length}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:70vh;">
+      <div class="center-content" style="height:100%;">
+        <countdown-timer [wholeTime]="currentWholeTime" [seconds]="currentTime" [status]="currentStatus"
+          [isPaused]="isWorkoutPaused">
+        </countdown-timer>
+      </div>
+    </div>
+
+    <div class="grid" style="height:10vh;">
+      <div class="center-content col-6">
+        <div class="time-container">
+          <div class="title">{{labels.elapsed_time}}</div>
+          <div style="font-size:3.8vw;">{{elapsedTime | minuteSeconds}}</div>
+        </div>
+      </div>
+      <div class="center-content col-6">
+        <div class="time-container">
+          <div class="title">{{labels.remaining_time}}</div>
+          <div style="font-size:3.8vw;">{{remainingTime | minuteSeconds}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="height:10vh;">
+      <div class="col-6">
+        <p-button [label]="labels.reset" icon="pi pi-undo" iconPos="right" class="action-button left"
+          [disabled]="isWorkoutRunning" severity="danger" (click)="resetWorkout()"></p-button>
+      </div>
+      <div class="col-6">
+        <p-button *ngIf="!isWorkoutRunning" [label]="isWorkoutPaused ? labels.resume : labels.start" icon="pi pi-play"
+          iconPos="right" class="action-button right"
+          (click)="isWorkoutPaused ? resumeWorkout() : startWorkout()"></p-button>
+
+        <p-button *ngIf="isWorkoutRunning" [label]="labels.pause" icon="pi pi-pause" iconPos="right"
+          class="action-button right" (click)="pauseWorkout()"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-container">
+    <p-progressBar class="progress" [value]="calculateProgress()"></p-progressBar>
+  </div>
+</div>
