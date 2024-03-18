@@ -6,11 +6,13 @@
         <div class="col-6 pl0">
           <p-inputGroup *ngFor="let option of labels.last_signal_options; let i=index;" class="line">
             <p-inputGroupAddon class="prefix-addon addon">
-              <p-checkbox [label]="option" [(ngModel)]="wo.lastSignalSelected[i]" [binary]="true"></p-checkbox>
+              <p-checkbox [label]="option" [(ngModel)]="wo.lastSignalSelected[i]" [binary]="true"
+                [disabled]="isWorkoutRunning || isWorkoutPaused"></p-checkbox>
             </p-inputGroupAddon>
             <ng-container>
               <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm"
-                [(ngModel)]="wo.lastSignalSeconds[i]" [min]="1" [defaultValue]="defaultWorkout.lastSignalSeconds[i]" />
+                [(ngModel)]="wo.lastSignalSeconds[i]" [min]="1" [defaultValue]="defaultWorkout.lastSignalSeconds[i]"
+                [disabled]="isWorkoutRunning || isWorkoutPaused" />
             </ng-container>
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
@@ -22,7 +24,8 @@
               <span class="prefix-label">{{labels.work}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="0" [max]="20"
-              [(ngModel)]="wo.workWarning" [defaultValue]="defaultWorkout.workWarning">
+              [(ngModel)]="wo.workWarning" [defaultValue]="defaultWorkout.workWarning"
+              [disabled]="isWorkoutRunning || isWorkoutPaused">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
 
@@ -31,13 +34,14 @@
               <span class="prefix-label">{{labels.relax}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" class="p-inputtext-sm" [min]="0" [max]="20" [(ngModel)]="wo.relaxWarning"
-              [defaultValue]="defaultWorkout.relaxWarning">
+              [defaultValue]="defaultWorkout.relaxWarning" [disabled]="isWorkoutRunning || isWorkoutPaused">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
 
           <div class="last-relax">
             <p-checkbox [binary]="true" [label]="labels.last_relax" [(ngModel)]="wo.lastRelax"
-              (onChange)="workoutService.calculateTotalTimeOfWorkout()">
+              (onChange)="workoutService.calculateTotalTimeOfWorkout()"
+              [disabled]="isWorkoutRunning || isWorkoutPaused">
             </p-checkbox>
           </div>
         </div>
@@ -52,7 +56,8 @@
               <span class="prefix-label">{{labels.rounds}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [max]="50"
-              [(ngModel)]="wo.roundsCount" [defaultValue]="defaultWorkout.roundsCount" (input)="refreshWorkoutModel()">
+              [(ngModel)]="wo.roundsCount" [defaultValue]="defaultWorkout.roundsCount" (input)="refreshWorkoutModel()"
+              [disabled]="isWorkoutRunning || isWorkoutPaused">
           </p-inputGroup>
         </div>
         <div class="col-6">
@@ -62,17 +67,19 @@
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [(ngModel)]="wo.delay"
               [defaultValue]="defaultWorkout.delay" (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
-              (change)="workoutService.calculateTotalTimeOfWorkout()">
+              (change)="workoutService.calculateTotalTimeOfWorkout()" [disabled]="isWorkoutRunning || isWorkoutPaused">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
         </div>
       </div>
 
       <p-checkbox [(ngModel)]="wo.useFirstRound" [label]="labels.use_first_round" [binary]="true"
-        (onChange)="workoutService.calculateTotalTimeOfWorkout()"></p-checkbox>
+        (onChange)="workoutService.calculateTotalTimeOfWorkout()"
+        [disabled]="isWorkoutRunning || isWorkoutPaused"></p-checkbox>
 
       <p-checkbox [(ngModel)]="wo.useFirstBase" [label]="labels.use_first_base" [binary]="true"
-        (onChange)="workoutService.calculateTotalTimeOfWorkout()" class="mt8"></p-checkbox>
+        (onChange)="workoutService.calculateTotalTimeOfWorkout()" [disabled]="isWorkoutRunning || isWorkoutPaused"
+        class="mt8"></p-checkbox>
     </p-card>
 
     <p-card class="settings-card mt8 bases-card" [header]="labels.bases" [subheader]="labels.relaxes">
@@ -83,7 +90,8 @@
               <span class="prefix-label">{{'R' + (i+1)}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1" [max]="50"
-              [(ngModel)]="wo.basesCount[i]" [defaultValue]="1" (input)="basesInputChange(i)">
+              [(ngModel)]="wo.basesCount[i]" [defaultValue]="1" (input)="basesInputChange(i)"
+              [disabled]="isWorkoutRunning || isWorkoutPaused">
           </p-inputGroup>
         </div>
         <div class="col-6">
@@ -94,7 +102,7 @@
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="1"
               [(ngModel)]="wo.relaxes[i]" [defaultValue]="10"
               (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
-              (change)="workoutService.calculateTotalTimeOfWorkout()">
+              (change)="workoutService.calculateTotalTimeOfWorkout()" [disabled]="isWorkoutRunning || isWorkoutPaused">
           </p-inputGroup>
         </div>
       </div>
@@ -114,7 +122,8 @@
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
                   (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
                   [(ngModel)]="wo.rounds[i][j].workTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%">
+                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%"
+                  [disabled]="isWorkoutRunning || isWorkoutPaused">
               </div>
               <div class="relax-input">
                 <label class="rounds-label">{{labels.relax + ' ' + (j+1 | number : '2.0-0') +
@@ -122,7 +131,8 @@
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
                   (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
                   [(ngModel)]="wo.rounds[i][j].relaxTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%">
+                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%"
+                  [disabled]="isWorkoutRunning || isWorkoutPaused">
               </div>
             </div>
           </div>
@@ -138,12 +148,15 @@
       </p-card>
 
       <p-card [subheader]="labels.saved_workouts" class="saved-workout-card col-6 md:col-6 lg:col-4">
-        <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event)">
+        <p-dropdown [options]="loadedWorkouts" (onChange)="selectWorkout($event)"
+          [disabled]="isWorkoutRunning || isWorkoutPaused">
         </p-dropdown>
 
         <p-inputGroup class="save-workout">
-          <input type="text" pInputText [placeholder]="labels.workout_name" [(ngModel)]="saveWorkoutInput" />
-          <button type="button" pButton icon="pi pi-save" (click)="saveWorkout()"></button>
+          <input type="text" pInputText [placeholder]="labels.workout_name" [(ngModel)]="saveWorkoutInput"
+            [disabled]="isWorkoutRunning || isWorkoutPaused" />
+          <button type="button" pButton icon="pi pi-save" (click)="saveWorkout()"
+            [disabled]="isWorkoutRunning || isWorkoutPaused"></button>
         </p-inputGroup>
 
         <button pButton type="button" [label]="labels.go_to_workout" icon="pi pi-play" iconPos="right"

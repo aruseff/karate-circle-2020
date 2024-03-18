@@ -69,6 +69,7 @@ export class WorkoutConfigurationComponent {
 
 
   saveWorkout() {
+    // TODO
     //   if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
     //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
     //     return;
@@ -88,6 +89,7 @@ export class WorkoutConfigurationComponent {
   }
 
   // loadWorkouts() {
+  // TODO
   //   this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
   //   let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
   //   workoutsFromFileSystem.forEach(file => {
@@ -102,6 +104,14 @@ export class WorkoutConfigurationComponent {
 
   set wo(workout: Workout) {
     this.workoutService.workout = workout;
+  }
+
+  get isWorkoutRunning(): boolean {
+    return this.workoutService.isWorkoutRunning;
+  }
+
+  get isWorkoutPaused(): boolean {
+    return this.workoutService.isWorkoutPaused;
   }
 
   trackByIndex = (index: number, obj: any): any => {
