@@ -4,12 +4,11 @@
     (navigationChange)="navigate($event)"></app-navigation>
 
   <div class="main-container">
-
-    <app-workout-configuration class="full-screen"
-      [ngStyle]="{'display': activeTab == 0 ? 'block' : 'none'}"></app-workout-configuration>
-    <app-workout-timer class="full-screen"
-      [ngStyle]="{'display': activeTab == 1 ? 'block' : 'none'}"></app-workout-timer>
+    <div *ngFor="let sreen of screenPositions; let i=index;" class="screen"
+      [ngStyle]="{'top': screenPositions[activeTab]+(i*150) + 'vh'}">
+      <app-workout-configuration *ngIf="i==0" class="full-screen"></app-workout-configuration>
+      <app-workout-timer *ngIf="i==1" class="full-screen"></app-workout-timer>
+      <div *ngIf="i==2" class="full-screen" style="background:green; width: 100%; height: 100%;">neshto</div>
+    </div>
   </div>
-
-
 </div>

@@ -35,7 +35,6 @@
 .progress-container {
   flex: 1 1 10%;
   height: 100%;
-  padding: 15px;
 }
 
 ::ng-deep {
@@ -62,7 +61,8 @@
   .progress {
     .p-progressbar {
       position: absolute;
-      height: 90px;
+      height: 10%;
+      min-height: 10px;
       width: 96vh;
       top: 2vh;
       transform: translate(-100%) rotate(-90deg);

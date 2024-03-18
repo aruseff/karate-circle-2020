@@ -20,7 +20,8 @@ export class AppComponent {
 
   doc: any = document;
   labels: any = labels;
-  activeTab: number = 1;
+  activeTab: number = 0;
+  screenPositions: any[] = [0, -150, -300];
 
   // ------------------------------ Workout configuration end ------------------------------
 
@@ -54,7 +55,7 @@ export class AppComponent {
   }
 
   // ------------------------------ Workout configuration begin ------------------------------
-  
+
 
 
   // onDelayChange() {
@@ -66,7 +67,7 @@ export class AppComponent {
   // // ------------------------------ Workout configuration end ------------------------------
 
   // // ------------------------------    Workout timer begin    ------------------------------
-  
+
   // // ------------------------------     Workout timer end     ------------------------------
 
 
