@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  activeTab: number = 2;
+  activeTab: number = 0;
   screenPositions: any[] = [0, -150, -300];
 
   constructor() { }
@@ -15,5 +15,4 @@ export class AppComponent {
   navigate(index: number) {
     this.activeTab = index;
   }
-
 }

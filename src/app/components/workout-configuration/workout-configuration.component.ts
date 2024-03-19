@@ -3,6 +3,10 @@ import { DEFAULT_WORKOUT } from 'src/app/config/default-workout';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { labels } from 'src/app/config/labels';
+import { MessageService } from 'primeng/api';
+import { WorkoutFileService } from 'src/app/services/workout.file.service';
+import { WorkoutFile } from 'src/app/models/workout-file.model';
+import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 
 @Component({
   selector: 'app-workout-configuration',
@@ -18,7 +22,9 @@ export class WorkoutConfigurationComponent {
   selectedWorkout: any;
   saveWorkoutInput: string = '';
 
-  constructor(public workoutService: WorkoutService) {
+  constructor(public workoutService: WorkoutService,
+    private workoutsFileService: WorkoutFileService,
+    private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -69,34 +75,32 @@ export class WorkoutConfigurationComponent {
 
 
   saveWorkout() {
-    // TODO
-    //   if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
-    //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
-    //     return;
-    //   }
-    //   if (this.workoutsFileService.checkIfFileExists(this.saveWorkoutInput.trim())) {
-    //     this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.file_already_exists });
-    //     return;
-    //   }
+    if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
+      this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
+      return;
+    }
+    if (this.workoutsFileService.checkIfFileExists(this.saveWorkoutInput.trim())) {
+      this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.file_already_exists });
+      return;
+    }
 
-    //   let workoutFile: WorkoutFile = {
-    //     name: this.saveWorkoutInput.trim(),
-    //     workout: this.workout
-    //   };
-    //   this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
-    //   this.loadWorkouts();
-    //   this.saveWorkoutInput = '';
+    let workoutFile: WorkoutFile = {
+      name: this.saveWorkoutInput.trim(),
+      workout: this.wo
+    };
+    this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
+    this.loadWorkouts();
+    this.saveWorkoutInput = '';
   }
 
-  // loadWorkouts() {
-  // TODO
-  //   this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
-  //   let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
-  //   workoutsFromFileSystem.forEach(file => {
-  //     let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
-  //     this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
-  //   });
-  // }
+  loadWorkouts() {
+    this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
+    let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
+    workoutsFromFileSystem.forEach(file => {
+      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
+      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
+    });
+  }
 
   get wo(): Workout {
     return this.workoutService.workout;
