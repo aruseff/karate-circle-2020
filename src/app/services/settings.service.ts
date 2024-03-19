@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 var remote = window.require('@electron/remote');
 var fs = remote.require('fs');
 var path = remote.require('path');
@@ -46,10 +47,10 @@ export class SettingsService {
         try {
             let settings = JSON.parse(fs.readFileSync(filePath));
             // Adding this new sound types and probably it's missing in the already created settings
-            if(!settings.between_rounds_warning) {
+            if (!settings.between_rounds_warning) {
                 settings.between_rounds_warning = "2.wav";
             }
-            if(!settings.between_rounds_countdown) {
+            if (!settings.between_rounds_countdown) {
                 settings.between_rounds_countdown = "1.wav";
             }
             return settings;

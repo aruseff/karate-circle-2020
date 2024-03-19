@@ -1,0 +1,51 @@
+<div class="grid content-div">
+
+  <p-card [subheader]="labels.signals" class="col-12 md:col-8 signal-card">
+    <div class="grid">
+      <div class="col-6">
+        <ul class="settings-ul">
+          <li *ngFor="let signalType of signals; let i = index" [ngClass]="{'active':selectedSignalType == i}"
+            (click)="selectedSignalType = i;">
+            {{signalType.label}}
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-6 signals-list">
+        <div *ngFor="let fileName of soundsFileNames; let i = index" style="width:100%;padding:3px 0;">
+          <p-radioButton [name]="signals[selectedSignalType].id" [value]="fileName" [label]="fileName"
+            [(ngModel)]="signals[selectedSignalType].wav" [inputId]="fileName" (onClick)="previewSound(i)">
+          </p-radioButton>
+        </div>
+        <div style="width:100%;float:right;">
+          <input type="file" id="fileLoader" style="display:none;" accept="audio/wav" (change)="uploadWavFile($event)"
+            multiple />
+          <p-button [outlined]="true" icon="pi pi-upload" iconPos="left" class="upload-button"
+            (click)="doc.getElementById('fileLoader').click();"
+            [disabled]="isWorkoutRunning || isWorkoutPaused"></p-button>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <p-button [label]="labels.save" (click)="saveSoundsSettings()" [disabled]="isWorkoutRunning || isWorkoutPaused"
+          icon="pi pi-save" iconPos="right"></p-button>
+        <p-button severity="danger" [label]="labels.reset" class="ui-button-danger" (click)="resetSoundsSettings()"
+          [disabled]="isWorkoutRunning || isWorkoutPaused" icon="pi pi-undo" iconPos="right"></p-button>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card [subheader]="labels.saved_workouts" class="col-12 md:col-4 save-workout-card">
+    <ul class="settings-ul">
+      <li *ngFor="let workout of loadedWorkouts.slice(1); let i = index"
+        [ngClass]="{'active':selectedWorkoutIndex == i}" (click)="selectedWorkoutIndex = i;">
+        {{workout.label}}
+      </li>
+    </ul>
+
+    <div class="bottom-nav">
+      <p-button severity="danger" [label]="labels.delete" (click)="deleteWorkout(selectedWorkoutIndex)"
+        [disabled]="isWorkoutRunning || isWorkoutPaused" icon="pi pi-trash" iconPos="right"></p-button>
+    </div>
+  </p-card>
+</div>
