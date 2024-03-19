@@ -1,10 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Observable, timer, Subscription } from 'rxjs';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
 import { labels } from 'src/app/config/labels';
 import { MessageService } from 'primeng/api';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { SoundsFileService } from 'src/app/services/sounds.file.service';
 
 const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
 
@@ -14,6 +14,8 @@ const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
   styleUrl: './workout-timer.component.scss'
 })
 export class WorkoutTimerComponent {
+
+  @Output() navigate: EventEmitter<any> = new EventEmitter<any>();
 
   labels: any = labels;
 
@@ -43,7 +45,7 @@ export class WorkoutTimerComponent {
   }
 
   constructor(public workoutService: WorkoutService,
-    private soundsService: SoundsService,
+    private soundsFileService: SoundsFileService,
     private messageService: MessageService) { }
 
   startWorkout() {
@@ -103,7 +105,7 @@ export class WorkoutTimerComponent {
 
       // Current status is DELAY
       if (this.currentStatus.toUpperCase() == 'DELAY') {
-        this.soundsService.playSound("start_work");
+        this.soundsFileService.playByKey("start_work");
         this.currentRound = 0;
         this.currentBase = 0;
         this.currentTime = this.wo.rounds[this.currentRound][this.currentBase].workTime;
@@ -118,18 +120,18 @@ export class WorkoutTimerComponent {
         if (this.wo.rounds[useRound].length - 1 == this.currentBase && !this.wo.lastRelax) {
 
           if (this.currentRound == this.wo.roundsCount - 1) {// Check if last round :: Workout end
-            this.soundsService.playSound("workout_end");
+            this.soundsFileService.playByKey("workout_end");
             this.workoutSubscription.unsubscribe();
             this.isWorkoutRunning = false;
             return;
           } else { // Not last round :: Round end
-            this.soundsService.playSound("round_end");
+            this.soundsFileService.playByKey("round_end");
             this.currentTime = this.wo.relaxes[this.currentRound];
             this.currentWholeTime = this.currentTime;
             this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
           }
         } else {
-          this.soundsService.playSound("stop_work");
+          this.soundsFileService.playByKey("stop_work");
           let useBase = this.wo.useFirstBase ? 0 : this.currentBase;
           this.currentTime = this.wo.rounds[useRound][useBase].relaxTime;
           this.currentWholeTime = this.currentTime;
@@ -142,7 +144,7 @@ export class WorkoutTimerComponent {
         // Check if workout finished - last relax
         let useRound = this.wo.useFirstRound ? 0 : this.currentRound;
         if (this.currentRound == this.wo.roundsCount - 1 && this.wo.rounds[useRound].length - 1 == this.currentBase) {
-          this.soundsService.playSound("workout_end");
+          this.soundsFileService.playByKey("workout_end");
           this.stopScreenSleepPrevent();
           this.workoutSubscription.unsubscribe();
           this.isWorkoutRunning = false;
@@ -151,13 +153,13 @@ export class WorkoutTimerComponent {
 
         // Relax between rounds
         if (this.wo.rounds[useRound].length - 1 == this.currentBase) {
-          this.soundsService.playSound("round_end");
+          this.soundsFileService.playByKey("round_end");
           this.currentTime = this.wo.relaxes[this.currentRound];
           this.currentWholeTime = this.currentTime;
           this.currentStatus = 'RELAX_BETWEEN_ROUNDS';
         } else {
           // Next base
-          this.soundsService.playSound("start_work");
+          this.soundsFileService.playByKey("start_work");
           this.currentBase++;
 
           let useBase = this.wo.useFirstBase ? 0 : this.currentBase;
@@ -171,7 +173,7 @@ export class WorkoutTimerComponent {
 
       // Current status is RELAX_BETWEEN_ROUNDS
       else if (this.currentStatus.toUpperCase() == 'RELAX_BETWEEN_ROUNDS') {
-        this.soundsService.playSound("start_work");
+        this.soundsFileService.playByKey("start_work");
         this.currentRound++;
         this.currentBase = 0;
 
@@ -188,14 +190,14 @@ export class WorkoutTimerComponent {
   checkForSignals(warningTime: number, countdownSignal: string, warningSignal: string) {
     // Countdown signal
     if (this.currentTime < warningTime && this.currentTime > 0) {
-      this.soundsService.playSound(countdownSignal);
+      this.soundsFileService.playByKey(countdownSignal);
       // Last (20, 10, 5) - configurable signals
     } else if (this.wo.lastSignalSelected[0] && this.currentTime == this.wo.lastSignalSeconds[0]) {
-      this.soundsService.playSound(warningSignal);
+      this.soundsFileService.playByKey(warningSignal);
     } else if (this.wo.lastSignalSelected[1] && this.currentTime == this.wo.lastSignalSeconds[1]) {
-      this.soundsService.playSound(warningSignal);
+      this.soundsFileService.playByKey(warningSignal);
     } else if (this.wo.lastSignalSelected[2] && this.currentTime == this.wo.lastSignalSeconds[2]) {
-      this.soundsService.playSound(warningSignal);
+      this.soundsFileService.playByKey(warningSignal);
     }
   }
 
@@ -203,10 +205,10 @@ export class WorkoutTimerComponent {
   checkForDelaySignals(countdownSignal: string, warningSignal: string) {
     // Countdown signal
     if (this.currentTime < 4 && this.currentTime > 0) {
-      this.soundsService.playSound(countdownSignal);
+      this.soundsFileService.playByKey(countdownSignal);
       // Last 20, 10
     } else if (this.currentTime == 10 || this.currentTime == 20) {
-      this.soundsService.playSound(warningSignal);
+      this.soundsFileService.playByKey(warningSignal);
     }
   }
 
@@ -242,15 +244,10 @@ export class WorkoutTimerComponent {
       } else {
         this.pauseWorkout();
       }
-    }
-
-    if (event.code == this.KEY_CODE.ESC && (!this.isWorkoutRunning || this.isWorkoutPaused)) {
+    } else if (event.code == this.KEY_CODE.ESC && (!this.isWorkoutRunning || this.isWorkoutPaused)) {
       this.resetWorkout();
-    }
-
-    if (event.code == this.KEY_CODE.ENTER && !this.isWorkoutRunning && !this.isWorkoutPaused) {
-      //TODO
-      // this.activeTab = 1;
+    } else if (event.code == this.KEY_CODE.ENTER && !this.isWorkoutRunning && !this.isWorkoutPaused) {
+      this.navigate.emit(1);
       this.startWorkout();
     }
   }

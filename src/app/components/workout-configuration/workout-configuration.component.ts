@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DEFAULT_WORKOUT } from 'src/app/config/default-workout';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
@@ -15,6 +15,8 @@ import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 })
 export class WorkoutConfigurationComponent {
 
+  @Output() navigate: EventEmitter<any> = new EventEmitter<any>();
+
   labels: any = labels;
   defaultWorkout = DEFAULT_WORKOUT;
 
@@ -29,6 +31,7 @@ export class WorkoutConfigurationComponent {
 
   ngOnInit() {
     this.refreshWorkoutModel();
+    this.loadWorkouts();
   }
 
   basesInputChange(index: number) {
@@ -95,8 +98,7 @@ export class WorkoutConfigurationComponent {
 
   loadWorkouts() {
     this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
-    let workoutsFromFileSystem = this.workoutsFileService.loadWorkoutsFromFilesystem();
-    workoutsFromFileSystem.forEach(file => {
+    this.workoutsFileService.workouts.forEach(file => {
       let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
       this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
     });

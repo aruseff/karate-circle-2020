@@ -14,7 +14,7 @@
       <div class="col-6 signals-list">
         <div *ngFor="let fileName of soundsFileNames; let i = index" style="width:100%;padding:3px 0;">
           <p-radioButton [name]="signals[selectedSignalType].id" [value]="fileName" [label]="fileName"
-            [(ngModel)]="signals[selectedSignalType].wav" [inputId]="fileName" (onClick)="previewSound(i)">
+            [(ngModel)]="signals[selectedSignalType].wav" [inputId]="fileName" (onClick)="previewSound(fileName)">
           </p-radioButton>
         </div>
         <div style="width:100%;float:right;">

@@ -6,9 +6,14 @@
   <div class="main-container">
     <div *ngFor="let sreen of screenPositions; let i=index;" class="screen"
       [ngStyle]="{'top': screenPositions[activeTab]+(i*150) + 'vh'}">
-      <app-workout-configuration *ngIf="i==0" class="full-screen"></app-workout-configuration>
-      <app-workout-timer *ngIf="i==1" class="full-screen"></app-workout-timer>
+
+      <app-workout-configuration *ngIf="i==0" class="full-screen"
+        (navigate)="activeTab=$event"></app-workout-configuration>
+
+      <app-workout-timer *ngIf="i==1" class="full-screen" (navigate)="activeTab=$event"></app-workout-timer>
+
       <app-settings *ngIf="i==2" class="full-screen"></app-settings>
+
     </div>
   </div>
 </div>

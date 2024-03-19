@@ -12,26 +12,24 @@ var process = window.require('process');
 })
 export class WorkoutFileService {
 
-  workoutsFolder: string;
+  workoutsFolder: string = `${process.env.PORTABLE_EXECUTABLE_DIR || app.getAppPath()}/workouts/`;
+  private _workouts: any[] = [];
 
   constructor(private messageService: MessageService) {
-    this.workoutsFolder = `${process.env.PORTABLE_EXECUTABLE_DIR || app.getAppPath()}/workouts/`;
+    this.loadFromFileSystem();
   }
 
-  loadWorkoutsFromFilesystem() {
-    var workouts: any[] = [];
-
+  loadFromFileSystem() {
     try {
       var files = fs.readdirSync(this.workoutsFolder);
       files.forEach(fileName => {
         let content = fs.readFileSync(this.workoutsFolder + fileName, 'utf8');
-        workouts.push(content);
+        this.workouts.push(content);
       });
     } catch (err) {
       // error in reading workouts folder
       console.log(err);
     }
-    return workouts;
   }
 
   checkIfFileExists(fileName: string) {
@@ -61,5 +59,9 @@ export class WorkoutFileService {
     } catch (err) {
       this.messageService.add({ severity: 'error', summary: labels.workout_settings, detail: labels.generic_error });
     }
+  }
+  
+  get workouts(): any[] {
+    return this._workouts;
   }
 }
