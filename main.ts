@@ -19,8 +19,8 @@ function createWindow(): BrowserWindow {
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: (size.width > 1280 ? 1280 : size.width),
-    height: (size.height > 960 ? 960 : size.height),
+    width: (size.width),
+    height: (size.height),
     minHeight: 780,
     minWidth: 900,
     icon: "src/logo-icon.ico",
@@ -35,7 +35,7 @@ function createWindow(): BrowserWindow {
 
   // win.setMenu(null);
   if (serve) {
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.loadURL('http://localhost:4200');
 
   } else {
