@@ -111,6 +111,8 @@ export class WorkoutTimerComponent {
         this.currentTime = this.wo.rounds[this.currentRound][this.currentBase].workTime;
         this.currentWholeTime = this.currentTime;
         this.currentStatus = 'ROUND_WORKTIME';
+
+        this.checkForLastBase(this.currentRound);
       }
 
       // Current status is ROUND_WORKTIME
@@ -168,6 +170,8 @@ export class WorkoutTimerComponent {
 
           this.currentWholeTime = this.currentTime;
           this.currentStatus = 'ROUND_WORKTIME';
+
+          this.checkForLastBase(useRound);
         }
       }
 
@@ -183,7 +187,19 @@ export class WorkoutTimerComponent {
 
         this.currentWholeTime = this.currentTime;
         this.currentStatus = 'ROUND_WORKTIME';
+
+        this.checkForLastBase(useRound);
       }
+    }
+  }
+
+  checkForLastBase(useRound: number) {
+    if (this.wo.rounds[useRound].length - 1 == this.currentBase) {
+      [1500, 1750, 2000].forEach((delay: number) => {
+        setTimeout(() => {
+          this.soundsFileService.playByKey("last_base_signal");
+        }, delay);
+      });
     }
   }
 

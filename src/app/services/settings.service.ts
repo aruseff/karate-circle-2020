@@ -20,7 +20,8 @@ export class SettingsService {
     work_warning: "VoiceWarning1.wav",
     relax_warning: "VoiceWarning2.wav",
     between_rounds_warning: "2.wav",
-    between_rounds_countdown: "1.wav"
+    between_rounds_countdown: "1.wav",
+    last_base_signal: "short.wav"
   };
   private _settings: any;
 
@@ -48,6 +49,9 @@ export class SettingsService {
       }
       if (!settings.between_rounds_countdown) {
         settings.between_rounds_countdown = "1.wav";
+      }
+      if (!settings.last_base_signal) {
+        settings.last_base_signal = "short.wav";
       }
       return settings;
     } catch (error) {

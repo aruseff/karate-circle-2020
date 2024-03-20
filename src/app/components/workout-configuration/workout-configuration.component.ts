@@ -6,7 +6,6 @@ import { labels } from 'src/app/config/labels';
 import { MessageService } from 'primeng/api';
 import { WorkoutFileService } from 'src/app/services/workout.file.service';
 import { WorkoutFile } from 'src/app/models/workout-file.model';
-import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 
 @Component({
   selector: 'app-workout-configuration',
@@ -20,18 +19,16 @@ export class WorkoutConfigurationComponent {
   labels: any = labels;
   defaultWorkout = DEFAULT_WORKOUT;
 
-  loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
   selectedWorkout: any;
   saveWorkoutInput: string = '';
 
   constructor(public workoutService: WorkoutService,
-    private workoutsFileService: WorkoutFileService,
+    public workoutsFileService: WorkoutFileService,
     private messageService: MessageService) {
   }
 
   ngOnInit() {
     this.refreshWorkoutModel();
-    this.loadWorkouts();
   }
 
   basesInputChange(index: number) {
@@ -76,7 +73,6 @@ export class WorkoutConfigurationComponent {
     }
   }
 
-
   saveWorkout() {
     if (!this.saveWorkoutInput || this.saveWorkoutInput.trim() == '') {
       this.messageService.add({ severity: 'error', summary: labels.save_workout, detail: labels.enter_valid_name });
@@ -92,16 +88,7 @@ export class WorkoutConfigurationComponent {
       workout: this.wo
     };
     this.workoutsFileService.saveWorkout(this.saveWorkoutInput.trim(), workoutFile);
-    this.loadWorkouts();
     this.saveWorkoutInput = '';
-  }
-
-  loadWorkouts() {
-    this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
-    this.workoutsFileService.workouts.forEach(file => {
-      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
-      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
-    });
   }
 
   get wo(): Workout {

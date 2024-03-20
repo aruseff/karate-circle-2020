@@ -20,11 +20,12 @@ export class WorkoutFileService {
   }
 
   loadFromFileSystem() {
+    this._workouts = [];
     try {
       var files = fs.readdirSync(this.workoutsFolder);
       files.forEach(fileName => {
         let content = fs.readFileSync(this.workoutsFolder + fileName, 'utf8');
-        this.workouts.push(content);
+        this.workouts.push(JSON.parse(content));
       });
     } catch (err) {
       // error in reading workouts folder
@@ -45,6 +46,7 @@ export class WorkoutFileService {
     try {
       let path = `${this.workoutsFolder}${fileName}.json`;
       fs.writeFileSync(path, JSON.stringify(content, null, 2));
+      this.loadFromFileSystem();
       this.messageService.add({ severity: 'info', summary: labels.workout_settings, detail: labels.successful_save });
     } catch (err) {
       this.messageService.add({ severity: 'error', summary: labels.workout_settings, detail: labels.generic_error });
@@ -55,12 +57,13 @@ export class WorkoutFileService {
     try {
       let path = `${this.workoutsFolder}${fileName}.json`;
       fs.unlinkSync(path);
+      this.loadFromFileSystem();
       this.messageService.add({ severity: 'info', summary: labels.workout_settings, detail: labels.successful_delete });
     } catch (err) {
       this.messageService.add({ severity: 'error', summary: labels.workout_settings, detail: labels.generic_error });
     }
   }
-  
+
   get workouts(): any[] {
     return this._workouts;
   }

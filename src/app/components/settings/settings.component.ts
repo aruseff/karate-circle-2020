@@ -4,8 +4,6 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { SoundsFileService } from 'src/app/services/sounds.file.service';
 import { WorkoutFileService } from 'src/app/services/workout.file.service';
 import { MessageService } from 'primeng/api';
-import { WorkoutFile } from 'src/app/models/workout-file.model';
-import { workoutFileJsonToModel } from 'src/app/util/model.mapper';
 import { WorkoutService } from 'src/app/services/workout.service';
 
 declare const Buffer;
@@ -25,18 +23,16 @@ export class SettingsComponent {
   soundsFileNames: string[];
   selectedWorkoutIndex: number = 0;
 
-  loadedWorkouts: any[] = [{ label: labels.select_workout, value: null }];
-
-  constructor(private settingsService: SettingsService,
-    private workoutsFileService: WorkoutFileService,
+  constructor(public workoutFileService: WorkoutFileService,
+    private workoutService: WorkoutService,
+    private settingsService: SettingsService,
     private soundsFileService: SoundsFileService,
     private messageService: MessageService,
-    private workoutService: WorkoutService) { }
+  ) { }
 
   ngOnInit(): void {
     this.populateSignalsArray();
     this.soundsFileNames = this.soundsFileService.getSoundsNames();
-    this.loadWorkouts();
   }
 
   previewSound(name: string) {
@@ -75,18 +71,8 @@ export class SettingsComponent {
     this.messageService.add({ severity: 'warn', summary: labels.sounds_settings, detail: labels.successful_reset });
   }
 
-  loadWorkouts() {
-    this.loadedWorkouts = [{ label: labels.select_workout, value: null }];
-    this.workoutsFileService.workouts.forEach(file => {
-      let workoutFile: WorkoutFile = workoutFileJsonToModel(file);
-      this.loadedWorkouts.push({ label: workoutFile.name, value: workoutFile.workout });
-    });
-  }
-
   deleteWorkout(index: number) {
-    // Using index+1 because of the first default item
-    this.workoutsFileService.deleteWorkout(this.loadedWorkouts[index + 1].label);
-    this.loadWorkouts();
+    this.workoutFileService.deleteWorkout(this.workoutFileService.workouts[index].name);
   }
 
   get isWorkoutRunning(): boolean {

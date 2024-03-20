@@ -10,6 +10,7 @@ export const labels = {
     relax_warning: "Relax warning",
     between_rounds_warning: "Between rounds warning",
     between_rounds_countdown: "Between rounds countdown",
+    last_base_signal: "Last base signal",
 
     signal_for: "Предупреждение за",
 
