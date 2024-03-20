@@ -98,6 +98,10 @@
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 5px;
+
+  &.disabled {
+    color: #bfbfbf;
+  }
 }
 
 .round-pair {
@@ -180,7 +184,7 @@
 
   .bases-card {
     .p-card-title {
-      font-weight: 700;
+      font-weight: 400;
       margin-bottom: 0.5rem;
       color: #848484;
       font-size: 1rem;

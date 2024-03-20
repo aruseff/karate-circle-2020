@@ -117,22 +117,22 @@
           <div class="grid">
             <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;" class="col-4 round-pair">
               <div class="work-input">
-                <label class="rounds-label">{{labels.work + ' ' + (j+1 | number : '2.0-0') +
-                  labels.seconds_suffix}}</label>
+                <label class="rounds-label" [ngClass]="{'disabled': j>0 && wo.useFirstBase}">
+                  {{labels.work + ' ' + (j+1 | number: '2.0-0') + labels.seconds_suffix}}
+                </label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
                   (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
-                  [(ngModel)]="wo.rounds[i][j].workTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%"
-                  [disabled]="isWorkoutRunning || isWorkoutPaused">
+                  [(ngModel)]="wo.rounds[i][j].workTime" (change)="workoutService.calculateTotalTimeOfWorkout()"
+                  style="width:100%" [disabled]="isWorkoutRunning || isWorkoutPaused || j>0 && wo.useFirstBase">
               </div>
               <div class="relax-input">
-                <label class="rounds-label">{{labels.relax + ' ' + (j+1 | number : '2.0-0') +
-                  labels.seconds_suffix}}</label>
+                <label class="rounds-label" [ngClass]="{'disabled': j>0 && wo.useFirstBase}">
+                  {{labels.relax + ' ' + (j+1 | number : '2.0-0') + labels.seconds_suffix}}
+                </label>
                 <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [defaultValue]="5"
                   (defaultValueChange)="workoutService.calculateTotalTimeOfWorkout()"
-                  [(ngModel)]="wo.rounds[i][j].relaxTime" [disabled]="j>0 && wo.useFirstBase"
-                  (change)="workoutService.calculateTotalTimeOfWorkout()" style="width:100%"
-                  [disabled]="isWorkoutRunning || isWorkoutPaused">
+                  [(ngModel)]="wo.rounds[i][j].relaxTime" (change)="workoutService.calculateTotalTimeOfWorkout()"
+                  style="width:100%" [disabled]="isWorkoutRunning || isWorkoutPaused || j>0 && wo.useFirstBase">
               </div>
             </div>
           </div>
