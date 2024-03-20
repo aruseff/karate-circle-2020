@@ -40,13 +40,13 @@
       <div class="center-content col-6">
         <div class="time-container">
           <div class="title">{{labels.elapsed_time}}</div>
-          <div style="font-size:3.8vw;">{{elapsedTime | minuteSeconds}}</div>
+          <div style="font-size:3.8vw;">{{elapsedTime * 1000 | date: 'mm:ss'}}</div>
         </div>
       </div>
       <div class="center-content col-6">
         <div class="time-container">
           <div class="title">{{labels.remaining_time}}</div>
-          <div style="font-size:3.8vw;">{{remainingTime | minuteSeconds}}</div>
+          <div style="font-size:3.8vw;">{{remainingTime * 1000 | date: 'mm:ss'}}</div>
         </div>
       </div>
     </div>

@@ -143,7 +143,7 @@
     <div class="total-time-container grid">
       <p-card [subheader]="labels.total_time" class="total-time-card col-6 md:col-6 lg:col-8">
         <div class="time-container center-content">
-          {{workoutService.totalTimeOfWorkout | minuteSeconds}}
+          {{workoutService.totalTimeOfWorkout * 1000 | date: 'mm:ss' }}
         </div>
       </p-card>
 

@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
-import { MinuteSecondsPipe } from './util/minute-seconds.pipe';
 import { MessageService } from 'primeng/api';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { PrimengModule } from './primeng.module';
@@ -19,7 +18,6 @@ import { SettingsComponent } from './components/settings/settings.component';
   declarations: [
     AppComponent,
     CountdownTimerComponent,
-    MinuteSecondsPipe,
     NavigationComponent,
     WorkoutConfigurationComponent,
     WorkoutTimerComponent,
