@@ -12,6 +12,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { TableModule } from 'primeng/table';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [],
@@ -29,7 +31,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     ButtonModule,
     ProgressBarModule,
     RadioButtonModule,
-
+    TableModule,
+    MessagesModule,
   ]
 })
 export class PrimengModule {

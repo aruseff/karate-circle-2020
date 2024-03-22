@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { MessageService } from 'primeng/api';
 import { NavigationComponent } from './components/navigation/navigation.component';
@@ -13,6 +13,7 @@ import { DefaultValueDirective } from './directives/default-value.directive';
 import { MaxValueDirective } from './directives/max-value.directive';
 import { WorkoutTimerComponent } from './components/workout-timer/workout-timer.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { HistoryComponent } from './components/history/history.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     WorkoutConfigurationComponent,
     WorkoutTimerComponent,
     SettingsComponent,
+    HistoryComponent,
     DefaultValueDirective,
     MaxValueDirective,
   ],
@@ -32,7 +34,10 @@ import { SettingsComponent } from './components/settings/settings.component';
     BrowserAnimationsModule,
     PrimengModule
   ],
-  providers: [MessageService],
+  providers: [
+    MessageService,
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

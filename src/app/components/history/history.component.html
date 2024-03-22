@@ -1,0 +1,31 @@
+<div class="content-div" style="padding:20px;">
+
+  <p-card [subheader]="labels.history" class="history-card">
+
+    <p-messages severity="warn">
+      <ng-template pTemplate>
+        <div>
+          <span>{{labels.table_contains_only_results_from}} <b>30</b> {{labels.days}}.</span>
+        </div>
+        <p-button [label]="labels.load_full_history" outlined="true" severity="secondary"
+          (click)="getFullHistory()"></p-button>
+      </ng-template>
+    </p-messages>
+
+    <p-table [value]="history" [scrollable]="true" scrollHeight="flex" [loading]="loading">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{labels.filename}}</th>
+          <th>{{labels.creation_date}}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-workout>
+        <tr>
+          <td>{{ workout.filename }}</td>
+          <td>{{ workout.creationDate }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+</div>

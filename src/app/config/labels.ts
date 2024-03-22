@@ -70,5 +70,12 @@ export const labels = {
 
     version: "Версия",
     date: "Дата",
-    os: "ОС"
+    os: "ОС",
+
+    filename: "Име на файл",
+    creation_date: "Дата на създаване",
+    history: "История",
+    table_contains_only_results_from: "Таблицата съдържа резултати от последните",
+    days: "дни",
+    load_full_history: "Зареди пълна история"
 }

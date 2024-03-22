@@ -15,8 +15,8 @@ export class NavigationComponent {
 
   versionInfo: any = {
     version: "3.0.0",
-    date: "26/03/2022",
-    os: "Windows 32-bit (Portable)"
+    date: "08/03/2024",
+    os: "Windows 64-bit (Portable)"
   }
 
   navItems: any[] = [{
@@ -25,6 +25,8 @@ export class NavigationComponent {
     icon: 'timer'
   }, {
     icon: 'settings'
+  }, {
+    icon: 'history'
   }];
 
 
