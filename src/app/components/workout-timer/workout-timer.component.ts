@@ -5,6 +5,7 @@ import { WorkoutService } from 'src/app/services/workout.service';
 import { labels } from 'src/app/config/labels';
 import { MessageService } from 'primeng/api';
 import { SoundsFileService } from 'src/app/services/sounds.file.service';
+import { HistoryService } from 'src/app/services/history.service';
 
 const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
 
@@ -46,9 +47,11 @@ export class WorkoutTimerComponent {
 
   constructor(public workoutService: WorkoutService,
     private soundsFileService: SoundsFileService,
+    private historyService: HistoryService,
     private messageService: MessageService) { }
 
   startWorkout() {
+    this.historyService.addToHistory(this.wo);
     this.startScreenSleepPrevent();
     this.resetWorkout();
     this.isWorkoutRunning = true;

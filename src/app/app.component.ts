@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  activeTab: number = 3;
+  activeTab: number = 0;
   screenPositions: any[] = [0, -150, -300, -450];
 
   constructor() { }

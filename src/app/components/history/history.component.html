@@ -21,8 +21,8 @@
       </ng-template>
       <ng-template pTemplate="body" let-workout>
         <tr>
-          <td>{{ workout.filename }}</td>
-          <td>{{ workout.creationDate }}</td>
+          <td>{{workout.filename}}</td>
+          <td>{{workout.creationDate | date: 'dd.MM.YYYY HH:mm:ss'}}</td>
         </tr>
       </ng-template>
     </p-table>
