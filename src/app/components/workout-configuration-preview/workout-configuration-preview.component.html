@@ -1,0 +1,125 @@
+<div class="content-div" style="display:flex;flex-direction:column;">
+
+  <p-card [subheader]="labels.signal_for" class="settings-card">
+    <div class="grid m0">
+      <div class="col-6 pl0">
+        <p-inputGroup *ngFor="let option of labels.last_signal_options; let i=index;" class="line">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <p-checkbox [label]="option" [(ngModel)]="wo.lastSignalSelected[i]" [binary]="true"
+              [disabled]="true"></p-checkbox>
+          </p-inputGroupAddon>
+          <ng-container>
+            <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.lastSignalSeconds[i]"
+              [disabled]="true" />
+          </ng-container>
+          <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+
+      <div class="col-6 pr0">
+        <p-inputGroup class="line">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{labels.work}}</span>
+          </p-inputGroupAddon>
+          <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.workWarning" [disabled]="true">
+          <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
+        </p-inputGroup>
+
+        <p-inputGroup class="line">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{labels.relax}}</span>
+          </p-inputGroupAddon>
+          <input pInputText class="p-inputtext-sm" [(ngModel)]="wo.relaxWarning" [disabled]="true">
+          <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
+        </p-inputGroup>
+
+        <div class="last-relax">
+          <p-checkbox [binary]="true" [label]="labels.last_relax" [(ngModel)]="wo.lastRelax" [disabled]="true">
+          </p-checkbox>
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card [subheader]="labels.workout" class="settings-card mt8">
+    <div class="grid m0">
+      <div class="col-6">
+        <p-inputGroup class="line">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{labels.rounds}}</span>
+          </p-inputGroupAddon>
+          <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.roundsCount" [disabled]="true">
+        </p-inputGroup>
+      </div>
+      <div class="col-6">
+        <p-inputGroup class="line">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{labels.delay}}</span>
+          </p-inputGroupAddon>
+          <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.delay" [disabled]="true">
+          <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+    </div>
+
+    <p-checkbox [(ngModel)]="wo.useFirstRound" [label]="labels.use_first_round" [binary]="true"
+      [disabled]="true"></p-checkbox>
+
+    <p-checkbox [(ngModel)]="wo.useFirstBase" [label]="labels.use_first_base" [binary]="true" [disabled]="true"
+      class="mt8"></p-checkbox>
+  </p-card>
+
+  <p-card class="settings-card bases-card mt8" [header]="labels.bases" [subheader]="labels.relaxes">
+    <div class="grid m0">
+      <div class="col-6">
+        <p-inputGroup class="line" *ngFor="let base of wo.basesCount; let i=index; trackBy:trackByIndex;">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{'R' + (i+1)}}</span>
+          </p-inputGroupAddon>
+          <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.basesCount[i]" [disabled]="true">
+        </p-inputGroup>
+      </div>
+      <div class="col-6">
+        <p-inputGroup class="line" *ngFor="let relax of wo.relaxes; let i=index; trackBy:trackByIndex;">
+          <p-inputGroupAddon class="prefix-addon addon">
+            <span class="prefix-label">{{'R' + (i+1) + '&' + (i+2)}}</span>
+          </p-inputGroupAddon>
+          <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.relaxes[i]" [disabled]="true">
+        </p-inputGroup>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card class="settings-card rounds-card mt8">
+    <p-tabView>
+      <p-tabPanel *ngFor="let roundTab of wo.rounds; let i=index; trackBy:trackByIndex;"
+        [header]="labels.round_prefix + (i+1)" [selected]="i==0" [disabled]="i>0 && wo.useFirstRound">
+        <div class="grid">
+          <div *ngFor="let inputs of roundTab; let j=index; trackBy:trackByIndex;" class="col-4 round-pair">
+            <div class="work-input">
+              <label class="rounds-label" [ngClass]="{'disabled': j>0 && wo.useFirstBase}">
+                {{labels.work + ' ' + (j+1 | number: '2.0-0') + labels.seconds_suffix}}
+              </label>
+              <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.rounds[i][j].workTime"
+                style="width:100%" [disabled]="true">
+            </div>
+            <div class="relax-input">
+              <label class="rounds-label" [ngClass]="{'disabled': j>0 && wo.useFirstBase}">
+                {{labels.relax + ' ' + (j+1 | number : '2.0-0') + labels.seconds_suffix}}
+              </label>
+              <input pInputText type="number" class="p-inputtext-sm" [(ngModel)]="wo.rounds[i][j].relaxTime"
+                style="width:100%" [disabled]="true">
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </p-card>
+
+  <p-card class="settings-card rounds-card mt8" [subheader]="labels.total_time">
+    <div class="time-container center-content">
+      {{workoutService.totalTimeOfWorkout * 1000 | date: 'mm:ss' }}
+    </div>
+  </p-card>
+
+</div>

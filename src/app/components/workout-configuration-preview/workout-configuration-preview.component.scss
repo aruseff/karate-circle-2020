@@ -1,0 +1,205 @@
+.settings-card {
+  flex: 0 0 auto;
+}
+
+.rounds-card {
+  flex: 0 1 auto;
+}
+
+.addon {
+  padding: 3px;
+  height: 28px;
+}
+
+.suffix-addon {
+  min-width: 20px;
+}
+
+.prefix-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+.last-signal-checkbox {
+  display: flex;
+  flex: 0 1 auto;
+}
+
+.last-signal-input {
+  display: flex;
+  flex: 1;
+
+  input {
+    width: 90%;
+    margin-left: 10%;
+  }
+}
+
+.work-input {
+  width: 50%;
+  float: left;
+  margin-right: -1px;
+
+  input {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.relax-input {
+  width: 50%;
+  float: left;
+
+  input {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+.rounds-label {
+  display: block;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+
+  &.disabled {
+    color: #bfbfbf;
+  }
+}
+
+.round-pair {
+  margin: 18px 0;
+}
+
+.time-container {
+  width: 100%;
+  height: 100%;
+  font-size: 6.5vw;
+  padding-bottom: 25px;
+}
+
+::ng-deep {
+  .settings-card {
+    .p-card-body {
+      padding: 5px 10px;
+    }
+
+    .p-card-content {
+      padding: 5px;
+    }
+  }
+
+  .line {
+    margin-bottom: 5px;
+
+    div {
+      display: flex;
+    }
+
+    .prefix-addon {
+      min-width: 56%;
+
+      &>div {
+        flex: 1 1 100%;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 110px;
+      }
+    }
+  }
+
+  p-checkbox {
+    width: 100%;
+  }
+
+  .p-checkbox-box {
+    transform: scale(0.75);
+  }
+
+  .p-inputtext-sm {
+    line-height: 15px;
+    padding: 3px;
+    width: 60px;
+    min-width: 41px;
+    flex: 1 1 auto;
+  }
+
+  .last-relax {
+    height: 28px;
+    display: flex;
+  }
+
+  .p-checkbox-label {
+    margin-left: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .bases-card {
+    .p-card-title {
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: #848484;
+      font-size: 1rem;
+      width: 50%;
+      float: left;
+    }
+
+    .p-card-subtitle {
+      width: 50%;
+      float: left;
+    }
+
+    .grid {
+      overflow: auto;
+      height: 100%;
+    }
+  }
+
+  .p-card-content,
+  .p-card-body,
+  .p-card {
+    height: 100%;
+  }
+
+  .rounds-card {
+    .p-card-content {
+      padding: 0;
+    }
+
+    .p-tabview {
+      height: 99%;
+      padding: 0;
+
+      .p-tabview-nav-link {
+        padding: 10px 20px;
+      }
+    }
+
+    .p-tabview-panels {
+      max-height: 90%;
+      min-height: 150px;
+      border: none !important;
+      overflow: auto;
+      padding-bottom: 0;
+    }
+
+    .p-tabview-panel {
+      height: 100%;
+    }
+
+    .grid {
+      overflow: auto;
+      height: 100%;
+    }
+  }
+}

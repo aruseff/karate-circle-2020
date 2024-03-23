@@ -14,6 +14,7 @@ import { ToastModule } from 'primeng/toast';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { TableModule } from 'primeng/table';
 import { MessagesModule } from 'primeng/messages';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [],
@@ -33,6 +34,7 @@ import { MessagesModule } from 'primeng/messages';
     RadioButtonModule,
     TableModule,
     MessagesModule,
+    DialogModule,
   ]
 })
 export class PrimengModule {

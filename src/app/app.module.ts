@@ -14,6 +14,7 @@ import { MaxValueDirective } from './directives/max-value.directive';
 import { WorkoutTimerComponent } from './components/workout-timer/workout-timer.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HistoryComponent } from './components/history/history.component';
+import { WorkoutConfigurationPreviewComponent } from './components/workout-configuration-preview/workout-configuration-preview.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HistoryComponent } from './components/history/history.component';
     WorkoutTimerComponent,
     SettingsComponent,
     HistoryComponent,
+    WorkoutConfigurationPreviewComponent,
     DefaultValueDirective,
     MaxValueDirective,
   ],

@@ -1,5 +1,4 @@
 <div class="content-div" style="padding:20px;">
-
   <p-card [subheader]="labels.history" class="history-card">
 
     <p-messages severity="warn">
@@ -17,15 +16,30 @@
         <tr>
           <th>{{labels.filename}}</th>
           <th>{{labels.creation_date}}</th>
+          <th>{{labels.actions}}</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-workout>
         <tr>
           <td>{{workout.filename}}</td>
           <td>{{workout.creationDate | date: 'dd.MM.YYYY HH:mm:ss'}}</td>
+          <td>
+            <p-button class="mr8" icon="pi pi-eye" [rounded]="true" [text]="true" [raised]="true"
+              (click)="previewWorkout(workout)"></p-button>
+            <p-button class="mr8" icon="pi pi-play" [rounded]="true" [text]="true" [raised]="true"
+              severity="warning"></p-button>
+            <p-button class="mr8" icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+              severity="danger"></p-button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
-  </p-card>
 
+  </p-card>
 </div>
+
+<p-dialog *ngIf="previewDialogOpened" [header]="labels.workout_preview" [(visible)]="previewDialogOpened" [modal]="true"
+  [style]="{ width: '65vw' }" [draggable]="false" [resizable]="false" [dismissableMask]="true">
+  <app-workout-configuration-preview [workout]="workoutToPreview"
+    class="full-screen"></app-workout-configuration-preview>
+</p-dialog>

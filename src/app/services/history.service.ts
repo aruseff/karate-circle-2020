@@ -42,7 +42,7 @@ export class HistoryService {
           }
         })
         .filter((file: any) => full || file.creationDate > cutoffDate)
-        .sort((f1: any, f2: any) => f1.creationDate - f2.creationDate)
+        .sort((f1: any, f2: any) => f2.creationDate - f1.creationDate)
     } catch (err) {
       // error in reading history folder
       console.log(err);

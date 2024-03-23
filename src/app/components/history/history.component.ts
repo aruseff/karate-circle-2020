@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { labels } from '../../config/labels';
 import { HistoryService } from 'src/app/services/history.service';
+import { Workout } from 'src/app/models/workout.model';
 
 @Component({
   selector: 'app-history',
@@ -13,6 +14,12 @@ export class HistoryComponent {
 
   history: any[] = [];
   loading: boolean = false;
+
+  workoutToPreview: Workout;
+
+  previewDialogOpened: boolean = false;
+
+  @ViewChild('workoutPanel') workoutPanel: any;
 
   constructor(private historyService: HistoryService) { }
 
@@ -32,4 +39,8 @@ export class HistoryComponent {
     this.loading = false;
   }
 
+  previewWorkout(workout: any) {
+    this.workoutToPreview = JSON.parse(workout.content);
+    this.previewDialogOpened = true;
+  }
 }

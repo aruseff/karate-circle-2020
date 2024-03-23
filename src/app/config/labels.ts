@@ -77,5 +77,7 @@ export const labels = {
     history: "История",
     table_contains_only_results_from: "Таблицата съдържа резултати от последните",
     days: "дни",
-    load_full_history: "Зареди пълна история"
+    load_full_history: "Зареди пълна история",
+    actions: "Действия",
+    workout_preview: "Преглед на тренировка"
 }
