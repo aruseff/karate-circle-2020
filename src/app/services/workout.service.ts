@@ -7,11 +7,11 @@ import { DEFAULT_WORKOUT } from '../config/default-workout';
 })
 export class WorkoutService {
 
-  public workout: Workout = JSON.parse(JSON.stringify(DEFAULT_WORKOUT));
-
   public isWorkoutRunning: boolean = false;
   public isWorkoutPaused: boolean = false;
   public totalTimeOfWorkout: number = 0;
+
+  private _workout: Workout = JSON.parse(JSON.stringify(DEFAULT_WORKOUT));
 
   calculateTotalTimeOfWorkout() {
     this.totalTimeOfWorkout = 0;
@@ -31,6 +31,15 @@ export class WorkoutService {
     });
     this.totalTimeOfWorkout += this.workout.delay;
     return this.totalTimeOfWorkout;
+  }
+
+  set workout(value: Workout) {
+    this._workout = value;
+    this.calculateTotalTimeOfWorkout();
+  }
+
+  get workout(): Workout {
+    return this._workout;
   }
 
 }

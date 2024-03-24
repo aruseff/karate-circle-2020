@@ -15,6 +15,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { TableModule } from 'primeng/table';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [],
@@ -35,6 +36,7 @@ import { DialogModule } from 'primeng/dialog';
     TableModule,
     MessagesModule,
     DialogModule,
+    ConfirmDialogModule
   ]
 })
 export class PrimengModule {

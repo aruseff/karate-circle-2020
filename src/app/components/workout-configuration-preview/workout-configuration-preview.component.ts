@@ -6,7 +6,8 @@ import { WorkoutService } from 'src/app/services/workout.service';
 @Component({
   selector: 'app-workout-configuration-preview',
   templateUrl: './workout-configuration-preview.component.html',
-  styleUrl: './workout-configuration-preview.component.scss'
+  styleUrl: './workout-configuration-preview.component.scss',
+  providers: [WorkoutService]
 })
 export class WorkoutConfigurationPreviewComponent {
 

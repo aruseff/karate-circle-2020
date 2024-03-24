@@ -1,14 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { labels } from '../../config/labels';
 import { HistoryService } from 'src/app/services/history.service';
 import { Workout } from 'src/app/models/workout.model';
+import { ConfirmationService } from 'primeng/api';
+import { WorkoutService } from 'src/app/services/workout.service';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrl: './history.component.scss'
+  styleUrl: './history.component.scss',
+  providers: [ConfirmationService]
 })
 export class HistoryComponent {
+
+  @Output() navigate: EventEmitter<any> = new EventEmitter<any>();
 
   labels: any = labels;
 
@@ -21,7 +26,9 @@ export class HistoryComponent {
 
   @ViewChild('workoutPanel') workoutPanel: any;
 
-  constructor(private historyService: HistoryService) { }
+  constructor(private historyService: HistoryService,
+    private workoutService: WorkoutService,
+    private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
     this.getHistory();
@@ -42,5 +49,23 @@ export class HistoryComponent {
   previewWorkout(workout: any) {
     this.workoutToPreview = JSON.parse(workout.content);
     this.previewDialogOpened = true;
+  }
+
+  playWorkout(workout: any) {
+    this.previewDialogOpened = false;
+    this.confirmationService.confirm({
+      message: labels.play_workout_confirmation_message,
+      header: labels.play_workout_confirmation_header,
+      acceptLabel: labels.load,
+      rejectLabel: labels.reject,
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: "none",
+      rejectIcon: "none",
+      rejectButtonStyleClass: "p-button-text",
+      accept: () => {
+        this.workoutService.workout = workout;
+        this.navigate.emit(0);
+      }
+    });
   }
 }

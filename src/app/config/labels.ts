@@ -79,5 +79,9 @@ export const labels = {
     days: "дни",
     load_full_history: "Зареди пълна история",
     actions: "Действия",
-    workout_preview: "Преглед на тренировка"
+    workout_preview: "Преглед на тренировка",
+    play_workout_confirmation_message: "Сиргурни ли сте, че искате да заредите тренировката? Ще загубите текущо заредената!",
+    play_workout_confirmation_header: "Зареждане на тренировка",
+    load: "Зареди",
+    reject: "Отказ"
 }

@@ -23,13 +23,11 @@
         <tr>
           <td>{{workout.filename}}</td>
           <td>{{workout.creationDate | date: 'dd.MM.YYYY HH:mm:ss'}}</td>
-          <td>
-            <p-button class="mr8" icon="pi pi-eye" [rounded]="true" [text]="true" [raised]="true"
-              (click)="previewWorkout(workout)"></p-button>
-            <p-button class="mr8" icon="pi pi-play" [rounded]="true" [text]="true" [raised]="true"
-              severity="warning"></p-button>
-            <p-button class="mr8" icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
-              severity="danger"></p-button>
+          <td style="padding:3px">
+            <p-button styleClass="table-action-button" class="mr8" icon="pi pi-eye" [rounded]="true" [text]="true"
+              [raised]="true" (click)="previewWorkout(workout)"></p-button>
+            <p-button class="mr8" icon="pi pi-play" [rounded]="true" [text]="true" [raised]="true" severity="warning"
+              (click)="playWorkout(workout)"></p-button>
           </td>
         </tr>
       </ng-template>
@@ -42,4 +40,9 @@
   [style]="{ width: '65vw' }" [draggable]="false" [resizable]="false" [dismissableMask]="true">
   <app-workout-configuration-preview [workout]="workoutToPreview"
     class="full-screen"></app-workout-configuration-preview>
+  <div class="preview-bottom-actions">
+    <p-button [label]="labels.load" [style]="{width: '250px'}" (click)="playWorkout(workoutToPreview)"></p-button>
+  </div>
 </p-dialog>
+
+<p-confirmDialog></p-confirmDialog>

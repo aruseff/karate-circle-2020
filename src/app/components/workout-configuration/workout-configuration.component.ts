@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DEFAULT_WORKOUT } from 'src/app/config/default-workout';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
@@ -95,8 +95,8 @@ export class WorkoutConfigurationComponent {
     return this.workoutService.workout;
   }
 
-  set wo(workout: Workout) {
-    this.workoutService.workout = workout;
+  set wo(value: Workout) {
+    this.workoutService.workout = value;
   }
 
   get isWorkoutRunning(): boolean {
