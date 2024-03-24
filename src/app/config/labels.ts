@@ -83,5 +83,6 @@ export const labels = {
     play_workout_confirmation_message: "Сиргурни ли сте, че искате да заредите тренировката? Ще загубите текущо заредената!",
     play_workout_confirmation_header: "Зареждане на тренировка",
     load: "Зареди",
-    reject: "Отказ"
+    reject: "Отказ",
+    timer: "Таймер"
 }

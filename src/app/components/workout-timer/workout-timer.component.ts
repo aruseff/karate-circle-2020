@@ -238,7 +238,6 @@ export class WorkoutTimerComponent {
     this.currentTime = 0;
     this.currentRound = 0;
     this.currentBase = 0;
-    this.totalTimeOfWorkout = 0;
     this.elapsedTime = 0;
     this.remainingTime = 0;
   }
