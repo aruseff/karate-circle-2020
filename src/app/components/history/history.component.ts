@@ -68,4 +68,12 @@ export class HistoryComponent {
       }
     });
   }
+
+  get isWorkoutRunning(): boolean {
+    return this.workoutService.isWorkoutRunning;
+  }
+
+  get isWorkoutPaused(): boolean {
+    return this.workoutService.isWorkoutPaused;
+  }
 }

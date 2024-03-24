@@ -7,7 +7,7 @@
           <span>{{labels.table_contains_only_results_from}} <b>30</b> {{labels.days}}.</span>
         </div>
         <p-button [label]="labels.load_full_history" outlined="true" severity="secondary"
-          (click)="getFullHistory()"></p-button>
+          [disabled]="isWorkoutRunning || isWorkoutPaused" (click)="getFullHistory()"></p-button>
       </ng-template>
     </p-messages>
 
@@ -25,9 +25,10 @@
           <td>{{workout.creationDate | date: 'dd.MM.YYYY HH:mm:ss'}}</td>
           <td style="padding:3px">
             <p-button styleClass="table-action-button" class="mr8" icon="pi pi-eye" [rounded]="true" [text]="true"
-              [raised]="true" (click)="previewWorkout(workout)"></p-button>
+              [raised]="true" [disabled]="isWorkoutRunning || isWorkoutPaused"
+              (click)="previewWorkout(workout)"></p-button>
             <p-button class="mr8" icon="pi pi-play" [rounded]="true" [text]="true" [raised]="true" severity="warning"
-              (click)="playWorkout(workout)"></p-button>
+              [disabled]="isWorkoutRunning || isWorkoutPaused" (click)="playWorkout(workout)"></p-button>
           </td>
         </tr>
       </ng-template>
