@@ -10,7 +10,8 @@
       <app-workout-configuration *ngIf="i==0" class="full-screen"
         (navigate)="activeTab=$event"></app-workout-configuration>
 
-      <app-workout-timer *ngIf="i==1" class="full-screen" (navigate)="activeTab=$event"></app-workout-timer>
+      <app-workout-timer *ngIf="i==1" class="full-screen" [activeTab]="activeTab"
+        (navigate)="activeTab=$event"></app-workout-timer>
 
       <app-settings *ngIf="i==2" class="full-screen"></app-settings>
 

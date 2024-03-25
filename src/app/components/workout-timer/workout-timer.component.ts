@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { Observable, timer, Subscription } from 'rxjs';
 import { Workout } from 'src/app/models/workout.model';
 import { WorkoutService } from 'src/app/services/workout.service';
@@ -16,6 +16,7 @@ const powerSaveBlocker = window.require('@electron/remote').powerSaveBlocker;
 })
 export class WorkoutTimerComponent {
 
+  @Input() activeTab: number = 0;
   @Output() navigate: EventEmitter<any> = new EventEmitter<any>();
 
   labels: any = labels;
@@ -256,6 +257,9 @@ export class WorkoutTimerComponent {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    if (this.activeTab > 1) { // Control timer only from configuration and timer tabs 
+      return;
+    }
     if (event.code == this.KEY_CODE.SPACE && (this.isWorkoutRunning || this.isWorkoutPaused)) {
       if (this.isWorkoutPaused) {
         this.resumeWorkout();
