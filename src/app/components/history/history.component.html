@@ -27,8 +27,9 @@
             <p-button styleClass="table-action-button" class="mr8" icon="pi pi-eye" [rounded]="true" [text]="true"
               [raised]="true" [disabled]="isWorkoutRunning || isWorkoutPaused"
               (click)="previewWorkout(workout)"></p-button>
-            <p-button class="mr8" icon="pi pi-play" [rounded]="true" [text]="true" [raised]="true" severity="warning"
-              [disabled]="isWorkoutRunning || isWorkoutPaused" (click)="playWorkout(workout)"></p-button>
+            <p-button styleClass="table-action-button" class="mr8" icon="pi pi-play" [rounded]="true" [text]="true"
+              [raised]="true" severity="warning" [disabled]="isWorkoutRunning || isWorkoutPaused"
+              (click)="playWorkout(workout)"></p-button>
           </td>
         </tr>
       </ng-template>
