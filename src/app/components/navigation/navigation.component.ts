@@ -15,7 +15,7 @@ export class NavigationComponent {
 
   versionInfo: any = {
     version: "3.0.0",
-    date: "08/03/2024",
+    date: "01/04/2024",
     os: "Windows 64-bit (Portable)"
   }
 
