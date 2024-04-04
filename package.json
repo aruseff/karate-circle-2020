@@ -42,7 +42,8 @@
     "tslib": "^2.3.0",
     "typescript": "~5.3.3",
     "wait-on": "7.2.0",
-    "zone.js": "~0.14.4"
+    "zone.js": "~0.14.4",
+    "@electron/remote": "^2.1.2"
   },
   "devDependencies": {
     "@electron/remote": "^2.1.2",
