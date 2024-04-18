@@ -15,10 +15,8 @@
     "electron:serve-tsc": "tsc -p tsconfig-serve.json",
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
-    "electron:linux": "npm run build:prod && electron-builder build --linux",
-    "electron:windows": "npm run build:prod && electron-builder build --windows",
-    "electron:windows:32": "npm run build:prod --ia32 && electron-builder build --windows --ia32",
-    "electron:mac": "npm run build:prod && electron-builder build --mac",
+    "electron:windows": "npm run build:prod && npx @electron/packager . release --platform=win64 --arch=ia64 --icon=src/logo-icon.ico",
+    "electron:windows:32": "npm run build:prod --ia32 && npx @electron/packager . release --platform=win32 --arch=ia32 --icon=src/logo-icon.ico",
     "lint": "ng lint"
   },
   "dependencies": {
@@ -30,6 +28,7 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@electron/remote": "^2.1.2",
     "core-js": "3.36.0",
     "cross-env": "7.0.3",
     "npm-run-all": "4.1.5",
@@ -42,17 +41,15 @@
     "tslib": "^2.3.0",
     "typescript": "~5.3.3",
     "wait-on": "7.2.0",
-    "zone.js": "~0.14.4",
-    "@electron/remote": "^2.1.2"
+    "zone.js": "~0.14.4"
   },
   "devDependencies": {
-    "@electron/remote": "^2.1.2",
     "electron": "28.2.5",
-    "electron-builder": "24.13.3",
     "electron-reload": "2.0.0-alpha.1",
     "@angular-devkit/build-angular": "^17.2.2",
     "@angular/cli": "^17.2.2",
     "@angular/compiler-cli": "^17.2.0",
+    "@electron/packager": "^18.3.2",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.11.24",
     "typescript": "~5.3.2"
