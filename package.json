@@ -37,7 +37,6 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
-    "@types/jasmine": "~5.1.0",
     "@types/node": "^20.11.24",
     "core-js": "3.36.0",
     "cross-env": "7.0.3",

@@ -15,8 +15,8 @@ export class NavigationComponent {
 
   versionInfo: any = {
     version: "3.0.0",
-    date: "01/04/2024",
-    os: "Windows 32-bit (Portable)"
+    date: "01/05/2024",
+    os: "Windows 32-bit (NSIS)"
   }
 
   navItems: any[] = [{
