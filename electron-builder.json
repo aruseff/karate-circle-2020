@@ -1,0 +1,41 @@
+{
+  "productName": "karate-circle-2020",
+  "directories": {
+    "output": "release/"
+  },
+  "extraResources": [
+    {
+      "from": "sounds/",
+      "to": "sounds/"
+    },
+    {
+      "from": "workouts/",
+      "to": "workouts/"
+    },
+    {
+      "from": "history/",
+      "to": "history/"
+    }
+  ],
+  "files": [
+    "**/*",
+    "!**/*.ts",
+    "!*.code-workspace",
+    "!LICENSE.md",
+    "!package.json",
+    "!package-lock.json",
+    "!src/",
+    "!e2e/",
+    "!hooks/",
+    "!angular.json",
+    "!_config.yml",
+    "!karma.conf.js",
+    "!tsconfig.json",
+    "!tslint.json"
+  ],
+  "asar": false,
+  "win": {
+    "target": "nsis",
+    "icon": "src/assets/logo.png"
+  }
+}

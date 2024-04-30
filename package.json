@@ -4,25 +4,20 @@
   "version": "3.0.0",
   "main": "main.js",
   "description": "Karate circle",
+  "author": "aruseff",
   "private": true,
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
     "start": "npm-run-all -p electron:serve ng:serve",
     "build": "npm run electron:serve-tsc && ng build --base-href ./",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
     "ng:serve": "ng serve",
-    "ng:serve:web": "ng serve -c web -o",
     "electron:serve-tsc": "tsc -p tsconfig-serve.json",
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
-    "electron:local": "npm run build:prod && electron .",
-    "electron:windows": "npm run build:prod && npm run make --platform=win64 --arch=ia64 --icon=src/logo-icon.ico",
-    "electron:windows:32": "npm run build:prod --ia32 && npm run make -- --platform=win32 --arch=ia32 --icon=src/logo-icon.ico",
-    "lint": "ng lint",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "electron:windows": "npm run build:prod --ia64 && electron-builder build --windows --ia64",
+    "electron:windows:32": "npm run build:prod --ia32 && electron-builder build --windows --ia32",
+    "lint": "ng lint"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
@@ -31,54 +26,36 @@
     "primeng": "17.9.0"
   },
   "devDependencies": {
-    "@angular/common": "^17.2.0",
+    "@angular-devkit/build-angular": "^17.2.2",
     "@angular/animations": "^17.2.0",
+    "@angular/cli": "^17.2.2",
+    "@angular/common": "^17.2.0",
     "@angular/compiler": "^17.2.0",
+    "@angular/compiler-cli": "^17.2.0",
     "@angular/core": "^17.2.0",
     "@angular/forms": "^17.2.0",
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
-    "@angular-devkit/build-angular": "^17.2.2",
-    "@angular/cli": "^17.2.2",
-    "@angular/compiler-cli": "^17.2.0",
+    "@types/jasmine": "~5.1.0",
+    "@types/node": "^20.11.24",
     "core-js": "3.36.0",
     "cross-env": "7.0.3",
+    "electron": "28.2.5",
+    "electron-builder": "^24.13.3",
     "npm-run-all": "4.1.5",
     "path-browserify": "^1.0.1",
     "rxjs": "~7.8.0",
     "ts-node": "10.9.2",
     "tslib": "^2.3.0",
+    "typescript": "~5.3.2",
     "wait-on": "7.2.0",
-    "zone.js": "~0.14.4",
-    "electron-builder": "24.13.3",
-    "@electron-forge/cli": "^7.4.0",
-    "@electron-forge/maker-deb": "^7.4.0",
-    "@electron-forge/maker-rpm": "^7.4.0",
-    "@electron-forge/maker-squirrel": "^7.4.0",
-    "@electron-forge/maker-zip": "^7.4.0",
-    "@electron-forge/publisher-github": "^7.4.0",
-    "@electron/packager": "^18.3.2",
-    "@rabbitholesyndrome/electron-forge-maker-portable": "^0.2.0",
-    "@types/jasmine": "~5.1.0",
-    "@types/node": "^20.11.24",
-    "electron": "28.2.5",
-    "electron-reload": "2.0.0-alpha.1",
-    "typescript": "~5.3.2"
+    "zone.js": "~0.14.4"
   },
   "browser": {
     "fs": false,
     "os": false,
     "path": false
   },
-  "type": "module",
-  "config": {
-    "forge": {
-      "makers": [
-        {
-          "name": "@rabbitholesyndrome/electron-forge-maker-portable"
-        }
-      ]
-    }
-  }
+  "type": "module"
 }
