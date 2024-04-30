@@ -69,6 +69,10 @@ export class HistoryComponent {
     });
   }
 
+  parseJSON(value: string) {
+    return JSON.parse(value);
+  }
+
   get isWorkoutRunning(): boolean {
     return this.workoutService.isWorkoutRunning;
   }

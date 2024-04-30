@@ -29,7 +29,7 @@
               (click)="previewWorkout(workout)"></p-button>
             <p-button styleClass="table-action-button" class="mr8" icon="pi pi-play" [rounded]="true" [text]="true"
               [raised]="true" severity="warning" [disabled]="isWorkoutRunning || isWorkoutPaused"
-              (click)="playWorkout(workout)"></p-button>
+              (click)="playWorkout(parseJSON(workout.content))"></p-button>
           </td>
         </tr>
       </ng-template>
