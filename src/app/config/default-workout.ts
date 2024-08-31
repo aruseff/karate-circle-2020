@@ -5,7 +5,7 @@ export const DEFAULT_WORKOUT: Workout = {
   basesCount: [
   ],
   lastSignalSelected: [true, true, true],
-  lastSignalSeconds: [20, 10, 5],
+  lastSignalSeconds: [60, 30, 20],
   workWarning: 5,
   relaxWarning: 3,
   lastRelax: true,

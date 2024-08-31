@@ -24,8 +24,7 @@
               <span class="prefix-label">{{labels.work}}</span>
             </p-inputGroupAddon>
             <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="0" [max]="20"
-              [(ngModel)]="wo.workWarning" [defaultValue]="defaultWorkout.workWarning"
-              [disabled]="isWorkoutRunning || isWorkoutPaused">
+              [(ngModel)]="wo.workWarning" [disabled]="isWorkoutRunning || isWorkoutPaused">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
 
@@ -33,8 +32,8 @@
             <p-inputGroupAddon class="prefix-addon addon">
               <span class="prefix-label">{{labels.relax}}</span>
             </p-inputGroupAddon>
-            <input pInputText pKeyFilter="int" class="p-inputtext-sm" [min]="0" [max]="20" [(ngModel)]="wo.relaxWarning"
-              [defaultValue]="defaultWorkout.relaxWarning" [disabled]="isWorkoutRunning || isWorkoutPaused">
+            <input pInputText pKeyFilter="int" type="number" class="p-inputtext-sm" [min]="0" [max]="20"
+              [(ngModel)]="wo.relaxWarning" [disabled]="isWorkoutRunning || isWorkoutPaused">
             <p-inputGroupAddon class="suffix-addon addon">{{labels.seconds_suffix}}</p-inputGroupAddon>
           </p-inputGroup>
 
